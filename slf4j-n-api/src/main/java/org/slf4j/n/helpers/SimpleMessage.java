@@ -1,4 +1,4 @@
-package org.slf4j.n.helper;
+package org.slf4j.n.helpers;
 
 import org.slf4j.n.Message;
 

@@ -1,4 +1,4 @@
-package org.slf4j.n.helper;
+package org.slf4j.n.helpers;
 
 import java.util.Set;
 import java.util.HashSet;
@@ -24,6 +24,8 @@ import java.text.SimpleDateFormat;
  * That way only the first two steps have to be done during event creation while the most expensive part, i.e. the
  * actual construction of the message, is only done on demand.
  * </p>
+ * 
+ * @author J&ouml;rn Huxhorn
  */
 public class MessageFormatter
 {

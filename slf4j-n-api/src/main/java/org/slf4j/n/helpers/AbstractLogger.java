@@ -1,4 +1,4 @@
-package org.slf4j.n.helper;
+package org.slf4j.n.helpers;
 
 import org.slf4j.n.Threshold;
 import org.slf4j.n.Level;
@@ -7,7 +7,6 @@ import org.slf4j.n.LoggerFactory;
 import org.slf4j.Marker;
 
 import java.io.ObjectStreamException;
-import java.io.InvalidClassException;
 
 
 /**
@@ -15,25 +14,20 @@ import java.io.InvalidClassException;
  */
 @SuppressWarnings({"ThrowableResultOfMethodCallIgnored"})
 public abstract class AbstractLogger
-    implements org.slf4j.Logger, org.slf4j.n.Logger
+    implements org.slf4j.n.Logger
 {
   private static final long serialVersionUID = -8862257536998615351L;
 
   private String loggerName;
 
+  // just for deserialization
   protected AbstractLogger()
   {
-    this(null);
   }
 
   public AbstractLogger(String loggerName)
   {
-    setName(loggerName);
-  }
-
-  protected void setName(String loggerName)
-  {
-    this.loggerName = loggerName;
+    this.loggerName=loggerName;
   }
 
   public String getName()
@@ -125,60 +119,11 @@ public abstract class AbstractLogger
     return isLoggingEnabled(Level.TRACE, marker);
   }
 
-  public void trace(String msg)
-  {
-    if(!isLoggingEnabled(Level.TRACE)) return;
-
-    log(Level.TRACE, null, new SimpleMessage(msg), null);
-  }
-
-  public void trace(String format, Object arg)
-  {
-    if(!isLoggingEnabled(Level.TRACE)) return;
-
-    log(Level.TRACE, null, new ParameterizedMessage(format, arg), null);
-  }
-
-  public void trace(String format, Object arg1, Object arg2)
-  {
-    if(!isLoggingEnabled(Level.TRACE)) return;
-
-    log(Level.TRACE, null, new ParameterizedMessage(format, arg1, arg2), null);
-  }
-
   public void trace(String format, Object[] argArray)
   {
     if(!isLoggingEnabled(Level.TRACE)) return;
 
     log(Level.TRACE, null, new ParameterizedMessage(format, argArray), null);
-  }
-
-  public void trace(String msg, Throwable t)
-  {
-    if(!isLoggingEnabled(Level.TRACE)) return;
-
-    log(Level.TRACE, null, new SimpleMessage(msg), t);
-  }
-
-  public void trace(Marker marker, String msg)
-  {
-    if(!isLoggingEnabled(Level.TRACE, marker)) return;
-
-    log(Level.TRACE, marker, new SimpleMessage(msg), null);
-  }
-
-  public void trace(Marker marker, String format, Object arg)
-  {
-    if(!isLoggingEnabled(Level.TRACE, marker)) return;
-
-    log(Level.TRACE, marker, new ParameterizedMessage(format, arg), null);
-  }
-
-  public void trace(Marker marker, String format, Object arg1, Object arg2)
-  {
-    if(!isLoggingEnabled(Level.TRACE, marker)) return;
-
-    log(Level.TRACE, marker, new ParameterizedMessage(format, arg1, arg2), null);
   }
 
   public void trace(Marker marker, String format, Object[] argArray)
@@ -196,13 +141,6 @@ public abstract class AbstractLogger
   public void trace(Message message, Throwable throwable)
   {
     log(Level.TRACE, null, message, throwable);
-  }
-
-  public void trace(Marker marker, String msg, Throwable t)
-  {
-    if(!isLoggingEnabled(Level.TRACE, marker)) return;
-
-    log(Level.TRACE, marker, new SimpleMessage(msg), t);
   }
 
   public void trace(Marker marker, Message message)
@@ -226,60 +164,11 @@ public abstract class AbstractLogger
     return isLoggingEnabled(Level.DEBUG, marker);
   }
 
-  public void debug(String msg)
-  {
-    if(!isLoggingEnabled(Level.DEBUG)) return;
-
-    log(Level.DEBUG, null, new SimpleMessage(msg), null);
-  }
-
-  public void debug(String format, Object arg)
-  {
-    if(!isLoggingEnabled(Level.DEBUG)) return;
-
-    log(Level.DEBUG, null, new ParameterizedMessage(format, arg), null);
-  }
-
-  public void debug(String format, Object arg1, Object arg2)
-  {
-    if(!isLoggingEnabled(Level.DEBUG)) return;
-
-    log(Level.DEBUG, null, new ParameterizedMessage(format, arg1, arg2), null);
-  }
-
   public void debug(String format, Object[] argArray)
   {
     if(!isLoggingEnabled(Level.DEBUG)) return;
 
     log(Level.DEBUG, null, new ParameterizedMessage(format, argArray), null);
-  }
-
-  public void debug(String msg, Throwable t)
-  {
-    if(!isLoggingEnabled(Level.DEBUG)) return;
-
-    log(Level.DEBUG, null, new SimpleMessage(msg), t);
-  }
-
-  public void debug(Marker marker, String msg)
-  {
-    if(!isLoggingEnabled(Level.DEBUG, marker)) return;
-
-    log(Level.DEBUG, marker, new SimpleMessage(msg), null);
-  }
-
-  public void debug(Marker marker, String format, Object arg)
-  {
-    if(!isLoggingEnabled(Level.DEBUG, marker)) return;
-
-    log(Level.DEBUG, marker, new ParameterizedMessage(format, arg), null);
-  }
-
-  public void debug(Marker marker, String format, Object arg1, Object arg2)
-  {
-    if(!isLoggingEnabled(Level.DEBUG, marker)) return;
-
-    log(Level.DEBUG, marker, new ParameterizedMessage(format, arg1, arg2), null);
   }
 
   public void debug(Marker marker, String format, Object[] argArray)
@@ -297,13 +186,6 @@ public abstract class AbstractLogger
   public void debug(Message message, Throwable throwable)
   {
     log(Level.DEBUG, null, message, throwable);
-  }
-
-  public void debug(Marker marker, String msg, Throwable t)
-  {
-    if(!isLoggingEnabled(Level.DEBUG, marker)) return;
-
-    log(Level.DEBUG, marker, new SimpleMessage(msg), t);
   }
 
   public void debug(Marker marker, Message message)
@@ -327,60 +209,11 @@ public abstract class AbstractLogger
     return isLoggingEnabled(Level.INFO, marker);
   }
 
-  public void info(String msg)
-  {
-    if(!isLoggingEnabled(Level.INFO)) return;
-
-    log(Level.INFO, null, new SimpleMessage(msg), null);
-  }
-
-  public void info(String format, Object arg)
-  {
-    if(!isLoggingEnabled(Level.INFO)) return;
-
-    log(Level.INFO, null, new ParameterizedMessage(format, arg), null);
-  }
-
-  public void info(String format, Object arg1, Object arg2)
-  {
-    if(!isLoggingEnabled(Level.INFO)) return;
-
-    log(Level.INFO, null, new ParameterizedMessage(format, arg1, arg2), null);
-  }
-
   public void info(String format, Object[] argArray)
   {
     if(!isLoggingEnabled(Level.INFO)) return;
 
     log(Level.INFO, null, new ParameterizedMessage(format, argArray), null);
-  }
-
-  public void info(String msg, Throwable t)
-  {
-    if(!isLoggingEnabled(Level.INFO)) return;
-
-    log(Level.INFO, null, new SimpleMessage(msg), t);
-  }
-
-  public void info(Marker marker, String msg)
-  {
-    if(!isLoggingEnabled(Level.INFO, marker)) return;
-
-    log(Level.INFO, marker, new SimpleMessage(msg), null);
-  }
-
-  public void info(Marker marker, String format, Object arg)
-  {
-    if(!isLoggingEnabled(Level.INFO, marker)) return;
-
-    log(Level.INFO, marker, new ParameterizedMessage(format, arg), null);
-  }
-
-  public void info(Marker marker, String format, Object arg1, Object arg2)
-  {
-    if(!isLoggingEnabled(Level.INFO, marker)) return;
-
-    log(Level.INFO, marker, new ParameterizedMessage(format, arg1, arg2), null);
   }
 
   public void info(Marker marker, String format, Object[] argArray)
@@ -398,13 +231,6 @@ public abstract class AbstractLogger
   public void info(Message message, Throwable throwable)
   {
     log(Level.INFO, null, message, throwable);
-  }
-
-  public void info(Marker marker, String msg, Throwable t)
-  {
-    if(!isLoggingEnabled(Level.INFO, marker)) return;
-
-    log(Level.INFO, marker, new SimpleMessage(msg), t);
   }
 
   public void info(Marker marker, Message message)
@@ -428,60 +254,11 @@ public abstract class AbstractLogger
     return isLoggingEnabled(Level.WARN, marker);
   }
 
-  public void warn(String msg)
-  {
-    if(!isLoggingEnabled(Level.WARN)) return;
-
-    log(Level.WARN, null, new SimpleMessage(msg), null);
-  }
-
-  public void warn(String format, Object arg)
-  {
-    if(!isLoggingEnabled(Level.WARN)) return;
-
-    log(Level.WARN, null, new ParameterizedMessage(format, arg), null);
-  }
-
-  public void warn(String format, Object arg1, Object arg2)
-  {
-    if(!isLoggingEnabled(Level.WARN)) return;
-
-    log(Level.WARN, null, new ParameterizedMessage(format, arg1, arg2), null);
-  }
-
   public void warn(String format, Object[] argArray)
   {
     if(!isLoggingEnabled(Level.WARN)) return;
 
     log(Level.WARN, null, new ParameterizedMessage(format, argArray), null);
-  }
-
-  public void warn(String msg, Throwable t)
-  {
-    if(!isLoggingEnabled(Level.WARN)) return;
-
-    log(Level.WARN, null, new SimpleMessage(msg), t);
-  }
-
-  public void warn(Marker marker, String msg)
-  {
-    if(!isLoggingEnabled(Level.WARN, marker)) return;
-
-    log(Level.WARN, marker, new SimpleMessage(msg), null);
-  }
-
-  public void warn(Marker marker, String format, Object arg)
-  {
-    if(!isLoggingEnabled(Level.WARN, marker)) return;
-
-    log(Level.WARN, marker, new ParameterizedMessage(format, arg), null);
-  }
-
-  public void warn(Marker marker, String format, Object arg1, Object arg2)
-  {
-    if(!isLoggingEnabled(Level.WARN, marker)) return;
-
-    log(Level.WARN, marker, new ParameterizedMessage(format, arg1, arg2), null);
   }
 
   public void warn(Marker marker, String format, Object[] argArray)
@@ -499,13 +276,6 @@ public abstract class AbstractLogger
   public void warn(Message message, Throwable throwable)
   {
     log(Level.WARN, null, message, throwable);
-  }
-
-  public void warn(Marker marker, String msg, Throwable t)
-  {
-    if(!isLoggingEnabled(Level.INFO, marker)) return;
-
-    log(Level.WARN, marker, new SimpleMessage(msg), t);
   }
 
   public void warn(Marker marker, Message message)
@@ -529,60 +299,11 @@ public abstract class AbstractLogger
     return isLoggingEnabled(Level.ERROR, marker);
   }
 
-  public void error(String msg)
-  {
-    if(!isLoggingEnabled(Level.ERROR)) return;
-
-    log(Level.ERROR, null, new SimpleMessage(msg), null);
-  }
-
-  public void error(String format, Object arg)
-  {
-    if(!isLoggingEnabled(Level.ERROR)) return;
-
-    log(Level.ERROR, null, new ParameterizedMessage(format, arg), null);
-  }
-
-  public void error(String format, Object arg1, Object arg2)
-  {
-    if(!isLoggingEnabled(Level.ERROR)) return;
-
-    log(Level.ERROR, null, new ParameterizedMessage(format, arg1, arg2), null);
-  }
-
   public void error(String format, Object[] argArray)
   {
     if(!isLoggingEnabled(Level.ERROR)) return;
 
     log(Level.ERROR, null, new ParameterizedMessage(format, argArray), null);
-  }
-
-  public void error(String msg, Throwable t)
-  {
-    if(!isLoggingEnabled(Level.ERROR)) return;
-
-    log(Level.ERROR, null, new SimpleMessage(msg), t);
-  }
-
-  public void error(Marker marker, String msg)
-  {
-    if(!isLoggingEnabled(Level.ERROR, marker)) return;
-
-    log(Level.ERROR, marker, new SimpleMessage(msg), null);
-  }
-
-  public void error(Marker marker, String format, Object arg)
-  {
-    if(!isLoggingEnabled(Level.ERROR, marker)) return;
-
-    log(Level.ERROR, marker, new ParameterizedMessage(format, arg), null);
-  }
-
-  public void error(Marker marker, String format, Object arg1, Object arg2)
-  {
-    if(!isLoggingEnabled(Level.ERROR, marker)) return;
-
-    log(Level.ERROR, marker, new ParameterizedMessage(format, arg1, arg2), null);
   }
 
   public void error(Marker marker, String format, Object[] argArray)
@@ -602,13 +323,6 @@ public abstract class AbstractLogger
     log(Level.ERROR, null, message, throwable);
   }
 
-  public void error(Marker marker, String msg, Throwable t)
-  {
-    if(!isLoggingEnabled(Level.ERROR, marker)) return;
-
-    log(Level.ERROR, marker, new SimpleMessage(msg), t);
-  }
-
   public void error(Marker marker, Message message)
   {
     log(Level.ERROR, marker, message);
@@ -622,14 +336,7 @@ public abstract class AbstractLogger
   private Object readResolve()
     		throws ObjectStreamException
   {
-    // I'm not 100% sure if this will work out.
-    // It is supposed to handle serialization in the abstract base class already.
-    Object result = LoggerFactory.getLogger(loggerName);
-    if(result instanceof AbstractLogger)
-    {
-      return result;
-    }
-    throw new InvalidClassException(result.getClass().getName(), "LoggerFactory did not return an AbstractLogger!");
+    return LoggerFactory.getLogger(loggerName);
   }
 
 }

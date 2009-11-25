@@ -1,4 +1,4 @@
-package org.slf4j.n.helper;
+package org.slf4j.n.helpers;
 
 import org.slf4j.Marker;
 import org.slf4j.n.Logger;
@@ -9,6 +9,12 @@ import org.slf4j.n.LoggerFactory;
 
 import java.io.ObjectStreamException;
 
+/**
+ * This class implements the org.slf4j.n.Logger interface by providing a wrapper over an
+ * org.slf4j.Logger.
+ *
+ * @author J&ouml;rn Huxhorn
+ */
 @SuppressWarnings({"ThrowableResultOfMethodCallIgnored"})
 public class LoggerWrapper
     implements Logger

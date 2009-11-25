@@ -7,6 +7,8 @@ import java.io.Serializable;
 public interface Logger
   extends Serializable
 {
+  String ROOT_LOGGER_NAME = org.slf4j.Logger.ROOT_LOGGER_NAME;
+
   String getName();
 
   /**

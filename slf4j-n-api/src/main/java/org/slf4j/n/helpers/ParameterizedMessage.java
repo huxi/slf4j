@@ -1,6 +1,6 @@
-package org.slf4j.n.helper;
+package org.slf4j.n.helpers;
 
-import org.slf4j.n.helper.MessageFormatter;
+import org.slf4j.n.helpers.MessageFormatter;
 import org.slf4j.n.Message;
 
 import java.io.Serializable;
