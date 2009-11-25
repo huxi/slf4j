@@ -27,6 +27,7 @@ public class LoggerFactory
 		{
 			return (Logger) logger;
 		}
-		return new LoggerWrapper(loggerName);
+		return new LoggerWrapper(logger);
+    // TODO this is not sufficient.
 	}
 }

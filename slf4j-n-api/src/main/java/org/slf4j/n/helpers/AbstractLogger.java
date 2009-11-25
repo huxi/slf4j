@@ -14,9 +14,11 @@ import java.io.ObjectStreamException;
  */
 @SuppressWarnings({"ThrowableResultOfMethodCallIgnored"})
 public abstract class AbstractLogger
-    implements org.slf4j.n.Logger
+    implements org.slf4j.n.spi.LocationAwareLogger
 {
   private static final long serialVersionUID = -8862257536998615351L;
+
+  // In extending class: private static final String FQCN = ExtendingClass.class.getName();
 
   private String loggerName;
 
@@ -107,6 +109,26 @@ public abstract class AbstractLogger
    * @param throwable the Throwable, may be null
    */
   public abstract void log(Level level, Marker marker, Message message, Throwable throwable);
+  // in extending class:
+  // {
+  //   log(FQCN, level, marker, message, throwable);
+  // }
+
+  /**
+   * Printing method with support for location information.
+   *
+   * @param marker
+   * @param fqcn The fully qualified class name of the <b>caller</b>
+   * @param level
+   * @param message
+   * @param throwable
+   */
+  public abstract void log(String fqcn, Level level, Marker marker, Message message, Throwable throwable);
+  // In extending class:
+  // {
+  //   [Actual logging implementation.]
+  // }
+
 
   // ##### TRACE #####
   public boolean isTraceEnabled()

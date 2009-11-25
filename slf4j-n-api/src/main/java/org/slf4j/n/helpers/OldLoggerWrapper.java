@@ -8,10 +8,13 @@ import java.io.ObjectStreamException;
 import java.io.Serializable;
 
 public class OldLoggerWrapper
-  implements org.slf4j.Logger, Serializable
+  implements org.slf4j.spi.LocationAwareLogger, Serializable
 {
+    private static final String FQCN = OldLoggerWrapper.class.getName();
+
     private String loggerName;
     private transient Logger logger;
+    private transient org.slf4j.n.spi.LocationAwareLogger locationAwareLogger;
 
     // just for deserialization
     protected OldLoggerWrapper()
@@ -22,6 +25,10 @@ public class OldLoggerWrapper
     {
       this.loggerName = logger.getName();
       this.logger = logger;
+      if(this.logger instanceof org.slf4j.n.spi.LocationAwareLogger)
+      {
+        locationAwareLogger = (org.slf4j.n.spi.LocationAwareLogger) logger;
+      }
     }
 
     public String getName()
@@ -441,4 +448,51 @@ public class OldLoggerWrapper
       return org.slf4j.LoggerFactory.getLogger(loggerName);
     }
 
+  // TODO: Implement and update above method calls, too!
+
+  public void log(Marker marker, String fqcn, int level, String message, Throwable t)
+  {
+    if(locationAwareLogger == null)
+    {
+      switch(level)
+      {
+        case org.slf4j.spi.LocationAwareLogger.TRACE_INT:
+          logger.log(Level.TRACE, marker, message, t);
+          break;
+        case org.slf4j.spi.LocationAwareLogger.DEBUG_INT:
+          logger.log(Level.DEBUG, marker, message, t);
+          break;
+        case org.slf4j.spi.LocationAwareLogger.INFO_INT:
+          logger.log(Level.INFO, marker, message, t);
+          break;
+        case org.slf4j.spi.LocationAwareLogger.WARN_INT:
+          logger.log(Level.WARN, marker, message, t);
+          break;
+        case org.slf4j.spi.LocationAwareLogger.ERROR_INT:
+          logger.log(Level.ERROR, marker, message, t);
+          break;
+      }
+    }
+    else
+    {
+      switch(level)
+      {
+        case org.slf4j.spi.LocationAwareLogger.TRACE_INT:
+          locationAwareLogger.log(FQCN, Level.TRACE, marker, message, t);
+          break;
+        case org.slf4j.spi.LocationAwareLogger.DEBUG_INT:
+          locationAwareLogger.log(FQCN, Level.DEBUG, marker, message, t);
+          break;
+        case org.slf4j.spi.LocationAwareLogger.INFO_INT:
+          locationAwareLogger.log(FQCN, Level.INFO, marker, message, t);
+          break;
+        case org.slf4j.spi.LocationAwareLogger.WARN_INT:
+          locationAwareLogger.log(FQCN, Level.WARN, marker, message, t);
+          break;
+        case org.slf4j.spi.LocationAwareLogger.ERROR_INT:
+          locationAwareLogger.log(FQCN, Level.ERROR, marker, message, t);
+          break;
+      }
+    }
   }
+}

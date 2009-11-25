@@ -1,11 +1,11 @@
 package org.slf4j.n.helpers;
 
 import org.slf4j.Marker;
-import org.slf4j.n.Logger;
 import org.slf4j.n.Threshold;
 import org.slf4j.n.Level;
 import org.slf4j.n.Message;
 import org.slf4j.n.LoggerFactory;
+import org.slf4j.n.spi.LocationAwareLogger;
 
 import java.io.ObjectStreamException;
 
@@ -17,22 +17,24 @@ import java.io.ObjectStreamException;
  */
 @SuppressWarnings({"ThrowableResultOfMethodCallIgnored"})
 public class LoggerWrapper
-    implements Logger
+    implements LocationAwareLogger
 {
   private static final long serialVersionUID = 4801490744284446815L;
 
+  private static final String FQCN = LoggerWrapper.class.getName();
+
   private final String loggerName;
   private transient org.slf4j.Logger logger;
+  private transient org.slf4j.spi.LocationAwareLogger locationAwareLogger;
 
-  public LoggerWrapper(String loggerName)
+  public LoggerWrapper(org.slf4j.Logger logger)
   {
-    this.loggerName = loggerName;
-    initLogger();
-  }
-
-  private void initLogger()
-  {
-    logger = org.slf4j.LoggerFactory.getLogger(loggerName);
+    this.logger = logger;
+    if(this.logger instanceof org.slf4j.spi.LocationAwareLogger)
+    {
+      this.locationAwareLogger = (org.slf4j.spi.LocationAwareLogger) this.logger;
+    }
+    this.loggerName = logger.getName();
   }
 
   public String getName()
@@ -115,23 +117,47 @@ public class LoggerWrapper
     }
     ParameterizedMessage message = new ParameterizedMessage(messagePattern, args);
 
-    switch(level)
+    if(locationAwareLogger == null)
     {
-      case TRACE:
-        logger.trace(message.getFormattedMessage(), message.getThrowable());
-        break;
-      case DEBUG:
-        logger.debug(message.getFormattedMessage(), message.getThrowable());
-        break;
-      case INFO:
-        logger.info(message.getFormattedMessage(), message.getThrowable());
-        break;
-      case WARN:
-        logger.warn(message.getFormattedMessage(), message.getThrowable());
-        break;
-      case ERROR:
-        logger.error(message.getFormattedMessage(), message.getThrowable());
-        break;
+      switch(level)
+      {
+        case TRACE:
+          logger.trace(message.getFormattedMessage(), message.getThrowable());
+          break;
+        case DEBUG:
+          logger.debug(message.getFormattedMessage(), message.getThrowable());
+          break;
+        case INFO:
+          logger.info(message.getFormattedMessage(), message.getThrowable());
+          break;
+        case WARN:
+          logger.warn(message.getFormattedMessage(), message.getThrowable());
+          break;
+        case ERROR:
+          logger.error(message.getFormattedMessage(), message.getThrowable());
+          break;
+      }
+    }
+    else
+    {
+      switch(level)
+      {
+        case TRACE:
+          locationAwareLogger.log(null, FQCN, org.slf4j.spi.LocationAwareLogger.TRACE_INT, message.getFormattedMessage(), message.getThrowable());
+          break;
+        case DEBUG:
+          locationAwareLogger.log(null, FQCN, org.slf4j.spi.LocationAwareLogger.DEBUG_INT, message.getFormattedMessage(), message.getThrowable());
+          break;
+        case INFO:
+          locationAwareLogger.log(null, FQCN, org.slf4j.spi.LocationAwareLogger.INFO_INT, message.getFormattedMessage(), message.getThrowable());
+          break;
+        case WARN:
+          locationAwareLogger.log(null, FQCN, org.slf4j.spi.LocationAwareLogger.WARN_INT, message.getFormattedMessage(), message.getThrowable());
+          break;
+        case ERROR:
+          locationAwareLogger.log(null, FQCN, org.slf4j.spi.LocationAwareLogger.ERROR_INT, message.getFormattedMessage(), message.getThrowable());
+          break;
+      }
     }
   }
 
@@ -143,23 +169,47 @@ public class LoggerWrapper
     }
     ParameterizedMessage message = new ParameterizedMessage(messagePattern, args);
 
-    switch(level)
+    if(locationAwareLogger == null)
     {
-      case TRACE:
-        logger.trace(marker, message.getFormattedMessage(), message.getThrowable());
-        break;
-      case DEBUG:
-        logger.debug(marker, message.getFormattedMessage(), message.getThrowable());
-        break;
-      case INFO:
-        logger.info(marker, message.getFormattedMessage(), message.getThrowable());
-        break;
-      case WARN:
-        logger.warn(marker, message.getFormattedMessage(), message.getThrowable());
-        break;
-      case ERROR:
-        logger.error(marker, message.getFormattedMessage(), message.getThrowable());
-        break;
+      switch(level)
+      {
+        case TRACE:
+          logger.trace(marker, message.getFormattedMessage(), message.getThrowable());
+          break;
+        case DEBUG:
+          logger.debug(marker, message.getFormattedMessage(), message.getThrowable());
+          break;
+        case INFO:
+          logger.info(marker, message.getFormattedMessage(), message.getThrowable());
+          break;
+        case WARN:
+          logger.warn(marker, message.getFormattedMessage(), message.getThrowable());
+          break;
+        case ERROR:
+          logger.error(marker, message.getFormattedMessage(), message.getThrowable());
+          break;
+      }
+    }
+    else
+    {
+      switch(level)
+      {
+        case TRACE:
+          locationAwareLogger.log(marker, FQCN, org.slf4j.spi.LocationAwareLogger.TRACE_INT, message.getFormattedMessage(), message.getThrowable());
+          break;
+        case DEBUG:
+          locationAwareLogger.log(marker, FQCN, org.slf4j.spi.LocationAwareLogger.DEBUG_INT, message.getFormattedMessage(), message.getThrowable());
+          break;
+        case INFO:
+          locationAwareLogger.log(marker, FQCN, org.slf4j.spi.LocationAwareLogger.INFO_INT, message.getFormattedMessage(), message.getThrowable());
+          break;
+        case WARN:
+          locationAwareLogger.log(marker, FQCN, org.slf4j.spi.LocationAwareLogger.WARN_INT, message.getFormattedMessage(), message.getThrowable());
+          break;
+        case ERROR:
+          locationAwareLogger.log(marker, FQCN, org.slf4j.spi.LocationAwareLogger.ERROR_INT, message.getFormattedMessage(), message.getThrowable());
+          break;
+      }
     }
   }
 
@@ -422,4 +472,95 @@ public class LoggerWrapper
     return LoggerFactory.getLogger(loggerName);
   }
 
+  public void log(String fqcn, Level level, Marker marker, Message message, Throwable throwable)
+  {
+    if(locationAwareLogger == null)
+    {
+      switch(level)
+      {
+        case TRACE:
+          logger.trace(marker, message.getFormattedMessage(), throwable);
+          break;
+        case DEBUG:
+          logger.debug(marker, message.getFormattedMessage(), throwable);
+          break;
+        case INFO:
+          logger.info(marker, message.getFormattedMessage(), throwable);
+          break;
+        case WARN:
+          logger.warn(marker, message.getFormattedMessage(), throwable);
+          break;
+        case ERROR:
+          logger.error(marker, message.getFormattedMessage(), throwable);
+          break;
+      }
+    }
+    else
+    {
+      switch(level)
+      {
+        case TRACE:
+          locationAwareLogger.log(marker, FQCN, org.slf4j.spi.LocationAwareLogger.TRACE_INT, message.getFormattedMessage(), throwable);
+          break;
+        case DEBUG:
+          locationAwareLogger.log(marker, FQCN, org.slf4j.spi.LocationAwareLogger.DEBUG_INT, message.getFormattedMessage(), throwable);
+          break;
+        case INFO:
+          locationAwareLogger.log(marker, FQCN, org.slf4j.spi.LocationAwareLogger.INFO_INT, message.getFormattedMessage(), throwable);
+          break;
+        case WARN:
+          locationAwareLogger.log(marker, FQCN, org.slf4j.spi.LocationAwareLogger.WARN_INT, message.getFormattedMessage(), throwable);
+          break;
+        case ERROR:
+          locationAwareLogger.log(marker, FQCN, org.slf4j.spi.LocationAwareLogger.ERROR_INT, message.getFormattedMessage(), throwable);
+          break;
+      }
+    }
+  }
+
+  public void log(String fqcn, Level level, Marker marker, String message, Throwable throwable)
+  {
+    if(locationAwareLogger == null)
+    {
+      switch(level)
+      {
+        case TRACE:
+          logger.trace(marker, message, throwable);
+          break;
+        case DEBUG:
+          logger.debug(marker, message, throwable);
+          break;
+        case INFO:
+          logger.info(marker, message, throwable);
+          break;
+        case WARN:
+          logger.warn(marker, message, throwable);
+          break;
+        case ERROR:
+          logger.error(marker, message, throwable);
+          break;
+      }
+    }
+    else
+    {
+      switch(level)
+      {
+        case TRACE:
+          locationAwareLogger.log(marker, FQCN, org.slf4j.spi.LocationAwareLogger.TRACE_INT, message, throwable);
+          break;
+        case DEBUG:
+          locationAwareLogger.log(marker, FQCN, org.slf4j.spi.LocationAwareLogger.DEBUG_INT, message, throwable);
+          break;
+        case INFO:
+          locationAwareLogger.log(marker, FQCN, org.slf4j.spi.LocationAwareLogger.INFO_INT, message, throwable);
+          break;
+        case WARN:
+          locationAwareLogger.log(marker, FQCN, org.slf4j.spi.LocationAwareLogger.WARN_INT, message, throwable);
+          break;
+        case ERROR:
+          locationAwareLogger.log(marker, FQCN, org.slf4j.spi.LocationAwareLogger.ERROR_INT, message, throwable);
+          break;
+      }
+    }
+  }
 }
