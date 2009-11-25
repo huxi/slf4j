@@ -4,6 +4,7 @@ import org.slf4j.n.Threshold;
 import org.slf4j.n.Level;
 import org.slf4j.n.Message;
 import org.slf4j.n.LoggerFactory;
+import org.slf4j.n.messages.ParameterizedMessage;
 import org.slf4j.Marker;
 
 import java.io.ObjectStreamException;
@@ -58,14 +59,14 @@ public abstract class AbstractLogger
   public void log(Level level, String messagePattern, Object... args)
   {
     if(!isLoggingEnabled(level)) return;
-    ParameterizedMessage message = new ParameterizedMessage(messagePattern, args);
+    ParameterizedMessage message = ParameterizedMessage.create(messagePattern, args);
     log(level, null, message, message.getThrowable());
   }
 
   public void log(Level level, Marker marker, String messagePattern, Object... args)
   {
     if(!isLoggingEnabled(level, marker)) return;
-    ParameterizedMessage message = new ParameterizedMessage(messagePattern, args);
+    ParameterizedMessage message = ParameterizedMessage.create(messagePattern, args);
     log(level, marker, message, message.getThrowable());
   }
 
@@ -145,14 +146,14 @@ public abstract class AbstractLogger
   {
     if(!isLoggingEnabled(Level.TRACE)) return;
 
-    log(Level.TRACE, null, new ParameterizedMessage(format, argArray), null);
+    log(Level.TRACE, null, ParameterizedMessage.create(format, argArray));
   }
 
   public void trace(Marker marker, String format, Object[] argArray)
   {
     if(!isLoggingEnabled(Level.TRACE, marker)) return;
 
-    log(Level.TRACE, marker, new ParameterizedMessage(format, argArray), null);
+    log(Level.TRACE, marker, ParameterizedMessage.create(format, argArray));
   }
 
   public void trace(Message message)
@@ -190,14 +191,14 @@ public abstract class AbstractLogger
   {
     if(!isLoggingEnabled(Level.DEBUG)) return;
 
-    log(Level.DEBUG, null, new ParameterizedMessage(format, argArray), null);
+    log(Level.DEBUG, null, ParameterizedMessage.create(format, argArray));
   }
 
   public void debug(Marker marker, String format, Object[] argArray)
   {
     if(!isLoggingEnabled(Level.DEBUG, marker)) return;
 
-    log(Level.DEBUG, marker, new ParameterizedMessage(format, argArray), null);
+    log(Level.DEBUG, marker, ParameterizedMessage.create(format, argArray));
   }
 
   public void debug(Message message)
@@ -235,14 +236,14 @@ public abstract class AbstractLogger
   {
     if(!isLoggingEnabled(Level.INFO)) return;
 
-    log(Level.INFO, null, new ParameterizedMessage(format, argArray), null);
+    log(Level.INFO, null, ParameterizedMessage.create(format, argArray));
   }
 
   public void info(Marker marker, String format, Object[] argArray)
   {
     if(!isLoggingEnabled(Level.INFO, marker)) return;
 
-    log(Level.INFO, marker, new ParameterizedMessage(format, argArray), null);
+    log(Level.INFO, marker, ParameterizedMessage.create(format, argArray));
   }
 
   public void info(Message message)
@@ -280,14 +281,14 @@ public abstract class AbstractLogger
   {
     if(!isLoggingEnabled(Level.WARN)) return;
 
-    log(Level.WARN, null, new ParameterizedMessage(format, argArray), null);
+    log(Level.WARN, null, ParameterizedMessage.create(format, argArray));
   }
 
   public void warn(Marker marker, String format, Object[] argArray)
   {
     if(!isLoggingEnabled(Level.WARN, marker)) return;
 
-    log(Level.WARN, marker, new ParameterizedMessage(format, argArray), null);
+    log(Level.WARN, marker, ParameterizedMessage.create(format, argArray));
   }
 
   public void warn(Message message)
@@ -325,14 +326,14 @@ public abstract class AbstractLogger
   {
     if(!isLoggingEnabled(Level.ERROR)) return;
 
-    log(Level.ERROR, null, new ParameterizedMessage(format, argArray), null);
+    log(Level.ERROR, null, ParameterizedMessage.create(format, argArray));
   }
 
   public void error(Marker marker, String format, Object[] argArray)
   {
     if(!isLoggingEnabled(Level.ERROR, marker)) return;
 
-    log(Level.ERROR, marker, new ParameterizedMessage(format, argArray), null);
+    log(Level.ERROR, marker, ParameterizedMessage.create(format, argArray));
   }
 
   public void error(Message message)

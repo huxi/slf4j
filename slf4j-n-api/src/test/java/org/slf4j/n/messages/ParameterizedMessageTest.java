@@ -1,4 +1,4 @@
-package org.slf4j.n.helpers;
+package org.slf4j.n.messages;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.TreeMap;
 import java.util.Date;
 
-public class MessageFormatterTest
+public class ParameterizedMessageTest
 {
 	//private final Logger logger = LoggerFactory.getLogger(MessageFormatterTest.class);
 
@@ -33,8 +33,8 @@ public class MessageFormatterTest
 		Object[] multiArrayRecursive = new Object[]{null, p1};
 		multiArrayRecursive[0] = multiArrayRecursive;
 		multiArray[0] = multiArrayRecursive;
-		String multiArrayRecId = MessageFormatter.identityToString(multiArrayRecursive);
-		String multiArrayRec = MessageFormatter.RECURSION_PREFIX + multiArrayRecId + MessageFormatter.RECURSION_SUFFIX;
+		String multiArrayRecId = ParameterizedMessage.identityToString(multiArrayRecursive);
+		String multiArrayRec = ParameterizedMessage.RECURSION_PREFIX + multiArrayRecId + ParameterizedMessage.RECURSION_SUFFIX;
 
 		Integer[] ia0 = new Integer[]{i1, i2, i3};
 		Integer[] ia1 = new Integer[]{10, 20, 30};
@@ -45,7 +45,7 @@ public class MessageFormatterTest
 		Object[] cyclicA = new Object[1];
 		cyclicA[0] = cyclicA;
 
-		String cyclicAId = MessageFormatter.identityToString(cyclicA);
+		String cyclicAId = ParameterizedMessage.identityToString(cyclicA);
 
 		Object[] recArray;
 		Object[] cyclicB = new Object[2];
@@ -56,7 +56,7 @@ public class MessageFormatterTest
 			recArray = b;
 			cyclicB[1] = b;
 		}
-		String cyclicBRecId = MessageFormatter.identityToString(recArray);
+		String cyclicBRecId = ParameterizedMessage.identityToString(recArray);
 
 		Object[] cyclicC = new Object[3];
 		{
@@ -67,11 +67,11 @@ public class MessageFormatterTest
 			cyclicC[1] = b;
 			cyclicC[2] = t;
 		}
-		String cyclicCRecId = MessageFormatter.identityToString(recArray);
+		String cyclicCRecId = ParameterizedMessage.identityToString(recArray);
 
-		String cyclicARec = MessageFormatter.RECURSION_PREFIX + cyclicAId + MessageFormatter.RECURSION_SUFFIX;
-		String cyclicBRec = MessageFormatter.RECURSION_PREFIX + cyclicBRecId + MessageFormatter.RECURSION_SUFFIX;
-		String cyclicCRec = MessageFormatter.RECURSION_PREFIX + cyclicCRecId + MessageFormatter.RECURSION_SUFFIX;
+		String cyclicARec = ParameterizedMessage.RECURSION_PREFIX + cyclicAId + ParameterizedMessage.RECURSION_SUFFIX;
+		String cyclicBRec = ParameterizedMessage.RECURSION_PREFIX + cyclicBRecId + ParameterizedMessage.RECURSION_SUFFIX;
+		String cyclicCRec = ParameterizedMessage.RECURSION_PREFIX + cyclicCRecId + ParameterizedMessage.RECURSION_SUFFIX;
 
 //		if(logger.isInfoEnabled()) logger.info("multiArray rec identity: {}", multiArrayRecId);
 //		if(logger.isInfoEnabled()) logger.info("cyclicA identity: {}", cyclicAId);
@@ -229,7 +229,7 @@ public class MessageFormatterTest
 
 		validateEvaluateArguments("{}{}{}",
 			new Object[]{"foo", null, 1L},
-			new MessageFormatter.ArgumentResult(
+			new ParameterizedMessage("{}{}{}",
 				new String[]{"foo", null, "1"},
 				null));
 
@@ -237,25 +237,25 @@ public class MessageFormatterTest
 		FooThrowable t = new FooThrowable("FooException");
 		validateEvaluateArguments("{}{}",
 			new Object[]{"foo", null, t},
-			new MessageFormatter.ArgumentResult(
+			new ParameterizedMessage("{}{}",
 				new String[]{"foo", null},
 				t));
 
 		validateEvaluateArguments("{}{}{}",
 			new Object[]{"foo", null, t},
-			new MessageFormatter.ArgumentResult(
+			new ParameterizedMessage("{}{}{}",
 				new String[]{"foo", null, "FooException"},
 				null));
 
 		validateEvaluateArguments("{}{}{}",
 			new Object[]{"foo", null, t, 17L, 18L},
-			new MessageFormatter.ArgumentResult(
+			new ParameterizedMessage("{}{}{}",
 				new String[]{"foo", null, "FooException", "17", "18"},
 				null));
 
 		validateEvaluateArguments("{}{}{}",
 			new Object[]{"foo", null, 17L, 18L, t},
-			new MessageFormatter.ArgumentResult(
+			new ParameterizedMessage("{}{}{}",
 				new String[]{"foo", null, "17", "18"},
 				t));
 	}
@@ -269,12 +269,13 @@ public class MessageFormatterTest
 			//if(logger.isDebugEnabled()) logger.debug("Validating evaluateArguments for [{}]: {}...", i, useCase);
 
 
+      String messagePattern = useCase.getMessagePattern();
 			String[] argStrings = useCase.getArgumentStrings();
-			MessageFormatter.ArgumentResult expectedResult = null;
+			ParameterizedMessage expectedResult = null;
 			if(argStrings != null)
 			{
 				//noinspection ThrowableResultOfMethodCallIgnored
-				expectedResult = new MessageFormatter.ArgumentResult(argStrings, useCase.getThrowable());
+				expectedResult = new ParameterizedMessage(messagePattern, argStrings, useCase.getThrowable());
 			}
 			validateEvaluateArguments(useCase.getMessagePattern(), useCase.getArguments(), expectedResult);
 		}
@@ -334,7 +335,7 @@ public class MessageFormatterTest
 			expected = "{bar=[One, Two], foo=[One, Two]}";
 		}
 		//if(logger.isInfoEnabled()) logger.info("Evaluating {}...", o);
-		result = MessageFormatter.deepToString(o);
+		result = ParameterizedMessage.deepToString(o);
 		//if(logger.isInfoEnabled()) logger.info("Result of {} is {}.", o, result);
 		assertEquals(expected, result);
 
@@ -347,7 +348,7 @@ public class MessageFormatterTest
 			expected = "{bar=[One, Two], foo=[One, Two]}";
 		}
 		//if(logger.isInfoEnabled()) logger.info("Evaluating {}...", o);
-		result = MessageFormatter.deepToString(o);
+		result = ParameterizedMessage.deepToString(o);
 		//if(logger.isInfoEnabled()) logger.info("Result of {} is {}.", o, result);
 		assertEquals(expected, result);
 
@@ -363,7 +364,7 @@ public class MessageFormatterTest
 			expected = "[[One, Two], [One, Two]]";
 		}
 		//if(logger.isInfoEnabled()) logger.info("Evaluating {}...", o);
-		result = MessageFormatter.deepToString(o);
+		result = ParameterizedMessage.deepToString(o);
 		//if(logger.isInfoEnabled()) logger.info("Result of {} is {}.", o, result);
 		assertEquals(expected, result);
 
@@ -376,7 +377,7 @@ public class MessageFormatterTest
 			expected = "[[One, Two], [One, Two]]";
 		}
 		//if(logger.isInfoEnabled()) logger.info("Evaluating {}...", o);
-		result = MessageFormatter.deepToString(o);
+		result = ParameterizedMessage.deepToString(o);
 		//if(logger.isInfoEnabled()) logger.info("Result of {} is {}.", o, result);
 		assertEquals(expected, result);
 	}
@@ -393,7 +394,7 @@ public class MessageFormatterTest
 			expected = "2009-02-14T00:31:30.000";
 		}
 		//if(logger.isInfoEnabled()) logger.info("Evaluating {}...", o);
-		result = MessageFormatter.deepToString(o);
+		result = ParameterizedMessage.deepToString(o);
 		//if(logger.isInfoEnabled()) logger.info("Result of {} is {}.", o, result);
 		assertTrue(result.startsWith(expected));
 	}
@@ -408,16 +409,16 @@ public class MessageFormatterTest
 
 		o = null;
 		expected = null;
-		result = MessageFormatter.deepToString(o);
+		result = ParameterizedMessage.deepToString(o);
 		assertEquals(expected, result);
 
 		o = new ProblematicToString();
-		expected = MessageFormatter.ERROR_PREFIX + MessageFormatter.identityToString(o)
-			+ MessageFormatter.ERROR_SEPARATOR + FooThrowable.class.getName()
-			+ MessageFormatter.ERROR_MSG_SEPARATOR
+		expected = ParameterizedMessage.ERROR_PREFIX + ParameterizedMessage.identityToString(o)
+			+ ParameterizedMessage.ERROR_SEPARATOR + FooThrowable.class.getName()
+			+ ParameterizedMessage.ERROR_MSG_SEPARATOR
 			+ "FooThrowable"
-			+ MessageFormatter.ERROR_SUFFIX;
-		result = MessageFormatter.deepToString(o);
+			+ ParameterizedMessage.ERROR_SUFFIX;
+		result = ParameterizedMessage.deepToString(o);
 		//if(logger.isInfoEnabled()) logger.info("Result is {}.", result);
 		assertEquals(expected, result);
 
@@ -427,10 +428,10 @@ public class MessageFormatterTest
 			b.put("bar", a);
 			a.put("foo", b);
 			o = a;
-			expected = "{foo={bar=" + MessageFormatter.RECURSION_PREFIX + MessageFormatter
-				.identityToString(a) + MessageFormatter.RECURSION_SUFFIX + "}}";
+			expected = "{foo={bar=" + ParameterizedMessage.RECURSION_PREFIX + ParameterizedMessage
+				.identityToString(a) + ParameterizedMessage.RECURSION_SUFFIX + "}}";
 		}
-		result = MessageFormatter.deepToString(o);
+		result = ParameterizedMessage.deepToString(o);
 		//if(logger.isInfoEnabled()) logger.info("Result is {}.", result);
 		assertEquals(expected, result);
 
@@ -440,17 +441,17 @@ public class MessageFormatterTest
 			b.add(a);
 			a.add(b);
 			o = a;
-			expected = "[[" + MessageFormatter.RECURSION_PREFIX + MessageFormatter
-				.identityToString(a) + MessageFormatter.RECURSION_SUFFIX + "]]";
+			expected = "[[" + ParameterizedMessage.RECURSION_PREFIX + ParameterizedMessage
+				.identityToString(a) + ParameterizedMessage.RECURSION_SUFFIX + "]]";
 		}
-		result = MessageFormatter.deepToString(o);
+		result = ParameterizedMessage.deepToString(o);
 		//if(logger.isInfoEnabled()) logger.info("Result is {}.", result);
 		assertEquals(expected, result);
 	}
 
-	private void validateEvaluateArguments(String messagePattern, Object[] arguments, MessageFormatter.ArgumentResult expected)
+	private void validateEvaluateArguments(String messagePattern, Object[] arguments, ParameterizedMessage expected)
 	{
-		MessageFormatter.ArgumentResult result = MessageFormatter.evaluateArguments(messagePattern, arguments);
+		ParameterizedMessage result = ParameterizedMessage.create(messagePattern, arguments);
 		StringBuilder message = new StringBuilder();
 		message.append("messagePattern=");
 		if(messagePattern != null)
@@ -491,7 +492,7 @@ public class MessageFormatterTest
 
 	private void validateCountArgumentPlaceholders(String messagePattern, int expected)
 	{
-		int result = MessageFormatter.countArgumentPlaceholders(messagePattern);
+		int result = ParameterizedMessage.countArgumentPlaceholders(messagePattern);
 
 		StringBuilder message = new StringBuilder();
 		message.append("messagePattern ");
@@ -520,7 +521,7 @@ public class MessageFormatterTest
 
 	private void validateFormatMessage(String messagePattern, String[] argumentStrings, String expectedResult)
 	{
-		String result = MessageFormatter.format(messagePattern, argumentStrings);
+		String result = ParameterizedMessage.format(messagePattern, argumentStrings);
 
 		StringBuilder message = new StringBuilder();
 		message.append("messagePattern ");

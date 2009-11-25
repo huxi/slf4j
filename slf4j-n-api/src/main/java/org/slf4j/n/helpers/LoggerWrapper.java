@@ -5,6 +5,7 @@ import org.slf4j.n.Threshold;
 import org.slf4j.n.Level;
 import org.slf4j.n.Message;
 import org.slf4j.n.LoggerFactory;
+import org.slf4j.n.messages.ParameterizedMessage;
 import org.slf4j.n.spi.LocationAwareLogger;
 
 import java.io.ObjectStreamException;
@@ -115,7 +116,7 @@ public class LoggerWrapper
     {
       return;
     }
-    ParameterizedMessage message = new ParameterizedMessage(messagePattern, args);
+    ParameterizedMessage message = ParameterizedMessage.create(messagePattern, args);
 
     if(locationAwareLogger == null)
     {
@@ -167,7 +168,7 @@ public class LoggerWrapper
     {
       return;
     }
-    ParameterizedMessage message = new ParameterizedMessage(messagePattern, args);
+    ParameterizedMessage message = ParameterizedMessage.create(messagePattern, args);
 
     if(locationAwareLogger == null)
     {

@@ -2,6 +2,8 @@ package org.slf4j.n.helpers;
 
 import org.slf4j.n.Logger;
 import org.slf4j.n.Level;
+import org.slf4j.n.messages.SimpleMessage;
+import org.slf4j.n.messages.ParameterizedMessage;
 import org.slf4j.Marker;
 
 import java.io.ObjectStreamException;
@@ -59,21 +61,21 @@ public class OldLoggerWrapper
     {
       if(!logger.isLoggingEnabled(Level.TRACE)) return;
 
-      logger.log(Level.TRACE, null, new ParameterizedMessage(format, arg), null);
+      logger.log(Level.TRACE, null, ParameterizedMessage.create(format, arg));
     }
 
     public void trace(String format, Object arg1, Object arg2)
     {
       if(!logger.isLoggingEnabled(Level.TRACE)) return;
 
-      logger.log(Level.TRACE, null, new ParameterizedMessage(format, arg1, arg2), null);
+      logger.log(Level.TRACE, null, ParameterizedMessage.create(format, arg1, arg2));
     }
 
     public void trace(String format, Object[] argArray)
     {
       if(!logger.isLoggingEnabled(Level.TRACE)) return;
 
-      logger.log(Level.TRACE, null, new ParameterizedMessage(format, argArray), null);
+      logger.log(Level.TRACE, null, ParameterizedMessage.create(format, argArray));
     }
 
     public void trace(String msg, Throwable t)
@@ -94,21 +96,21 @@ public class OldLoggerWrapper
     {
       if(!logger.isLoggingEnabled(Level.TRACE, marker)) return;
 
-      logger.log(Level.TRACE, marker, new ParameterizedMessage(format, arg), null);
+      logger.log(Level.TRACE, marker, ParameterizedMessage.create(format, arg));
     }
 
     public void trace(Marker marker, String format, Object arg1, Object arg2)
     {
       if(!logger.isLoggingEnabled(Level.TRACE, marker)) return;
 
-      logger.log(Level.TRACE, marker, new ParameterizedMessage(format, arg1, arg2), null);
+      logger.log(Level.TRACE, marker, ParameterizedMessage.create(format, arg1, arg2));
     }
 
     public void trace(Marker marker, String format, Object[] argArray)
     {
       if(!logger.isLoggingEnabled(Level.TRACE, marker)) return;
 
-      logger.log(Level.TRACE, marker, new ParameterizedMessage(format, argArray), null);
+      logger.log(Level.TRACE, marker, ParameterizedMessage.create(format, argArray));
     }
 
     public void trace(Marker marker, String msg, Throwable t)
@@ -140,21 +142,21 @@ public class OldLoggerWrapper
     {
       if(!logger.isLoggingEnabled(Level.DEBUG)) return;
 
-      logger.log(Level.DEBUG, null, new ParameterizedMessage(format, arg), null);
+      logger.log(Level.DEBUG, null, ParameterizedMessage.create(format, arg));
     }
 
     public void debug(String format, Object arg1, Object arg2)
     {
       if(!logger.isLoggingEnabled(Level.DEBUG)) return;
 
-      logger.log(Level.DEBUG, null, new ParameterizedMessage(format, arg1, arg2), null);
+      logger.log(Level.DEBUG, null, ParameterizedMessage.create(format, arg1, arg2));
     }
 
     public void debug(String format, Object[] argArray)
     {
       if(!logger.isLoggingEnabled(Level.DEBUG)) return;
 
-      logger.log(Level.DEBUG, null, new ParameterizedMessage(format, argArray), null);
+      logger.log(Level.DEBUG, null, ParameterizedMessage.create(format, argArray));
     }
 
     public void debug(String msg, Throwable t)
@@ -175,21 +177,21 @@ public class OldLoggerWrapper
     {
       if(!logger.isLoggingEnabled(Level.DEBUG, marker)) return;
 
-      logger.log(Level.DEBUG, marker, new ParameterizedMessage(format, arg), null);
+      logger.log(Level.DEBUG, marker, ParameterizedMessage.create(format, arg));
     }
 
     public void debug(Marker marker, String format, Object arg1, Object arg2)
     {
       if(!logger.isLoggingEnabled(Level.DEBUG, marker)) return;
 
-      logger.log(Level.DEBUG, marker, new ParameterizedMessage(format, arg1, arg2), null);
+      logger.log(Level.DEBUG, marker, ParameterizedMessage.create(format, arg1, arg2));
     }
 
     public void debug(Marker marker, String format, Object[] argArray)
     {
       if(!logger.isLoggingEnabled(Level.DEBUG, marker)) return;
 
-      logger.log(Level.DEBUG, marker, new ParameterizedMessage(format, argArray), null);
+      logger.log(Level.DEBUG, marker, ParameterizedMessage.create(format, argArray));
     }
 
     public void debug(Marker marker, String msg, Throwable t)
@@ -221,21 +223,21 @@ public class OldLoggerWrapper
     {
       if(!logger.isLoggingEnabled(Level.INFO)) return;
 
-      logger.log(Level.INFO, null, new ParameterizedMessage(format, arg), null);
+      logger.log(Level.INFO, null, ParameterizedMessage.create(format, arg));
     }
 
     public void info(String format, Object arg1, Object arg2)
     {
       if(!logger.isLoggingEnabled(Level.INFO)) return;
 
-      logger.log(Level.INFO, null, new ParameterizedMessage(format, arg1, arg2), null);
+      logger.log(Level.INFO, null, ParameterizedMessage.create(format, arg1, arg2));
     }
 
     public void info(String format, Object[] argArray)
     {
       if(!logger.isLoggingEnabled(Level.INFO)) return;
 
-      logger.log(Level.INFO, null, new ParameterizedMessage(format, argArray), null);
+      logger.log(Level.INFO, null, ParameterizedMessage.create(format, argArray));
     }
 
     public void info(String msg, Throwable t)
@@ -256,21 +258,21 @@ public class OldLoggerWrapper
     {
       if(!logger.isLoggingEnabled(Level.INFO, marker)) return;
 
-      logger.log(Level.INFO, marker, new ParameterizedMessage(format, arg), null);
+      logger.log(Level.INFO, marker, ParameterizedMessage.create(format, arg));
     }
 
     public void info(Marker marker, String format, Object arg1, Object arg2)
     {
       if(!logger.isLoggingEnabled(Level.INFO, marker)) return;
 
-      logger.log(Level.INFO, marker, new ParameterizedMessage(format, arg1, arg2), null);
+      logger.log(Level.INFO, marker, ParameterizedMessage.create(format, arg1, arg2));
     }
 
     public void info(Marker marker, String format, Object[] argArray)
     {
       if(!logger.isLoggingEnabled(Level.INFO, marker)) return;
 
-      logger.log(Level.INFO, marker, new ParameterizedMessage(format, argArray), null);
+      logger.log(Level.INFO, marker, ParameterizedMessage.create(format, argArray));
     }
 
     public void info(Marker marker, String msg, Throwable t)
@@ -302,21 +304,21 @@ public class OldLoggerWrapper
     {
       if(!logger.isLoggingEnabled(Level.WARN)) return;
 
-      logger.log(Level.WARN, null, new ParameterizedMessage(format, arg), null);
+      logger.log(Level.WARN, null, ParameterizedMessage.create(format, arg));
     }
 
     public void warn(String format, Object arg1, Object arg2)
     {
       if(!logger.isLoggingEnabled(Level.WARN)) return;
 
-      logger.log(Level.WARN, null, new ParameterizedMessage(format, arg1, arg2), null);
+      logger.log(Level.WARN, null, ParameterizedMessage.create(format, arg1, arg2));
     }
 
     public void warn(String format, Object[] argArray)
     {
       if(!logger.isLoggingEnabled(Level.WARN)) return;
 
-      logger.log(Level.WARN, null, new ParameterizedMessage(format, argArray), null);
+      logger.log(Level.WARN, null, ParameterizedMessage.create(format, argArray));
     }
 
     public void warn(String msg, Throwable t)
@@ -337,21 +339,21 @@ public class OldLoggerWrapper
     {
       if(!logger.isLoggingEnabled(Level.WARN, marker)) return;
 
-      logger.log(Level.WARN, marker, new ParameterizedMessage(format, arg), null);
+      logger.log(Level.WARN, marker, ParameterizedMessage.create(format, arg));
     }
 
     public void warn(Marker marker, String format, Object arg1, Object arg2)
     {
       if(!logger.isLoggingEnabled(Level.WARN, marker)) return;
 
-      logger.log(Level.WARN, marker, new ParameterizedMessage(format, arg1, arg2), null);
+      logger.log(Level.WARN, marker, ParameterizedMessage.create(format, arg1, arg2));
     }
 
     public void warn(Marker marker, String format, Object[] argArray)
     {
       if(!logger.isLoggingEnabled(Level.WARN, marker)) return;
 
-      logger.log(Level.WARN, marker, new ParameterizedMessage(format, argArray), null);
+      logger.log(Level.WARN, marker, ParameterizedMessage.create(format, argArray));
     }
 
     public void warn(Marker marker, String msg, Throwable t)
@@ -383,21 +385,21 @@ public class OldLoggerWrapper
     {
       if(!logger.isLoggingEnabled(Level.ERROR)) return;
 
-      logger.log(Level.ERROR, null, new ParameterizedMessage(format, arg), null);
+      logger.log(Level.ERROR, null, ParameterizedMessage.create(format, arg));
     }
 
     public void error(String format, Object arg1, Object arg2)
     {
       if(!logger.isLoggingEnabled(Level.ERROR)) return;
 
-      logger.log(Level.ERROR, null, new ParameterizedMessage(format, arg1, arg2), null);
+      logger.log(Level.ERROR, null, ParameterizedMessage.create(format, arg1, arg2));
     }
 
     public void error(String format, Object[] argArray)
     {
       if(!logger.isLoggingEnabled(Level.ERROR)) return;
 
-      logger.log(Level.ERROR, null, new ParameterizedMessage(format, argArray), null);
+      logger.log(Level.ERROR, null, ParameterizedMessage.create(format, argArray));
     }
 
     public void error(String msg, Throwable t)
@@ -418,21 +420,21 @@ public class OldLoggerWrapper
     {
       if(!logger.isLoggingEnabled(Level.ERROR, marker)) return;
 
-      logger.log(Level.ERROR, marker, new ParameterizedMessage(format, arg), null);
+      logger.log(Level.ERROR, marker, ParameterizedMessage.create(format, arg));
     }
 
     public void error(Marker marker, String format, Object arg1, Object arg2)
     {
       if(!logger.isLoggingEnabled(Level.ERROR, marker)) return;
 
-      logger.log(Level.ERROR, marker, new ParameterizedMessage(format, arg1, arg2), null);
+      logger.log(Level.ERROR, marker, ParameterizedMessage.create(format, arg1, arg2));
     }
 
     public void error(Marker marker, String format, Object[] argArray)
     {
       if(!logger.isLoggingEnabled(Level.ERROR, marker)) return;
 
-      logger.log(Level.ERROR, marker, new ParameterizedMessage(format, argArray), null);
+      logger.log(Level.ERROR, marker, ParameterizedMessage.create(format, argArray));
     }
 
     public void error(Marker marker, String msg, Throwable t)
