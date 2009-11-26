@@ -6,6 +6,7 @@ import org.slf4j.n.Message;
 import org.slf4j.n.LoggerFactory;
 import org.slf4j.n.messages.ParameterizedMessage;
 import org.slf4j.Marker;
+import org.slf4j.Logger;
 
 import java.io.ObjectStreamException;
 
@@ -15,9 +16,11 @@ import java.io.ObjectStreamException;
  */
 @SuppressWarnings({"ThrowableResultOfMethodCallIgnored"})
 public abstract class AbstractLogger
-    implements org.slf4j.n.spi.LocationAwareLogger
+    implements org.slf4j.n.Logger
 {
   private static final long serialVersionUID = -8862257536998615351L;
+
+  protected transient org.slf4j.Logger oldLogger;
 
   // In extending class: private static final String FQCN = ExtendingClass.class.getName();
 
@@ -40,8 +43,16 @@ public abstract class AbstractLogger
 
   public abstract Threshold getThreshold();
 
+  public Logger getOldLogger()
+  {
+    if(oldLogger == null)
+    {
+      oldLogger = new OldLoggerWrappingNew(this);
+    }
+    return oldLogger;
+  }
 
-  // ##### generic #####
+// ##### generic #####
 
   public boolean isLoggingEnabled(Level level)
   {
@@ -115,16 +126,7 @@ public abstract class AbstractLogger
   //   log(FQCN, level, marker, message, throwable);
   // }
 
-  /**
-   * Printing method with support for location information.
-   *
-   * @param marker
-   * @param fqcn The fully qualified class name of the <b>caller</b>
-   * @param level
-   * @param message
-   * @param throwable
-   */
-  public abstract void log(String fqcn, Level level, Marker marker, Message message, Throwable throwable);
+  //public abstract void log(String fqcn, Level level, Marker marker, Message message, Throwable throwable);
   // In extending class:
   // {
   //   [Actual logging implementation.]

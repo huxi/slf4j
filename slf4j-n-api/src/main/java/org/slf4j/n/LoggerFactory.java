@@ -1,6 +1,6 @@
 package org.slf4j.n;
 
-import org.slf4j.n.helpers.LoggerWrapper;
+import org.slf4j.n.helpers.NewLoggerWrappingOld;
 
 public class LoggerFactory
 {
@@ -27,7 +27,7 @@ public class LoggerFactory
 		{
 			return (Logger) logger;
 		}
-		return new LoggerWrapper(logger);
+		return new NewLoggerWrappingOld(logger);
     // TODO this is not sufficient.
 	}
 }

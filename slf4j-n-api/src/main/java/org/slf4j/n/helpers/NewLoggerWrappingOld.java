@@ -1,6 +1,7 @@
 package org.slf4j.n.helpers;
 
 import org.slf4j.Marker;
+import org.slf4j.Logger;
 import org.slf4j.n.Threshold;
 import org.slf4j.n.Level;
 import org.slf4j.n.Message;
@@ -11,24 +12,24 @@ import org.slf4j.n.spi.LocationAwareLogger;
 import java.io.ObjectStreamException;
 
 /**
- * This class implements the org.slf4j.n.Logger interface by providing a wrapper over an
- * org.slf4j.Logger.
+ * This class implements the org.slf4j.n.Logger and org.slf4j.n.spi.LocationAwareLogger interfaces
+ * by providing a wrapper over an org.slf4j.Logger.
  *
  * @author J&ouml;rn Huxhorn
  */
 @SuppressWarnings({"ThrowableResultOfMethodCallIgnored"})
-public class LoggerWrapper
+public class NewLoggerWrappingOld
     implements LocationAwareLogger
 {
   private static final long serialVersionUID = 4801490744284446815L;
 
-  private static final String FQCN = LoggerWrapper.class.getName();
+  private static final String FQCN = NewLoggerWrappingOld.class.getName();
 
   private final String loggerName;
   private transient org.slf4j.Logger logger;
   private transient org.slf4j.spi.LocationAwareLogger locationAwareLogger;
 
-  public LoggerWrapper(org.slf4j.Logger logger)
+  public NewLoggerWrappingOld(org.slf4j.Logger logger)
   {
     this.logger = logger;
     if(this.logger instanceof org.slf4j.spi.LocationAwareLogger)
@@ -41,6 +42,11 @@ public class LoggerWrapper
   public String getName()
   {
     return loggerName;
+  }
+
+  public Logger getOldLogger()
+  {
+    return logger;
   }
 
   /**
