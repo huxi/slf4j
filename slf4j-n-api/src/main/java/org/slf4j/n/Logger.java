@@ -11,6 +11,8 @@ public interface Logger
 
   String getName();
 
+  org.slf4j.Logger getOldLogger();
+
   /**
    * @return the Threshold of this Logger.
    */
