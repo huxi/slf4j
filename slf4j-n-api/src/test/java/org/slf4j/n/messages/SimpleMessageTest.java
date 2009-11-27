@@ -1,12 +1,39 @@
 package org.slf4j.n.messages;
 
-/**
- * Created by IntelliJ IDEA.
- * User: jhuxhorn
- * Date: Nov 26, 2009
- * Time: 11:08:47 AM
- * To change this template use File | Settings | File Templates.
- */
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static de.huxhorn.sulky.junit.JUnitTools.testSerialization;
+import static de.huxhorn.sulky.junit.JUnitTools.testXmlSerialization;
+
+import java.io.IOException;
+
 public class SimpleMessageTest
 {
+  @Test
+  public void uninitialzed() throws IOException, ClassNotFoundException
+  {
+    SimpleMessage message=new SimpleMessage();
+    testSerialization(message);
+    testXmlSerialization(message);
+  }
+
+  @Test
+  public void initialzed() throws IOException, ClassNotFoundException
+  {
+    SimpleMessage message=new SimpleMessage("Foo");
+    testSerialization(message);
+    testXmlSerialization(message);
+  }
+
+  @Test
+  public void checkEquals()
+  {
+    SimpleMessage msg1=new SimpleMessage("Foo");
+    SimpleMessage msg2=new SimpleMessage("Foo");
+    assertEquals(msg1, msg2);
+    assertEquals(msg1.hashCode(), msg2.hashCode());
+    msg2.setMessage("Bar");
+    assertFalse(msg1.equals(msg2));
+  }
 }

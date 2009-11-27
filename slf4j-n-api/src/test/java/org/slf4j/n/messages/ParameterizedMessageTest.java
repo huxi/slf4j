@@ -12,6 +12,10 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.TreeMap;
 import java.util.Date;
+import java.io.IOException;
+
+import static de.huxhorn.sulky.junit.JUnitTools.testSerialization;
+import static de.huxhorn.sulky.junit.JUnitTools.testXmlSerialization;
 
 public class ParameterizedMessageTest
 {
@@ -77,10 +81,14 @@ public class ParameterizedMessageTest
 //		if(logger.isInfoEnabled()) logger.info("cyclicA identity: {}", cyclicAId);
 //		if(logger.isInfoEnabled()) logger.info("cyclicB rec identity: {}", cyclicBRecId);
 //		if(logger.isInfoEnabled()) logger.info("cyclicC rec identity: {}", cyclicCRecId);
+
+
+
+
+
+    // use cases are line-aligned: use case 0 is located at line 90 etc.
 		useCases = new UseCase[]{
-
-
-			new UseCase("Null message", null, new Object[]{}, 0, null),
+      new UseCase("Null message", null, new Object[]{}, 0, null),
 			new UseCase("Null message", null, new Object[]{i1, i2, i3, t}, 0, null, t),
 			new UseCase("Null params", "Value is {}.", new Object[]{null}, 1, "Value is null."),
 			new UseCase("Null params", "Val1 is {}, val2 is {}.", new Object[]{null, null}, 2, "Val1 is null, val2 is null."),
@@ -110,10 +118,10 @@ public class ParameterizedMessageTest
 			new UseCase("Special One param", "Value {} is smaller than \\{", new Object[]{i1, i2}, new String[]{"[1, 2]"}, 1, "Value [1, 2] is smaller than \\{", null),
 			new UseCase("Special One param", "Value {} is smaller than {tail", new Object[]{i1, i2}, new String[]{"[1, 2]"}, 1, "Value [1, 2] is smaller than {tail", null),
 			new UseCase("Special One param", "Value \\{} is smaller than {}", new Object[]{i1, i2}, new String[]{"[1, 2]"}, 1, "Value {} is smaller than [1, 2]", null),
-			new UseCase("Null Array", "msg0", null, 0, "msg0"),
-			new UseCase("Null Array", "msg1 {}", null, 1, "msg1 {}"),
-			new UseCase("Null Array", "msg2 {} {}", null, 2, "msg2 {} {}"),
-			new UseCase("Null Array", "msg3 {} {} {}", null, 3, "msg3 {} {} {}"),
+			new UseCase("Null Array", "msg0", null, null, 0, "msg0", null),
+			new UseCase("Null Array", "msg1 {}", null, null, 1, "msg1 {}", null),
+			new UseCase("Null Array", "msg2 {} {}", null, null, 2, "msg2 {} {}", null),
+			new UseCase("Null Array", "msg3 {} {} {}", null, null, 3, "msg3 {} {} {}", null),
 			new UseCase("Array", "Value {} is smaller than {} and {}.", new Object[]{i1, i2, i3}, 3, "Value 1 is smaller than 2 and 3."),
 			new UseCase("Array", "{}{}{}", new Object[]{i1, i2, i3}, 3, "123"),
 			new UseCase("Array", "Value {} is smaller than {}.", new Object[]{i1, i2, i3}, 2, "Value 1 is smaller than 2."),
@@ -143,8 +151,7 @@ public class ParameterizedMessageTest
 			new UseCase("CyclicArrays", "{}{}", cyclicB, new String[]{"1", "[2, [3, [1, " + cyclicBRec + "]]]"}, 2, "1[2, [3, [1, " + cyclicBRec + "]]]", null),
 			new UseCase("CyclicArrays", "{}{}", cyclicC, new String[]{"1", "[2, [3, [1, " + cyclicCRec + ", FooThrowable]]]"}, 2, "1[2, [3, [1, " + cyclicCRec + ", FooThrowable]]]", t),
 			new UseCase("CyclicArrays", "{}{}{}", cyclicC, new String[]{"1", "[2, [3, [1, " + cyclicCRec + ", FooThrowable]]]", "FooThrowable"}, 3, "1[2, [3, [1, " + cyclicCRec + ", FooThrowable]]]FooThrowable", null),
-			new UseCase("Array & Used Throwable", "Value {} is smaller than {} and {}. Also: {}!", new Object[]{i1, i2, i3, t}, 4, "Value 1 is smaller than 2 and 3. Also: " + t
-				.toString() + "!"),
+			new UseCase("Array & Used Throwable", "Value {} is smaller than {} and {}. Also: {}!", new Object[]{i1, i2, i3, t}, 4, "Value 1 is smaller than 2 and 3. Also: " + t.toString() + "!"),
 			new UseCase("Array & Used Throwable", "{}{}{}{}", new Object[]{i1, i2, i3, t}, 4, "123" + t.toString()),
 			new UseCase("Escaping", "Value {} is smaller than \\\\{}", new Object[]{i1, i2, i3, t}, 2, "Value 1 is smaller than \\2", t),
 			new UseCase("Escaping", "Value {} is smaller than \\\\{} tail", new Object[]{i1, i2, i3, t}, 2, "Value 1 is smaller than \\2 tail", t),
@@ -157,28 +164,16 @@ public class ParameterizedMessageTest
 			new UseCase("Escaping", "\\{}", new Object[]{i1, i2, i3, t}, 0, "{}", t),
 			new UseCase("ArrayValues", "{}{}", new Object[]{i1, p1}, 2, i1 + Arrays.toString(p1)),
 			new UseCase("ArrayValues", "{}{}", new Object[]{"a", p1}, 2, "a" + Arrays.toString(p1)),
-			new UseCase("ArrayValues", "{}{}", new Object[]{"a", new byte[]{1, 2}}, 2, "a" + Arrays
-				.toString(new byte[]{1, 2})),
-			new UseCase("ArrayValues", "{}{}", new Object[]{"a", new short[]{1, 2}}, 2, "a" + Arrays
-				.toString(new short[]{1, 2})),
-			new UseCase("ArrayValues", "{}{}", new Object[]{"a", new int[]{1, 2}}, 2, "a" + Arrays
-				.toString(new int[]{1, 2})),
-			new UseCase("ArrayValues", "{}{}", new Object[]{"a", new long[]{1, 2}}, 2, "a" + Arrays
-				.toString(new long[]{1, 2})),
-			new UseCase("ArrayValues", "{}{}", new Object[]{"a", new float[]{1, 2}}, 2, "a" + Arrays
-				.toString(new float[]{1, 2})),
-			new UseCase("ArrayValues", "{}{}", new Object[]{"a", new double[]{1, 2}}, 2, "a" + Arrays
-				.toString(new double[]{1, 2})),
-			new UseCase("ArrayValues", "{}{}", new Object[]{"a", new boolean[]{true, false}}, 2, "a" + Arrays
-				.toString(new boolean[]{true, false})),
-			new UseCase("ArrayValues", "{}{}", new Object[]{"a", new char[]{'b', 'c'}}, 2, "a" + Arrays
-				.toString(new char[]{'b', 'c'})),
-			new UseCase("ArrayValues", "{}{}", multiArray, new String[]{"[" + multiArrayRec + ", " + Arrays
-				.toString(p1) + "]", Arrays.toString(p1)}, 2, "[" + multiArrayRec + ", " + Arrays
-				.toString(p1) + "]" + Arrays.toString(p1), null),
-			new UseCase("SpecialOneArgument", "Special {}", new Object[]{"One", "Two", "Three"}, new String[]{"[One, Two, Three]"}, 1, "Special " + Arrays
-				.toString(new Object[]{"One", "Two", "Three"}), null),
-		};
+			new UseCase("ArrayValues", "{}{}", new Object[]{"a", new byte[]{1, 2}}, 2, "a" + Arrays.toString(new byte[]{1, 2})),
+			new UseCase("ArrayValues", "{}{}", new Object[]{"a", new short[]{1, 2}}, 2, "a" + Arrays.toString(new short[]{1, 2})),
+			new UseCase("ArrayValues", "{}{}", new Object[]{"a", new int[]{1, 2}}, 2, "a" + Arrays.toString(new int[]{1, 2})),
+			new UseCase("ArrayValues", "{}{}", new Object[]{"a", new long[]{1, 2}}, 2, "a" + Arrays.toString(new long[]{1, 2})),
+			new UseCase("ArrayValues", "{}{}", new Object[]{"a", new float[]{1, 2}}, 2, "a" + Arrays.toString(new float[]{1, 2})),
+			new UseCase("ArrayValues", "{}{}", new Object[]{"a", new double[]{1, 2}}, 2, "a" + Arrays.toString(new double[]{1, 2})),
+			new UseCase("ArrayValues", "{}{}", new Object[]{"a", new boolean[]{true, false}}, 2, "a" + Arrays.toString(new boolean[]{true, false})),
+			new UseCase("ArrayValues", "{}{}", new Object[]{"a", new char[]{'b', 'c'}}, 2, "a" + Arrays.toString(new char[]{'b', 'c'})),
+			new UseCase("ArrayValues", "{}{}", multiArray, new String[]{"[" + multiArrayRec + ", " + Arrays.toString(p1) + "]", Arrays.toString(p1)}, 2, "[" + multiArrayRec + ", " + Arrays.toString(p1) + "]" + Arrays.toString(p1), null),
+			new UseCase("SpecialOneArgument", "Special {}", new Object[]{"One", "Two", "Three"}, new String[]{"[One, Two, Three]"}, 1, "Special " + Arrays.toString(new Object[]{"One", "Two", "Three"}), null),};
 	}
 
 	@Test
@@ -222,10 +217,27 @@ public class ParameterizedMessageTest
 		}
 	}
 
+  @Test
+  public void useCasesSerialization()
+      throws IOException, ClassNotFoundException
+  {
+    for(int i = 0; i < useCases.length; i++)
+    {
+      UseCase useCase = useCases[i];
+      ParameterizedMessage message = ParameterizedMessage.create(useCase.getMessagePattern(), useCase.getArguments());
+      //if(logger.isDebugEnabled()) logger.debug("Validating serialization for [{}]: {}...", i, useCase);
+      //System.out.println("Validating serialization for ["+i+"]: "+useCase+"... original: "+message);
+      testSerialization(message);
+      testXmlSerialization(message);
+    }
+  }
+
 	@Test
 	public void evaluateArguments()
 	{
-		validateEvaluateArguments(null, null, null);
+		validateEvaluateArguments(null, null, new ParameterizedMessage(null,
+				null,
+				null));
 
 		validateEvaluateArguments("{}{}{}",
 			new Object[]{"foo", null, 1L},
@@ -267,16 +279,16 @@ public class ParameterizedMessageTest
 		{
 			UseCase useCase = useCases[i];
 			//if(logger.isDebugEnabled()) logger.debug("Validating evaluateArguments for [{}]: {}...", i, useCase);
+      //System.out.println("Validating evaluateArguments for ["+i+"]: "+useCase+"...");
 
 
       String messagePattern = useCase.getMessagePattern();
 			String[] argStrings = useCase.getArgumentStrings();
 			ParameterizedMessage expectedResult = null;
-			if(argStrings != null)
-			{
-				//noinspection ThrowableResultOfMethodCallIgnored
-				expectedResult = new ParameterizedMessage(messagePattern, argStrings, useCase.getThrowable());
-			}
+
+      //noinspection ThrowableResultOfMethodCallIgnored
+      expectedResult = new ParameterizedMessage(messagePattern, argStrings, useCase.getThrowable());
+
 			validateEvaluateArguments(useCase.getMessagePattern(), useCase.getArguments(), expectedResult);
 		}
 	}
