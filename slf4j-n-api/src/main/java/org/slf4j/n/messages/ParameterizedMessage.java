@@ -21,9 +21,14 @@ public class ParameterizedMessage
   private transient String formattedMessage;
   private transient Throwable throwable;
 
+  public ParameterizedMessage()
+  {
+    this(null, null, null);
+  }
+
   public ParameterizedMessage(String messagePattern, String[] parameters, Throwable throwable)
   {
-    this.messagePattern=messagePattern;
+    this.messagePattern = messagePattern;
     this.parameters = parameters;
     this.throwable = throwable;
   }
@@ -42,9 +47,26 @@ public class ParameterizedMessage
     return messagePattern;
   }
 
+  public void setMessagePattern(String messagePattern)
+  {
+    this.messagePattern = messagePattern;
+    this.formattedMessage = null;
+  }
+
   public String[] getParameters()
   {
-    return parameters.clone();
+    return parameters;
+  }
+
+  public void setParameters(String[] parameters)
+  {
+    this.parameters = parameters;
+    this.formattedMessage = null;
+  }
+
+  public void setThrowable(Throwable throwable)
+  {
+    this.throwable = throwable;
   }
 
   /**
@@ -77,7 +99,7 @@ public class ParameterizedMessage
     if (messagePattern != null ? !messagePattern.equals(that.messagePattern) : that.messagePattern != null)
       return false;
     if (!Arrays.equals(parameters, that.parameters)) return false;
-    if (throwable != null ? !throwable.equals(that.throwable) : that.throwable != null) return false;
+    //if (throwable != null ? !throwable.equals(that.throwable) : that.throwable != null) return false;
 
     return true;
   }
@@ -87,7 +109,6 @@ public class ParameterizedMessage
   {
     int result = messagePattern != null ? messagePattern.hashCode() : 0;
     result = 31 * result + (parameters != null ? Arrays.hashCode(parameters) : 0);
-    result = 31 * result + (throwable != null ? throwable.hashCode() : 0);
     return result;
   }
 
@@ -252,7 +273,7 @@ public class ParameterizedMessage
   {
     if(arguments == null)
     {
-      return null;
+      return new ParameterizedMessage(messagePattern, null, null);
     }
     int argsCount = countArgumentPlaceholders(messagePattern);
     int resultArgCount = arguments.length;
