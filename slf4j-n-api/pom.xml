@@ -13,7 +13,7 @@
   <groupId>org.slf4j</groupId>
   <artifactId>slf4j-n-api</artifactId>
   <packaging>jar</packaging>
-  <name>SLF4J API Module</name>
+  <name>SLF4J API Module (new)</name>
 
   <url>http://www.slf4j.org</url>
   <description>The slf4j API</description>
