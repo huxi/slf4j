@@ -13,9 +13,15 @@ import java.io.Serializable;
  * This class implements the org.slf4j.Logger and org.slf4j.spi.LocationAwareLogger interfaces
  * by providing a wrapper over an org.slf4j.n.Logger.
  *
+ * It is used if a binding implements org.slf4j.n natively. An instance of this class is returned by
+ * org.slf4j.n.Logger.getOldLogger(), wrapping org.slf4j.n.Logger.this.
+ *
+ * The ILoggerFactory returned by org.slf4j.impl.StaticLoggerBinder.getLoggerFactory() would simply
+ * return org.slf4j.n.LoggerFactory.getLogger(..).getOldLogger().
+ *
  * @author J&ouml;rn Huxhorn
  */
-@SuppressWarnings({"ALL"})
+@SuppressWarnings({"ThrowableResultOfMethodCallIgnored"})
 public class OldLoggerWrappingNew
     implements org.slf4j.spi.LocationAwareLogger, Serializable
 {

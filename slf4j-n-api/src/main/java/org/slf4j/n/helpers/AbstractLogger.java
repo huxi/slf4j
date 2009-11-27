@@ -13,6 +13,11 @@ import java.io.ObjectStreamException;
 
 /**
  * This would be the base-class for JDK1.5-based bindings, i.e. Logback.
+ *
+ * Extending classes should additionally implement org.slf4j.n.spi.LocationAwareLogger
+ * if appropriate.
+ *
+ * @author J&ouml;rn Huxhorn
  */
 @SuppressWarnings({"ThrowableResultOfMethodCallIgnored"})
 public abstract class AbstractLogger

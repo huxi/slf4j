@@ -15,6 +15,10 @@ import java.io.ObjectStreamException;
  * This class implements the org.slf4j.n.Logger and org.slf4j.n.spi.LocationAwareLogger interfaces
  * by providing a wrapper over an org.slf4j.Logger.
  *
+ * It is used if a binding does not implements org.slf4j.n natively, i.e. there is not implementation of
+ * an org.slf4j.n.impl.StaticLoggerBinder. In that case, a fallback ILoggerFactory implementation is used
+ * that returns an instance of this class containing the logger returned by org.slf4j.LoggerFactory.getLogger(..).
+ *
  * @author J&ouml;rn Huxhorn
  */
 @SuppressWarnings({"ThrowableResultOfMethodCallIgnored"})
