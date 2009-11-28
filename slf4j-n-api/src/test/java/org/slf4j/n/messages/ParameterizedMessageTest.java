@@ -19,7 +19,7 @@ import static de.huxhorn.sulky.junit.JUnitTools.testXmlSerialization;
 
 public class ParameterizedMessageTest
 {
-	//private final Logger logger = LoggerFactory.getLogger(MessageFormatterTest.class);
+	//private final Logger logger = LoggerFactory.getLogger(ParameterizedMessageTest.class);
 
 	private UseCase[] useCases;
 
