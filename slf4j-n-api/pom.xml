@@ -35,6 +35,14 @@
           <artifactId>de.huxhorn.sulky.junit</artifactId>
           <version>0.9.8</version>
           <scope>test</scope>
+          <!--
+          <exclusions>
+              <exclusion>
+                  <groupId>ch.qos.logback</groupId>
+                  <artifactId>logback-classic</artifactId>
+              </exclusion>
+          </exclusions>
+          -->
        </dependency>
  </dependencies>
 
