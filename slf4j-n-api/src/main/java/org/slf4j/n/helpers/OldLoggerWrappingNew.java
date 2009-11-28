@@ -56,17 +56,17 @@ public class OldLoggerWrappingNew
   // ##### TRACE #####
   public boolean isTraceEnabled()
   {
-    return logger.isLoggingEnabled(Level.TRACE, null);
+    return logger.isEnabled(Level.TRACE, null);
   }
 
   public boolean isTraceEnabled(Marker marker)
   {
-    return logger.isLoggingEnabled(Level.TRACE, marker);
+    return logger.isEnabled(Level.TRACE, marker);
   }
 
   public void trace(String msg)
   {
-    if (!logger.isLoggingEnabled(Level.TRACE)) return;
+    if (!logger.isEnabled(Level.TRACE)) return;
 
     if (locationAwareLogger == null)
     {
@@ -80,7 +80,7 @@ public class OldLoggerWrappingNew
 
   public void trace(String format, Object arg)
   {
-    if (!logger.isLoggingEnabled(Level.TRACE)) return;
+    if (!logger.isEnabled(Level.TRACE)) return;
 
     ParameterizedMessage message = ParameterizedMessage.create(format, arg);
     if (locationAwareLogger == null)
@@ -95,7 +95,7 @@ public class OldLoggerWrappingNew
 
   public void trace(String format, Object arg1, Object arg2)
   {
-    if (!logger.isLoggingEnabled(Level.TRACE)) return;
+    if (!logger.isEnabled(Level.TRACE)) return;
 
     ParameterizedMessage message = ParameterizedMessage.create(format, arg1, arg2);
     if (locationAwareLogger == null)
@@ -110,7 +110,7 @@ public class OldLoggerWrappingNew
 
   public void trace(String format, Object[] argArray)
   {
-    if (!logger.isLoggingEnabled(Level.TRACE)) return;
+    if (!logger.isEnabled(Level.TRACE)) return;
 
     ParameterizedMessage message = ParameterizedMessage.create(format, argArray);
     if (locationAwareLogger == null)
@@ -125,7 +125,7 @@ public class OldLoggerWrappingNew
 
   public void trace(String msg, Throwable t)
   {
-    if (!logger.isLoggingEnabled(Level.TRACE)) return;
+    if (!logger.isEnabled(Level.TRACE)) return;
 
     if (locationAwareLogger == null)
     {
@@ -139,7 +139,7 @@ public class OldLoggerWrappingNew
 
   public void trace(Marker marker, String msg)
   {
-    if (!logger.isLoggingEnabled(Level.TRACE, marker)) return;
+    if (!logger.isEnabled(Level.TRACE, marker)) return;
 
     if (locationAwareLogger == null)
     {
@@ -153,7 +153,7 @@ public class OldLoggerWrappingNew
 
   public void trace(Marker marker, String format, Object arg)
   {
-    if (!logger.isLoggingEnabled(Level.TRACE, marker)) return;
+    if (!logger.isEnabled(Level.TRACE, marker)) return;
 
     ParameterizedMessage message = ParameterizedMessage.create(format, arg);
     if (locationAwareLogger == null)
@@ -168,7 +168,7 @@ public class OldLoggerWrappingNew
 
   public void trace(Marker marker, String format, Object arg1, Object arg2)
   {
-    if (!logger.isLoggingEnabled(Level.TRACE, marker)) return;
+    if (!logger.isEnabled(Level.TRACE, marker)) return;
 
     ParameterizedMessage message = ParameterizedMessage.create(format, arg1, arg2);
     if (locationAwareLogger == null)
@@ -183,7 +183,7 @@ public class OldLoggerWrappingNew
 
   public void trace(Marker marker, String format, Object[] argArray)
   {
-    if (!logger.isLoggingEnabled(Level.TRACE, marker)) return;
+    if (!logger.isEnabled(Level.TRACE, marker)) return;
 
     ParameterizedMessage message = ParameterizedMessage.create(format, argArray);
     if (locationAwareLogger == null)
@@ -198,7 +198,7 @@ public class OldLoggerWrappingNew
 
   public void trace(Marker marker, String msg, Throwable t)
   {
-    if (!logger.isLoggingEnabled(Level.TRACE, marker)) return;
+    if (!logger.isEnabled(Level.TRACE, marker)) return;
 
     if (locationAwareLogger == null)
     {
@@ -213,17 +213,17 @@ public class OldLoggerWrappingNew
   // ##### DEBUG #####
   public boolean isDebugEnabled()
   {
-    return logger.isLoggingEnabled(Level.DEBUG, null);
+    return logger.isEnabled(Level.DEBUG, null);
   }
 
   public boolean isDebugEnabled(Marker marker)
   {
-    return logger.isLoggingEnabled(Level.DEBUG, marker);
+    return logger.isEnabled(Level.DEBUG, marker);
   }
 
   public void debug(String msg)
   {
-    if (!logger.isLoggingEnabled(Level.DEBUG)) return;
+    if (!logger.isEnabled(Level.DEBUG)) return;
 
     if (locationAwareLogger == null)
     {
@@ -237,7 +237,7 @@ public class OldLoggerWrappingNew
 
   public void debug(String format, Object arg)
   {
-    if (!logger.isLoggingEnabled(Level.DEBUG)) return;
+    if (!logger.isEnabled(Level.DEBUG)) return;
 
     ParameterizedMessage message = ParameterizedMessage.create(format, arg);
     if (locationAwareLogger == null)
@@ -252,7 +252,7 @@ public class OldLoggerWrappingNew
 
   public void debug(String format, Object arg1, Object arg2)
   {
-    if (!logger.isLoggingEnabled(Level.DEBUG)) return;
+    if (!logger.isEnabled(Level.DEBUG)) return;
 
     ParameterizedMessage message = ParameterizedMessage.create(format, arg1, arg2);
     if (locationAwareLogger == null)
@@ -267,7 +267,7 @@ public class OldLoggerWrappingNew
 
   public void debug(String format, Object[] argArray)
   {
-    if (!logger.isLoggingEnabled(Level.DEBUG)) return;
+    if (!logger.isEnabled(Level.DEBUG)) return;
 
     ParameterizedMessage message = ParameterizedMessage.create(format, argArray);
     if (locationAwareLogger == null)
@@ -282,7 +282,7 @@ public class OldLoggerWrappingNew
 
   public void debug(String msg, Throwable t)
   {
-    if (!logger.isLoggingEnabled(Level.DEBUG)) return;
+    if (!logger.isEnabled(Level.DEBUG)) return;
 
     if (locationAwareLogger == null)
     {
@@ -296,7 +296,7 @@ public class OldLoggerWrappingNew
 
   public void debug(Marker marker, String msg)
   {
-    if (!logger.isLoggingEnabled(Level.DEBUG, marker)) return;
+    if (!logger.isEnabled(Level.DEBUG, marker)) return;
 
     if (locationAwareLogger == null)
     {
@@ -310,7 +310,7 @@ public class OldLoggerWrappingNew
 
   public void debug(Marker marker, String format, Object arg)
   {
-    if (!logger.isLoggingEnabled(Level.DEBUG, marker)) return;
+    if (!logger.isEnabled(Level.DEBUG, marker)) return;
 
     ParameterizedMessage message = ParameterizedMessage.create(format, arg);
     if (locationAwareLogger == null)
@@ -325,7 +325,7 @@ public class OldLoggerWrappingNew
 
   public void debug(Marker marker, String format, Object arg1, Object arg2)
   {
-    if (!logger.isLoggingEnabled(Level.DEBUG, marker)) return;
+    if (!logger.isEnabled(Level.DEBUG, marker)) return;
 
     ParameterizedMessage message = ParameterizedMessage.create(format, arg1, arg2);
     if (locationAwareLogger == null)
@@ -340,7 +340,7 @@ public class OldLoggerWrappingNew
 
   public void debug(Marker marker, String format, Object[] argArray)
   {
-    if (!logger.isLoggingEnabled(Level.DEBUG, marker)) return;
+    if (!logger.isEnabled(Level.DEBUG, marker)) return;
 
     ParameterizedMessage message = ParameterizedMessage.create(format, argArray);
     if (locationAwareLogger == null)
@@ -355,7 +355,7 @@ public class OldLoggerWrappingNew
 
   public void debug(Marker marker, String msg, Throwable t)
   {
-    if (!logger.isLoggingEnabled(Level.DEBUG, marker)) return;
+    if (!logger.isEnabled(Level.DEBUG, marker)) return;
 
     if (locationAwareLogger == null)
     {
@@ -371,17 +371,17 @@ public class OldLoggerWrappingNew
   // ##### INFO #####
   public boolean isInfoEnabled()
   {
-    return logger.isLoggingEnabled(Level.INFO, null);
+    return logger.isEnabled(Level.INFO, null);
   }
 
   public boolean isInfoEnabled(Marker marker)
   {
-    return logger.isLoggingEnabled(Level.INFO, marker);
+    return logger.isEnabled(Level.INFO, marker);
   }
 
   public void info(String msg)
   {
-    if (!logger.isLoggingEnabled(Level.INFO)) return;
+    if (!logger.isEnabled(Level.INFO)) return;
 
     if (locationAwareLogger == null)
     {
@@ -395,7 +395,7 @@ public class OldLoggerWrappingNew
 
   public void info(String format, Object arg)
   {
-    if (!logger.isLoggingEnabled(Level.INFO)) return;
+    if (!logger.isEnabled(Level.INFO)) return;
 
     ParameterizedMessage message = ParameterizedMessage.create(format, arg);
     if (locationAwareLogger == null)
@@ -410,7 +410,7 @@ public class OldLoggerWrappingNew
 
   public void info(String format, Object arg1, Object arg2)
   {
-    if (!logger.isLoggingEnabled(Level.INFO)) return;
+    if (!logger.isEnabled(Level.INFO)) return;
 
     ParameterizedMessage message = ParameterizedMessage.create(format, arg1, arg2);
     if (locationAwareLogger == null)
@@ -425,7 +425,7 @@ public class OldLoggerWrappingNew
 
   public void info(String format, Object[] argArray)
   {
-    if (!logger.isLoggingEnabled(Level.INFO)) return;
+    if (!logger.isEnabled(Level.INFO)) return;
 
     ParameterizedMessage message = ParameterizedMessage.create(format, argArray);
     if (locationAwareLogger == null)
@@ -440,7 +440,7 @@ public class OldLoggerWrappingNew
 
   public void info(String msg, Throwable t)
   {
-    if (!logger.isLoggingEnabled(Level.INFO)) return;
+    if (!logger.isEnabled(Level.INFO)) return;
 
     if (locationAwareLogger == null)
     {
@@ -454,7 +454,7 @@ public class OldLoggerWrappingNew
 
   public void info(Marker marker, String msg)
   {
-    if (!logger.isLoggingEnabled(Level.INFO, marker)) return;
+    if (!logger.isEnabled(Level.INFO, marker)) return;
 
     if (locationAwareLogger == null)
     {
@@ -468,7 +468,7 @@ public class OldLoggerWrappingNew
 
   public void info(Marker marker, String format, Object arg)
   {
-    if (!logger.isLoggingEnabled(Level.INFO, marker)) return;
+    if (!logger.isEnabled(Level.INFO, marker)) return;
 
     ParameterizedMessage message = ParameterizedMessage.create(format, arg);
     if (locationAwareLogger == null)
@@ -483,7 +483,7 @@ public class OldLoggerWrappingNew
 
   public void info(Marker marker, String format, Object arg1, Object arg2)
   {
-    if (!logger.isLoggingEnabled(Level.INFO, marker)) return;
+    if (!logger.isEnabled(Level.INFO, marker)) return;
 
     ParameterizedMessage message = ParameterizedMessage.create(format, arg1, arg2);
     if (locationAwareLogger == null)
@@ -498,7 +498,7 @@ public class OldLoggerWrappingNew
 
   public void info(Marker marker, String format, Object[] argArray)
   {
-    if (!logger.isLoggingEnabled(Level.INFO, marker)) return;
+    if (!logger.isEnabled(Level.INFO, marker)) return;
 
     ParameterizedMessage message = ParameterizedMessage.create(format, argArray);
     if (locationAwareLogger == null)
@@ -513,7 +513,7 @@ public class OldLoggerWrappingNew
 
   public void info(Marker marker, String msg, Throwable t)
   {
-    if (!logger.isLoggingEnabled(Level.INFO, marker)) return;
+    if (!logger.isEnabled(Level.INFO, marker)) return;
 
     if (locationAwareLogger == null)
     {
@@ -528,17 +528,17 @@ public class OldLoggerWrappingNew
   // ##### WARN #####
   public boolean isWarnEnabled()
   {
-    return logger.isLoggingEnabled(Level.WARN, null);
+    return logger.isEnabled(Level.WARN, null);
   }
 
   public boolean isWarnEnabled(Marker marker)
   {
-    return logger.isLoggingEnabled(Level.WARN, marker);
+    return logger.isEnabled(Level.WARN, marker);
   }
 
   public void warn(String msg)
   {
-    if (!logger.isLoggingEnabled(Level.WARN)) return;
+    if (!logger.isEnabled(Level.WARN)) return;
 
     if (locationAwareLogger == null)
     {
@@ -552,7 +552,7 @@ public class OldLoggerWrappingNew
 
   public void warn(String format, Object arg)
   {
-    if (!logger.isLoggingEnabled(Level.WARN)) return;
+    if (!logger.isEnabled(Level.WARN)) return;
 
     ParameterizedMessage message = ParameterizedMessage.create(format, arg);
     if (locationAwareLogger == null)
@@ -567,7 +567,7 @@ public class OldLoggerWrappingNew
 
   public void warn(String format, Object arg1, Object arg2)
   {
-    if (!logger.isLoggingEnabled(Level.WARN)) return;
+    if (!logger.isEnabled(Level.WARN)) return;
 
     ParameterizedMessage message = ParameterizedMessage.create(format, arg1, arg2);
     if (locationAwareLogger == null)
@@ -582,7 +582,7 @@ public class OldLoggerWrappingNew
 
   public void warn(String format, Object[] argArray)
   {
-    if (!logger.isLoggingEnabled(Level.WARN)) return;
+    if (!logger.isEnabled(Level.WARN)) return;
 
     ParameterizedMessage message = ParameterizedMessage.create(format, argArray);
     if (locationAwareLogger == null)
@@ -597,7 +597,7 @@ public class OldLoggerWrappingNew
 
   public void warn(String msg, Throwable t)
   {
-    if (!logger.isLoggingEnabled(Level.WARN)) return;
+    if (!logger.isEnabled(Level.WARN)) return;
 
     if (locationAwareLogger == null)
     {
@@ -611,7 +611,7 @@ public class OldLoggerWrappingNew
 
   public void warn(Marker marker, String msg)
   {
-    if (!logger.isLoggingEnabled(Level.WARN, marker)) return;
+    if (!logger.isEnabled(Level.WARN, marker)) return;
 
     if (locationAwareLogger == null)
     {
@@ -625,7 +625,7 @@ public class OldLoggerWrappingNew
 
   public void warn(Marker marker, String format, Object arg)
   {
-    if (!logger.isLoggingEnabled(Level.WARN, marker)) return;
+    if (!logger.isEnabled(Level.WARN, marker)) return;
 
     ParameterizedMessage message = ParameterizedMessage.create(format, arg);
     if (locationAwareLogger == null)
@@ -640,7 +640,7 @@ public class OldLoggerWrappingNew
 
   public void warn(Marker marker, String format, Object arg1, Object arg2)
   {
-    if (!logger.isLoggingEnabled(Level.WARN, marker)) return;
+    if (!logger.isEnabled(Level.WARN, marker)) return;
 
     ParameterizedMessage message = ParameterizedMessage.create(format, arg1, arg2);
     if (locationAwareLogger == null)
@@ -655,7 +655,7 @@ public class OldLoggerWrappingNew
 
   public void warn(Marker marker, String format, Object[] argArray)
   {
-    if (!logger.isLoggingEnabled(Level.WARN, marker)) return;
+    if (!logger.isEnabled(Level.WARN, marker)) return;
 
     ParameterizedMessage message = ParameterizedMessage.create(format, argArray);
     if (locationAwareLogger == null)
@@ -670,7 +670,7 @@ public class OldLoggerWrappingNew
 
   public void warn(Marker marker, String msg, Throwable t)
   {
-    if (!logger.isLoggingEnabled(Level.WARN, marker)) return;
+    if (!logger.isEnabled(Level.WARN, marker)) return;
 
     if (locationAwareLogger == null)
     {
@@ -685,17 +685,17 @@ public class OldLoggerWrappingNew
   // ##### ERROR #####
   public boolean isErrorEnabled()
   {
-    return logger.isLoggingEnabled(Level.ERROR, null);
+    return logger.isEnabled(Level.ERROR, null);
   }
 
   public boolean isErrorEnabled(Marker marker)
   {
-    return logger.isLoggingEnabled(Level.ERROR, marker);
+    return logger.isEnabled(Level.ERROR, marker);
   }
 
   public void error(String msg)
   {
-    if (!logger.isLoggingEnabled(Level.ERROR)) return;
+    if (!logger.isEnabled(Level.ERROR)) return;
 
     if (locationAwareLogger == null)
     {
@@ -709,7 +709,7 @@ public class OldLoggerWrappingNew
 
   public void error(String format, Object arg)
   {
-    if (!logger.isLoggingEnabled(Level.ERROR)) return;
+    if (!logger.isEnabled(Level.ERROR)) return;
 
     ParameterizedMessage message = ParameterizedMessage.create(format, arg);
     if (locationAwareLogger == null)
@@ -724,7 +724,7 @@ public class OldLoggerWrappingNew
 
   public void error(String format, Object arg1, Object arg2)
   {
-    if (!logger.isLoggingEnabled(Level.ERROR)) return;
+    if (!logger.isEnabled(Level.ERROR)) return;
 
     ParameterizedMessage message = ParameterizedMessage.create(format, arg1, arg2);
     if (locationAwareLogger == null)
@@ -739,7 +739,7 @@ public class OldLoggerWrappingNew
 
   public void error(String format, Object[] argArray)
   {
-    if (!logger.isLoggingEnabled(Level.ERROR)) return;
+    if (!logger.isEnabled(Level.ERROR)) return;
 
     ParameterizedMessage message = ParameterizedMessage.create(format, argArray);
     if (locationAwareLogger == null)
@@ -754,7 +754,7 @@ public class OldLoggerWrappingNew
 
   public void error(String msg, Throwable t)
   {
-    if (!logger.isLoggingEnabled(Level.ERROR)) return;
+    if (!logger.isEnabled(Level.ERROR)) return;
 
     if (locationAwareLogger == null)
     {
@@ -768,7 +768,7 @@ public class OldLoggerWrappingNew
 
   public void error(Marker marker, String msg)
   {
-    if (!logger.isLoggingEnabled(Level.ERROR, marker)) return;
+    if (!logger.isEnabled(Level.ERROR, marker)) return;
 
     if (locationAwareLogger == null)
     {
@@ -782,7 +782,7 @@ public class OldLoggerWrappingNew
 
   public void error(Marker marker, String format, Object arg)
   {
-    if (!logger.isLoggingEnabled(Level.ERROR, marker)) return;
+    if (!logger.isEnabled(Level.ERROR, marker)) return;
 
     ParameterizedMessage message = ParameterizedMessage.create(format, arg);
     if (locationAwareLogger == null)
@@ -797,7 +797,7 @@ public class OldLoggerWrappingNew
 
   public void error(Marker marker, String format, Object arg1, Object arg2)
   {
-    if (!logger.isLoggingEnabled(Level.ERROR, marker)) return;
+    if (!logger.isEnabled(Level.ERROR, marker)) return;
 
     ParameterizedMessage message = ParameterizedMessage.create(format, arg1, arg2);
     if (locationAwareLogger == null)
@@ -812,7 +812,7 @@ public class OldLoggerWrappingNew
 
   public void error(Marker marker, String format, Object[] argArray)
   {
-    if (!logger.isLoggingEnabled(Level.ERROR, marker)) return;
+    if (!logger.isEnabled(Level.ERROR, marker)) return;
 
     ParameterizedMessage message = ParameterizedMessage.create(format, argArray);
     if (locationAwareLogger == null)
@@ -827,7 +827,7 @@ public class OldLoggerWrappingNew
 
   public void error(Marker marker, String msg, Throwable t)
   {
-    if (!logger.isLoggingEnabled(Level.ERROR, marker)) return;
+    if (!logger.isEnabled(Level.ERROR, marker)) return;
 
     if (locationAwareLogger == null)
     {

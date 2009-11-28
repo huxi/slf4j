@@ -1,11 +1,13 @@
 package org.slf4j.n;
 
 import org.slf4j.Marker;
+import org.slf4j.core.Message;
+import org.slf4j.core.BasicLogger;
 
 import java.io.Serializable;
 
 public interface Logger
-  extends Serializable
+  extends BasicLogger<Level>, Serializable
 {
   String ROOT_LOGGER_NAME = org.slf4j.Logger.ROOT_LOGGER_NAME;
 
@@ -21,16 +23,10 @@ public interface Logger
   // generic logging methods
   /**
    * @param level the Level
-   * @return true, if logging at the given level is enabled.
-   */
-  boolean isLoggingEnabled(Level level);
-
-  /**
-   * @param level the Level
    * @param marker the Marker, may be null.
    * @return true, if logging at the given Level is enabled for the given Marker.
    */
-  boolean isLoggingEnabled(Level level, Marker marker);
+  boolean isEnabled(Level level, Marker marker);
 
   void log(Level level, String messagePattern, Object... args);
 
@@ -47,10 +43,10 @@ public interface Logger
   // ##### TRACE #####
 
   /**
-   * Shortcut for isLoggingEnabled(Level.TRACE).
+   * Shortcut for isEnabled(Level.TRACE).
    *
    * @return true, if logging at Level.TRACE is enabled.
-   * @see #isLoggingEnabled(Level)
+   * @see BasicLogger#isEnabled(Enum)
    */
   boolean isTraceEnabled();
 
@@ -59,7 +55,7 @@ public interface Logger
    *
    * @param marker the marker
    * @return true, if logging at Level.TRACE is enabled for the given Marker.
-   * @see #isLoggingEnabled(Level, org.slf4j.Marker)
+   * @see #isEnabled(Level, org.slf4j.Marker)
    */
   boolean isTraceEnabled(Marker marker);
 
@@ -121,10 +117,10 @@ public interface Logger
   // ##### DEBUG #####
 
   /**
-   * Shortcut for isLoggingEnabled(Level.DEBUG).
+   * Shortcut for isEnabled(Level.DEBUG).
    *
    * @return true, if logging at Level.DEBUG is enabled.
-   * @see #isLoggingEnabled(Level)
+   * @see BasicLogger#isEnabled(Enum)
    */
   boolean isDebugEnabled();
 
@@ -133,7 +129,7 @@ public interface Logger
    *
    * @param marker the marker
    * @return true, if logging at Level.DEBUG is enabled for the given Marker.
-   * @see #isLoggingEnabled(Level, org.slf4j.Marker)
+   * @see #isEnabled(Level, org.slf4j.Marker)
    */
   boolean isDebugEnabled(Marker marker);
 
@@ -195,10 +191,10 @@ public interface Logger
   // ##### INFO #####
 
   /**
-   * Shortcut for isLoggingEnabled(Level.INFO).
+   * Shortcut for isEnabled(Level.INFO).
    *
    * @return true, if logging at Level.INFO is enabled.
-   * @see #isLoggingEnabled(Level)
+   * @see BasicLogger#isEnabled(Enum)
    */
   boolean isInfoEnabled();
 
@@ -207,7 +203,7 @@ public interface Logger
    *
    * @param marker the marker
    * @return true, if logging at Level.DEBUG is enabled for the given Marker.
-   * @see #isLoggingEnabled(Level, org.slf4j.Marker)
+   * @see #isEnabled(Level, org.slf4j.Marker)
    */
   boolean isInfoEnabled(Marker marker);
 
@@ -269,10 +265,10 @@ public interface Logger
   // ##### WARN #####
 
   /**
-   * Shortcut for isLoggingEnabled(Level.WARN).
+   * Shortcut for isEnabled(Level.WARN).
    *
-   * @return true, if logging at Level.INFO is enabled.
-   * @see #isLoggingEnabled(Level)
+   * @return true, if logging at Level.WARN is enabled.
+   * @see BasicLogger#isEnabled(Enum)
    */
   boolean isWarnEnabled();
 
@@ -281,7 +277,7 @@ public interface Logger
    *
    * @param marker the marker
    * @return true, if logging at Level.DEBUG is enabled for the given Marker.
-   * @see #isLoggingEnabled(Level, org.slf4j.Marker)
+   * @see #isEnabled(Level, org.slf4j.Marker)
    */
   boolean isWarnEnabled(Marker marker);
 
@@ -343,10 +339,10 @@ public interface Logger
   // ##### ERROR #####
 
   /**
-   * Shortcut for isLoggingEnabled(Level.ERROR).
+   * Shortcut for isEnabled(Level.ERROR).
    *
-   * @return true, if logging at Level.INFO is enabled.
-   * @see #isLoggingEnabled(Level)
+   * @return true, if logging at Level.ERROR is enabled.
+   * @see BasicLogger#isEnabled(Enum)
    */
   boolean isErrorEnabled();
 
@@ -355,7 +351,7 @@ public interface Logger
    *
    * @param marker the marker
    * @return true, if logging at Level.DEBUG is enabled for the given Marker.
-   * @see #isLoggingEnabled(Level, org.slf4j.Marker)
+   * @see #isEnabled(Level, org.slf4j.Marker)
    */
   boolean isErrorEnabled(Marker marker);
 
@@ -382,7 +378,7 @@ public interface Logger
    * Shortcut for log(Level.ERROR, message);
    *
    * @param message the message object
-   * @see #log(Level, Message)
+   * @see #log(Level, org.slf4j.core.Message)
    */
   void error(Message message);
 

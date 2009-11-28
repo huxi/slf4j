@@ -2,7 +2,7 @@ package org.slf4j.n.helpers;
 
 import org.slf4j.n.Threshold;
 import org.slf4j.n.Level;
-import org.slf4j.n.Message;
+import org.slf4j.core.Message;
 import org.slf4j.n.LoggerFactory;
 import org.slf4j.n.messages.ParameterizedMessage;
 import org.slf4j.Marker;
@@ -59,7 +59,7 @@ public abstract class AbstractLogger
 
 // ##### generic #####
 
-  public boolean isLoggingEnabled(Level level)
+  public boolean isEnabled(Level level)
   {
     return getThreshold().passes(level);
   }
@@ -69,26 +69,26 @@ public abstract class AbstractLogger
    * @param marker the Marker, may be null.
    * @return true, if logging at the given Level is enabled for the given Marker.
    */
-  public abstract boolean isLoggingEnabled(Level level, Marker marker);
+  public abstract boolean isEnabled(Level level, Marker marker);
 
 
   public void log(Level level, String messagePattern, Object... args)
   {
-    if(!isLoggingEnabled(level)) return;
+    if(!isEnabled(level)) return;
     ParameterizedMessage message = ParameterizedMessage.create(messagePattern, args);
     log(level, null, message, message.getThrowable());
   }
 
   public void log(Level level, Marker marker, String messagePattern, Object... args)
   {
-    if(!isLoggingEnabled(level, marker)) return;
+    if(!isEnabled(level, marker)) return;
     ParameterizedMessage message = ParameterizedMessage.create(messagePattern, args);
     log(level, marker, message, message.getThrowable());
   }
 
   public void log(Level level, Message message)
   {
-    if(!isLoggingEnabled(level)) return;
+    if(!isEnabled(level)) return;
     if(message instanceof ParameterizedMessage)
     {
       log(level, null, message, ((ParameterizedMessage)message).getThrowable());
@@ -101,13 +101,13 @@ public abstract class AbstractLogger
 
   public void log(Level level, Message message, Throwable throwable)
   {
-    if(!isLoggingEnabled(level)) return;
+    if(!isEnabled(level)) return;
     log(level, null, message, throwable);
   }
 
   public void log(Level level, Marker marker, Message message)
   {
-    if(!isLoggingEnabled(level)) return;
+    if(!isEnabled(level)) return;
     if(message instanceof ParameterizedMessage)
     {
       log(level, marker, message, ((ParameterizedMessage)message).getThrowable());
@@ -141,24 +141,24 @@ public abstract class AbstractLogger
   // ##### TRACE #####
   public boolean isTraceEnabled()
   {
-    return isLoggingEnabled(Level.TRACE, null);
+    return isEnabled(Level.TRACE, null);
   }
 
   public boolean isTraceEnabled(Marker marker)
   {
-    return isLoggingEnabled(Level.TRACE, marker);
+    return isEnabled(Level.TRACE, marker);
   }
 
   public void trace(String format, Object[] argArray)
   {
-    if(!isLoggingEnabled(Level.TRACE)) return;
+    if(!isEnabled(Level.TRACE)) return;
 
     log(Level.TRACE, null, ParameterizedMessage.create(format, argArray));
   }
 
   public void trace(Marker marker, String format, Object[] argArray)
   {
-    if(!isLoggingEnabled(Level.TRACE, marker)) return;
+    if(!isEnabled(Level.TRACE, marker)) return;
 
     log(Level.TRACE, marker, ParameterizedMessage.create(format, argArray));
   }
@@ -186,24 +186,24 @@ public abstract class AbstractLogger
   // ##### DEBUG #####
   public boolean isDebugEnabled()
   {
-    return isLoggingEnabled(Level.DEBUG, null);
+    return isEnabled(Level.DEBUG, null);
   }
 
   public boolean isDebugEnabled(Marker marker)
   {
-    return isLoggingEnabled(Level.DEBUG, marker);
+    return isEnabled(Level.DEBUG, marker);
   }
 
   public void debug(String format, Object[] argArray)
   {
-    if(!isLoggingEnabled(Level.DEBUG)) return;
+    if(!isEnabled(Level.DEBUG)) return;
 
     log(Level.DEBUG, null, ParameterizedMessage.create(format, argArray));
   }
 
   public void debug(Marker marker, String format, Object[] argArray)
   {
-    if(!isLoggingEnabled(Level.DEBUG, marker)) return;
+    if(!isEnabled(Level.DEBUG, marker)) return;
 
     log(Level.DEBUG, marker, ParameterizedMessage.create(format, argArray));
   }
@@ -231,24 +231,24 @@ public abstract class AbstractLogger
   // ##### INFO #####
   public boolean isInfoEnabled()
   {
-    return isLoggingEnabled(Level.INFO, null);
+    return isEnabled(Level.INFO, null);
   }
 
   public boolean isInfoEnabled(Marker marker)
   {
-    return isLoggingEnabled(Level.INFO, marker);
+    return isEnabled(Level.INFO, marker);
   }
 
   public void info(String format, Object[] argArray)
   {
-    if(!isLoggingEnabled(Level.INFO)) return;
+    if(!isEnabled(Level.INFO)) return;
 
     log(Level.INFO, null, ParameterizedMessage.create(format, argArray));
   }
 
   public void info(Marker marker, String format, Object[] argArray)
   {
-    if(!isLoggingEnabled(Level.INFO, marker)) return;
+    if(!isEnabled(Level.INFO, marker)) return;
 
     log(Level.INFO, marker, ParameterizedMessage.create(format, argArray));
   }
@@ -276,24 +276,24 @@ public abstract class AbstractLogger
   // ##### WARN #####
   public boolean isWarnEnabled()
   {
-    return isLoggingEnabled(Level.WARN, null);
+    return isEnabled(Level.WARN, null);
   }
 
   public boolean isWarnEnabled(Marker marker)
   {
-    return isLoggingEnabled(Level.WARN, marker);
+    return isEnabled(Level.WARN, marker);
   }
 
   public void warn(String format, Object[] argArray)
   {
-    if(!isLoggingEnabled(Level.WARN)) return;
+    if(!isEnabled(Level.WARN)) return;
 
     log(Level.WARN, null, ParameterizedMessage.create(format, argArray));
   }
 
   public void warn(Marker marker, String format, Object[] argArray)
   {
-    if(!isLoggingEnabled(Level.WARN, marker)) return;
+    if(!isEnabled(Level.WARN, marker)) return;
 
     log(Level.WARN, marker, ParameterizedMessage.create(format, argArray));
   }
@@ -321,24 +321,24 @@ public abstract class AbstractLogger
   // ##### ERROR #####
   public boolean isErrorEnabled()
   {
-    return isLoggingEnabled(Level.ERROR, null);
+    return isEnabled(Level.ERROR, null);
   }
 
   public boolean isErrorEnabled(Marker marker)
   {
-    return isLoggingEnabled(Level.ERROR, marker);
+    return isEnabled(Level.ERROR, marker);
   }
 
   public void error(String format, Object[] argArray)
   {
-    if(!isLoggingEnabled(Level.ERROR)) return;
+    if(!isEnabled(Level.ERROR)) return;
 
     log(Level.ERROR, null, ParameterizedMessage.create(format, argArray));
   }
 
   public void error(Marker marker, String format, Object[] argArray)
   {
-    if(!isLoggingEnabled(Level.ERROR, marker)) return;
+    if(!isEnabled(Level.ERROR, marker)) return;
 
     log(Level.ERROR, marker, ParameterizedMessage.create(format, argArray));
   }

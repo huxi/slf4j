@@ -2,7 +2,7 @@ package org.slf4j.n.spi;
 
 import org.slf4j.n.Logger;
 import org.slf4j.n.Level;
-import org.slf4j.n.Message;
+import org.slf4j.core.Message;
 import org.slf4j.Marker;
 
 /**

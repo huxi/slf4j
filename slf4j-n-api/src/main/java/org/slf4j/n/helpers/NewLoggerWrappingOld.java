@@ -2,9 +2,9 @@ package org.slf4j.n.helpers;
 
 import org.slf4j.Marker;
 import org.slf4j.Logger;
+import org.slf4j.core.Message;
 import org.slf4j.n.Threshold;
 import org.slf4j.n.Level;
-import org.slf4j.n.Message;
 import org.slf4j.n.LoggerFactory;
 import org.slf4j.n.messages.ParameterizedMessage;
 import org.slf4j.n.spi.LocationAwareLogger;
@@ -82,7 +82,7 @@ public class NewLoggerWrappingOld
   }
 
   // generic logging methods
-  public boolean isLoggingEnabled(Level level)
+  public boolean isEnabled(Level level)
   {
     switch(level)
     {
@@ -101,7 +101,7 @@ public class NewLoggerWrappingOld
     return false;
   }
 
-  public boolean isLoggingEnabled(Level level, Marker marker)
+  public boolean isEnabled(Level level, Marker marker)
   {
     switch(level)
     {
@@ -122,7 +122,7 @@ public class NewLoggerWrappingOld
 
   public void log(Level level, String messagePattern, Object... args)
   {
-    if(!isLoggingEnabled(level))
+    if(!isEnabled(level))
     {
       return;
     }
@@ -174,7 +174,7 @@ public class NewLoggerWrappingOld
 
   public void log(Level level, Marker marker, String messagePattern, Object... args)
   {
-    if(!isLoggingEnabled(level))
+    if(!isEnabled(level))
     {
       return;
     }
@@ -226,7 +226,7 @@ public class NewLoggerWrappingOld
 
   public void log(Level level, Message message)
   {
-    if(isLoggingEnabled(level))
+    if(isEnabled(level))
     {
       if(message instanceof ParameterizedMessage)
       {
@@ -241,7 +241,7 @@ public class NewLoggerWrappingOld
 
   public void log(Level level, Message message, Throwable throwable)
   {
-    if(isLoggingEnabled(level))
+    if(isEnabled(level))
     {
       log(level, message.getFormattedMessage(), throwable);
     }
@@ -250,7 +250,7 @@ public class NewLoggerWrappingOld
 
   public void log(Level level, Marker marker, Message message)
   {
-    if (isLoggingEnabled(level, marker))
+    if (isEnabled(level, marker))
     {
       if(message instanceof ParameterizedMessage)
       {
@@ -266,7 +266,7 @@ public class NewLoggerWrappingOld
 
   public void log(Level level, Marker marker, Message message, Throwable throwable)
   {
-    if (isLoggingEnabled(level, marker))
+    if (isEnabled(level, marker))
     {
       log(level, marker, message.getFormattedMessage(), throwable);
     }
@@ -275,12 +275,12 @@ public class NewLoggerWrappingOld
   // ##### TRACE #####
   public boolean isTraceEnabled()
   {
-    return isLoggingEnabled(Level.TRACE);
+    return isEnabled(Level.TRACE);
   }
 
   public boolean isTraceEnabled(Marker marker)
   {
-    return isLoggingEnabled(Level.TRACE, marker);
+    return isEnabled(Level.TRACE, marker);
   }
 
   public void trace(String messagePattern, Object... args)
@@ -316,12 +316,12 @@ public class NewLoggerWrappingOld
   // ##### DEBUG #####
   public boolean isDebugEnabled()
   {
-    return isLoggingEnabled(Level.DEBUG);
+    return isEnabled(Level.DEBUG);
   }
 
   public boolean isDebugEnabled(Marker marker)
   {
-    return isLoggingEnabled(Level.DEBUG, marker);
+    return isEnabled(Level.DEBUG, marker);
   }
 
   public void debug(String messagePattern, Object... args)
@@ -357,12 +357,12 @@ public class NewLoggerWrappingOld
   // ##### INFO #####
   public boolean isInfoEnabled()
   {
-    return isLoggingEnabled(Level.INFO);
+    return isEnabled(Level.INFO);
   }
 
   public boolean isInfoEnabled(Marker marker)
   {
-    return isLoggingEnabled(Level.INFO, marker);
+    return isEnabled(Level.INFO, marker);
   }
 
   public void info(String messagePattern, Object... args)
@@ -398,12 +398,12 @@ public class NewLoggerWrappingOld
   // ##### WARN #####
   public boolean isWarnEnabled()
   {
-    return isLoggingEnabled(Level.WARN);
+    return isEnabled(Level.WARN);
   }
 
   public boolean isWarnEnabled(Marker marker)
   {
-    return isLoggingEnabled(Level.WARN, marker);
+    return isEnabled(Level.WARN, marker);
   }
 
   public void warn(String messagePattern, Object... args)
@@ -439,12 +439,12 @@ public class NewLoggerWrappingOld
   // ##### ERROR #####
   public boolean isErrorEnabled()
   {
-    return isLoggingEnabled(Level.ERROR);
+    return isEnabled(Level.ERROR);
   }
 
   public boolean isErrorEnabled(Marker marker)
   {
-    return isLoggingEnabled(Level.ERROR, marker);
+    return isEnabled(Level.ERROR, marker);
   }
 
   public void error(String messagePattern, Object... args)

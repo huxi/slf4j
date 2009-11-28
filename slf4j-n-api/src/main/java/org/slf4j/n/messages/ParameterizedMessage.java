@@ -1,6 +1,6 @@
 package org.slf4j.n.messages;
 
-import org.slf4j.n.Message;
+import org.slf4j.core.Message;
 
 import java.io.Serializable;
 import java.util.Set;

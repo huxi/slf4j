@@ -1,4 +1,4 @@
-package org.slf4j.n;
+package org.slf4j.core;
 
 public interface Message
 {
