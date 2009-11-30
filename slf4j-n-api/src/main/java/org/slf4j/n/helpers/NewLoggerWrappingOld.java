@@ -1,7 +1,6 @@
 package org.slf4j.n.helpers;
 
 import org.slf4j.Marker;
-import org.slf4j.Logger;
 import org.slf4j.core.Message;
 import org.slf4j.n.Threshold;
 import org.slf4j.n.Level;
@@ -48,7 +47,7 @@ public class NewLoggerWrappingOld
     return loggerName;
   }
 
-  public Logger getOldLogger()
+  public org.slf4j.Logger getOldLogger()
   {
     return logger;
   }

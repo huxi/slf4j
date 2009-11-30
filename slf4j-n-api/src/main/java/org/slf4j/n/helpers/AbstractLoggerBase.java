@@ -6,7 +6,6 @@ import org.slf4j.core.Message;
 import org.slf4j.n.LoggerFactory;
 import org.slf4j.n.messages.ParameterizedMessage;
 import org.slf4j.Marker;
-import org.slf4j.Logger;
 
 import java.io.ObjectStreamException;
 
@@ -20,7 +19,7 @@ import java.io.ObjectStreamException;
  * @author J&ouml;rn Huxhorn
  */
 @SuppressWarnings({"ThrowableResultOfMethodCallIgnored"})
-public abstract class AbstractLogger
+public abstract class AbstractLoggerBase
     implements org.slf4j.n.Logger
 {
   private static final long serialVersionUID = -8862257536998615351L;
@@ -32,11 +31,11 @@ public abstract class AbstractLogger
   private String loggerName;
 
   // just for deserialization
-  protected AbstractLogger()
+  protected AbstractLoggerBase()
   {
   }
 
-  public AbstractLogger(String loggerName)
+  public AbstractLoggerBase(String loggerName)
   {
     this.loggerName=loggerName;
   }
@@ -48,7 +47,7 @@ public abstract class AbstractLogger
 
   public abstract Threshold getThreshold();
 
-  public Logger getOldLogger()
+  public org.slf4j.Logger getOldLogger()
   {
     if(oldLogger == null)
     {
@@ -366,7 +365,7 @@ public abstract class AbstractLogger
   private Object readResolve()
     		throws ObjectStreamException
   {
-    return LoggerFactory.getLogger(loggerName);
+    return LoggerFactory.getLogger(getName());
   }
 
 }
