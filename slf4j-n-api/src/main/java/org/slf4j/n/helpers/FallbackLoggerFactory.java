@@ -26,6 +26,11 @@ public class FallbackLoggerFactory
     if (result != null) {
       return result;
     }
-    return loggers.putIfAbsent(name, new NewLoggerWrappingOld(org.slf4j.LoggerFactory.getLogger(name)));
+    result = new NewLoggerWrappingOld(org.slf4j.LoggerFactory.getLogger(name));
+    Logger retrieved = loggers.putIfAbsent(name, result);
+    if (retrieved != null) {
+      return retrieved;
+    }
+    return result;
   }
 }
