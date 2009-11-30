@@ -13,14 +13,17 @@ import org.slf4j.n.ILoggerFactory;
  * @author Ceki G&uuml;lc&uuml;, J&ouml;rn Huxhorn
  */
 public class StaticLoggerBinder {
-  private static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
+  private static StaticLoggerBinder SINGLETON;
 
   /**
    * Return the singleton of this class.
    *
    * @return the StaticLoggerBinder singleton
    */
-  public static StaticLoggerBinder getSingleton() {
+  public static synchronized StaticLoggerBinder getSingleton() {
+    if (SINGLETON == null) {
+      SINGLETON = new StaticLoggerBinder();
+    }
     return SINGLETON;
   }
 
