@@ -3,6 +3,10 @@ package org.slf4j.a;
 import java.util.Map;
 import java.util.HashMap;
 
+/**
+ * HTTP/1.1 Status Codes according to
+ * http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+ */
 public enum HttpStatus
 {
 	//Informational 1xx
