@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
  * @author Ceki Gulcu
  * @since 1.5.3
  */
-abstract class NamedLoggerBase implements Logger, Serializable {
+public abstract class NamedLoggerBase implements Logger, Serializable {
 
   private static final long serialVersionUID = 7535258609338176893L;
 
@@ -44,3 +44,4 @@ abstract class NamedLoggerBase implements Logger, Serializable {
   }
 
 }
+
