@@ -5,7 +5,6 @@ import org.slf4j.n.helpers.FallbackLoggerFactory;
 import org.slf4j.n.helpers.SubstituteLoggerFactory;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
@@ -26,6 +25,7 @@ public final class LoggerFactory {
       would call org.slf4j.n.LoggerFactory.getLogger("name").getOldLogger();
    */
 
+
   private static final String NO_STATICLOGGERBINDER_URL = "http://www.slf4j.org/codes.html#StaticLoggerBinder";
   private static final String MULTIPLE_BINDINGS_URL = "http://www.slf4j.org/codes.html#multiple_bindings";
   private static final String VERSION_MISMATCH = "http://www.slf4j.org/codes.html#version_mismatch";
@@ -35,6 +35,15 @@ public final class LoggerFactory {
   private static final String UNSUCCESSFUL_INIT_MSG = "org.slf4j.LoggerFactory could not be successfully initialized. See also "
       + UNSUCCESSFUL_INIT_URL;
   private static String loggerFactoryClassName;
+
+  // StaticLoggerBinder definitions below
+  private static final String STATIC_LOGGER_BINDER_CLASS_NAME = "org.slf4j.n.impl.StaticLoggerBinder";
+  private static final String STATIC_LOGGER_BINDER_BASE = STATIC_LOGGER_BINDER_CLASS_NAME.replace('.', '/');
+  private static final String STATIC_LOGGER_BINDER_CLASS_FILE = STATIC_LOGGER_BINDER_BASE + ".class";
+  private static final String STATIC_LOGGER_BINDER_GET_SINGLETON_METHOD = "getSingleton";
+  private static final String STATIC_LOGGER_BINDER_GET_LOGGER_FACTORY_METHOD = "getLoggerFactory";
+  private static final String STATIC_LOGGER_BINDER_GET_LOGGER_FACTORY_CLASS_NAME_METHOD = "getLoggerFactoryClassName";
+  private static final String STATIC_LOGGER_BINDER_GET_REQUESTED_API_VERSION_METHOD = "getRequestedApiVersion";
 
   private enum State {
     UNINITIALIZED,
@@ -56,7 +65,7 @@ public final class LoggerFactory {
    * It is assumed that qualifiers after the 3rd digit have no impact on
    * compatibility. Thus, 1.5.7-SNAPSHOT, 1.5.7.RC0 are compatible with 1.5.7.
    */
-  static private final String[] API_COMPATIBILITY_LIST = new String[]{
+  private static final String[] API_COMPATIBILITY_LIST = new String[]{
       "1.5.5", "1.5.6", "1.5.7", "1.5.8", "1.5.9", "1.5.10"};
   private static String requestedApiVersion;
 
@@ -98,9 +107,9 @@ public final class LoggerFactory {
       // this shouldn't happen. Fallback is used in that case.
       INITIALIZATION_STATE = State.FAILED_INITIALIZATION;
       String msg = ncde.getMessage();
-      if (msg != null && msg.indexOf("org/slf4j/n/impl/StaticLoggerBinder") != -1) {
+      if (msg != null && msg.indexOf(STATIC_LOGGER_BINDER_BASE) != -1) {
         Util
-            .reportFailure("Failed to load class \"org.slf4j.n.impl.StaticLoggerBinder\".");
+            .reportFailure("Failed to load class \"" + STATIC_LOGGER_BINDER_CLASS_NAME + "\".");
         Util.reportFailure("See " + NO_STATICLOGGERBINDER_URL
             + " for further details.");
 
@@ -120,19 +129,19 @@ public final class LoggerFactory {
     loggerFactoryClassName = null;
     requestedApiVersion = null;
     try {
-      Class clazz = Class.forName("org.slf4j.n.StaticLoggerBinding");
-      Method getSingletonMethod = clazz.getMethod("getSingleton");
-      Method getLoggerFactoryMethod = clazz.getMethod("getLoggerFactory");
-      Method getLoggerFactoryClassMethod = clazz.getMethod("getLoggerFactoryClassStr");
+      Class clazz = Class.forName(STATIC_LOGGER_BINDER_CLASS_NAME);
+      Method getRequestedApiVersionMethod = clazz.getMethod(STATIC_LOGGER_BINDER_GET_REQUESTED_API_VERSION_METHOD);
+      requestedApiVersion = (String) getRequestedApiVersionMethod.invoke(null);
+
+      Method getSingletonMethod = clazz.getMethod(STATIC_LOGGER_BINDER_GET_SINGLETON_METHOD);
+      Method getLoggerFactoryMethod = clazz.getMethod(STATIC_LOGGER_BINDER_GET_LOGGER_FACTORY_METHOD);
+      Method getLoggerFactoryClassNameMethod = clazz.getMethod(STATIC_LOGGER_BINDER_GET_LOGGER_FACTORY_CLASS_NAME_METHOD);
 
       Object result = getSingletonMethod.invoke(null);
       if (result != null) {
-        loggerFactoryClassName = (String) getLoggerFactoryClassMethod.invoke(result);
+        loggerFactoryClassName = (String) getLoggerFactoryClassNameMethod.invoke(result);
         loggerFactory = (ILoggerFactory) getLoggerFactoryMethod.invoke(result);
       }
-
-      Field field = clazz.getDeclaredField("REQUESTED_API_VERSION");
-      requestedApiVersion = (String) field.get(null);
     }
     catch (Throwable t) {
       // ignore all exceptions...
@@ -192,9 +201,6 @@ public final class LoggerFactory {
     }
   }
 
-  // We need to use the name of the StaticLoggerBinder class, we can't reference
-  // the class itseld.
-  private static String STATIC_LOGGER_BINDER_PATH = "org/slf4j/impl/StaticLoggerBinder.class";
 
   private static void singleImplementationSanityCheck() {
     try {
@@ -205,7 +211,7 @@ public final class LoggerFactory {
         return; // better than a null pointer exception
       }
       Enumeration paths = loggerFactoryClassLoader
-          .getResources(STATIC_LOGGER_BINDER_PATH);
+          .getResources(STATIC_LOGGER_BINDER_CLASS_FILE);
       List<URL> implementationList = new ArrayList<URL>();
       while (paths.hasMoreElements()) {
         URL path = (URL) paths.nextElement();
@@ -225,21 +231,6 @@ public final class LoggerFactory {
       Util.reportFailure("Error getting resources from path", ioe);
     }
   }
-
-//  private static StaticLoggerBinder getSingleton() {
-//    if (GET_SINGLETON_METHOD == GET_SINGLETON_EXISTS) {
-//      return StaticLoggerBinder.getSingleton();
-//    }
-//
-//    try {
-//      StaticLoggerBinder singleton = StaticLoggerBinder.getSingleton();
-//      GET_SINGLETON_METHOD = GET_SINGLETON_EXISTS;
-//      return singleton;
-//    } catch (NoSuchMethodError nsme) {
-//      GET_SINGLETON_METHOD = GET_SINGLETON_INEXISTENT;
-//      return StaticLoggerBinder.SINGLETON;
-//    }
-//  }
 
   /**
    * Return a logger named according to the name parameter using the statically

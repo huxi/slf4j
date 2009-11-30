@@ -27,9 +27,12 @@ public class StaticLoggerBinder {
   /**
    * Declare the version of the SLF4J API this implementation is compiled against.
    * The value of this field is usually modified with each release.
+   *
+   * @return the API version this implementation is compiled against.
    */
-  // to avoid constant folding by the compiler, this field must *not* be final
-  public static String REQUESTED_API_VERSION = "1.5.10";  // !final
+  public static String getRequestedApiVersion() {
+    return "1.5.10";
+  }
 
   private StaticLoggerBinder() {
     throw new UnsupportedOperationException("This code should have never made it into the jar");
@@ -39,7 +42,7 @@ public class StaticLoggerBinder {
     throw new UnsupportedOperationException("This code should never make it into the jar");
   }
 
-  public String getLoggerFactoryClassStr() {
+  public String getLoggerFactoryClassName() {
     throw new UnsupportedOperationException("This code should never make it into the jar");
   }
 }
