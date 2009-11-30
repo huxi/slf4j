@@ -2,9 +2,9 @@ package org.slf4j.n.helpers;
 
 import org.slf4j.Marker;
 import org.slf4j.core.Message;
-import org.slf4j.n.Threshold;
 import org.slf4j.n.Level;
 import org.slf4j.n.LoggerFactory;
+import org.slf4j.n.Threshold;
 import org.slf4j.n.messages.ParameterizedMessage;
 import org.slf4j.n.spi.LocationAwareLogger;
 
@@ -13,7 +13,7 @@ import java.io.ObjectStreamException;
 /**
  * This class implements the org.slf4j.n.Logger and org.slf4j.n.spi.LocationAwareLogger interfaces
  * by providing a wrapper over an org.slf4j.Logger.
- *
+ * <p/>
  * It is used if a binding does not implements org.slf4j.n natively, i.e. there is not implementation of
  * an org.slf4j.n.impl.StaticLoggerBinder. In that case, a fallback ILoggerFactory implementation is used
  * that returns an instance of this class containing the logger returned by org.slf4j.LoggerFactory.getLogger(..).
@@ -22,8 +22,7 @@ import java.io.ObjectStreamException;
  */
 @SuppressWarnings({"ThrowableResultOfMethodCallIgnored"})
 public class NewLoggerWrappingOld
-    implements LocationAwareLogger
-{
+    implements LocationAwareLogger {
   private static final long serialVersionUID = 4801490744284446815L;
 
   private static final String FQCN = NewLoggerWrappingOld.class.getName();
@@ -32,59 +31,47 @@ public class NewLoggerWrappingOld
   private transient org.slf4j.Logger logger;
   private transient org.slf4j.spi.LocationAwareLogger locationAwareLogger;
 
-  public NewLoggerWrappingOld(org.slf4j.Logger logger)
-  {
+  public NewLoggerWrappingOld(org.slf4j.Logger logger) {
     this.logger = logger;
-    if(this.logger instanceof org.slf4j.spi.LocationAwareLogger)
-    {
+    if (this.logger instanceof org.slf4j.spi.LocationAwareLogger) {
       this.locationAwareLogger = (org.slf4j.spi.LocationAwareLogger) this.logger;
     }
     this.loggerName = logger.getName();
   }
 
-  public String getName()
-  {
+  public String getName() {
     return loggerName;
   }
 
-  public org.slf4j.Logger getOldLogger()
-  {
+  public org.slf4j.Logger getOldLogger() {
     return logger;
   }
 
   /**
    * @return the Threshold of this Logger.
    */
-  public Threshold getThreshold()
-  {
-    if(logger.isErrorEnabled())
-    {
+  public Threshold getThreshold() {
+    if (logger.isErrorEnabled()) {
       return Threshold.ERROR;
     }
-    if(logger.isWarnEnabled())
-    {
+    if (logger.isWarnEnabled()) {
       return Threshold.WARN;
     }
-    if(logger.isInfoEnabled())
-    {
+    if (logger.isInfoEnabled()) {
       return Threshold.INFO;
     }
-    if(logger.isDebugEnabled())
-    {
+    if (logger.isDebugEnabled()) {
       return Threshold.DEBUG;
     }
-    if(logger.isTraceEnabled())
-    {
+    if (logger.isTraceEnabled()) {
       return Threshold.TRACE;
     }
     return Threshold.OFF;
   }
 
   // generic logging methods
-  public boolean isEnabled(Level level)
-  {
-    switch(level)
-    {
+  public boolean isEnabled(Level level) {
+    switch (level) {
       case TRACE:
         return logger.isTraceEnabled();
       case DEBUG:
@@ -100,10 +87,8 @@ public class NewLoggerWrappingOld
     return false;
   }
 
-  public boolean isEnabled(Level level, Marker marker)
-  {
-    switch(level)
-    {
+  public boolean isEnabled(Level level, Marker marker) {
+    switch (level) {
       case TRACE:
         return logger.isTraceEnabled(marker);
       case DEBUG:
@@ -119,18 +104,14 @@ public class NewLoggerWrappingOld
     return false;
   }
 
-  public void log(Level level, String messagePattern, Object... args)
-  {
-    if(!isEnabled(level))
-    {
+  public void log(Level level, String messagePattern, Object... args) {
+    if (!isEnabled(level)) {
       return;
     }
     ParameterizedMessage message = ParameterizedMessage.create(messagePattern, args);
 
-    if(locationAwareLogger == null)
-    {
-      switch(level)
-      {
+    if (locationAwareLogger == null) {
+      switch (level) {
         case TRACE:
           logger.trace(message.getFormattedMessage(), message.getThrowable());
           break;
@@ -148,10 +129,8 @@ public class NewLoggerWrappingOld
           break;
       }
     }
-    else
-    {
-      switch(level)
-      {
+    else {
+      switch (level) {
         case TRACE:
           locationAwareLogger.log(null, FQCN, org.slf4j.spi.LocationAwareLogger.TRACE_INT, message.getFormattedMessage(), message.getThrowable());
           break;
@@ -171,18 +150,14 @@ public class NewLoggerWrappingOld
     }
   }
 
-  public void log(Level level, Marker marker, String messagePattern, Object... args)
-  {
-    if(!isEnabled(level))
-    {
+  public void log(Level level, Marker marker, String messagePattern, Object... args) {
+    if (!isEnabled(level)) {
       return;
     }
     ParameterizedMessage message = ParameterizedMessage.create(messagePattern, args);
 
-    if(locationAwareLogger == null)
-    {
-      switch(level)
-      {
+    if (locationAwareLogger == null) {
+      switch (level) {
         case TRACE:
           logger.trace(marker, message.getFormattedMessage(), message.getThrowable());
           break;
@@ -200,10 +175,8 @@ public class NewLoggerWrappingOld
           break;
       }
     }
-    else
-    {
-      switch(level)
-      {
+    else {
+      switch (level) {
         case TRACE:
           locationAwareLogger.log(marker, FQCN, org.slf4j.spi.LocationAwareLogger.TRACE_INT, message.getFormattedMessage(), message.getThrowable());
           break;
@@ -223,271 +196,215 @@ public class NewLoggerWrappingOld
     }
   }
 
-  public void log(Level level, Message message)
-  {
-    if(isEnabled(level))
-    {
-      if(message instanceof ParameterizedMessage)
-      {
-        log(level, message.getFormattedMessage(), ((ParameterizedMessage)message).getThrowable());
+  public void log(Level level, Message message) {
+    if (isEnabled(level)) {
+      if (message instanceof ParameterizedMessage) {
+        log(level, message.getFormattedMessage(), ((ParameterizedMessage) message).getThrowable());
       }
-      else
-      {
+      else {
         log(level, message.getFormattedMessage());
       }
     }
   }
 
-  public void log(Level level, Message message, Throwable throwable)
-  {
-    if(isEnabled(level))
-    {
+  public void log(Level level, Message message, Throwable throwable) {
+    if (isEnabled(level)) {
       log(level, message.getFormattedMessage(), throwable);
     }
   }
 
 
-  public void log(Level level, Marker marker, Message message)
-  {
-    if (isEnabled(level, marker))
-    {
-      if(message instanceof ParameterizedMessage)
-      {
-        log(level, marker, message.getFormattedMessage(), ((ParameterizedMessage)message).getThrowable());
+  public void log(Level level, Marker marker, Message message) {
+    if (isEnabled(level, marker)) {
+      if (message instanceof ParameterizedMessage) {
+        log(level, marker, message.getFormattedMessage(), ((ParameterizedMessage) message).getThrowable());
       }
-      else
-      {
+      else {
         log(level, marker, message.getFormattedMessage());
       }
     }
 
   }
 
-  public void log(Level level, Marker marker, Message message, Throwable throwable)
-  {
-    if (isEnabled(level, marker))
-    {
+  public void log(Level level, Marker marker, Message message, Throwable throwable) {
+    if (isEnabled(level, marker)) {
       log(level, marker, message.getFormattedMessage(), throwable);
     }
   }
 
   // ##### TRACE #####
-  public boolean isTraceEnabled()
-  {
+  public boolean isTraceEnabled() {
     return isEnabled(Level.TRACE);
   }
 
-  public boolean isTraceEnabled(Marker marker)
-  {
+  public boolean isTraceEnabled(Marker marker) {
     return isEnabled(Level.TRACE, marker);
   }
 
-  public void trace(String messagePattern, Object... args)
-  {
+  public void trace(String messagePattern, Object... args) {
     log(Level.TRACE, messagePattern, args);
   }
 
-  public void trace(Marker marker, String messagePattern, Object... args)
-  {
+  public void trace(Marker marker, String messagePattern, Object... args) {
     log(Level.TRACE, marker, messagePattern, args);
   }
 
-  public void trace(Message message)
-  {
+  public void trace(Message message) {
     log(Level.TRACE, message);
   }
 
-  public void trace(Message message, Throwable throwable)
-  {
+  public void trace(Message message, Throwable throwable) {
     log(Level.TRACE, message, throwable);
   }
 
-  public void trace(Marker marker, Message message)
-  {
+  public void trace(Marker marker, Message message) {
     log(Level.TRACE, marker, message);
   }
 
-  public void trace(Marker marker, Message message, Throwable throwable)
-  {
+  public void trace(Marker marker, Message message, Throwable throwable) {
     log(Level.TRACE, marker, message, throwable);
   }
 
   // ##### DEBUG #####
-  public boolean isDebugEnabled()
-  {
+  public boolean isDebugEnabled() {
     return isEnabled(Level.DEBUG);
   }
 
-  public boolean isDebugEnabled(Marker marker)
-  {
+  public boolean isDebugEnabled(Marker marker) {
     return isEnabled(Level.DEBUG, marker);
   }
 
-  public void debug(String messagePattern, Object... args)
-  {
+  public void debug(String messagePattern, Object... args) {
     log(Level.DEBUG, messagePattern, args);
   }
 
-  public void debug(Marker marker, String messagePattern, Object... args)
-  {
+  public void debug(Marker marker, String messagePattern, Object... args) {
     log(Level.DEBUG, marker, messagePattern, args);
   }
 
-  public void debug(Message message)
-  {
+  public void debug(Message message) {
     log(Level.DEBUG, message);
   }
 
-  public void debug(Message message, Throwable throwable)
-  {
+  public void debug(Message message, Throwable throwable) {
     log(Level.DEBUG, message, throwable);
   }
 
-  public void debug(Marker marker, Message message)
-  {
+  public void debug(Marker marker, Message message) {
     log(Level.DEBUG, marker, message);
   }
 
-  public void debug(Marker marker, Message message, Throwable throwable)
-  {
+  public void debug(Marker marker, Message message, Throwable throwable) {
     log(Level.DEBUG, marker, message, throwable);
   }
 
   // ##### INFO #####
-  public boolean isInfoEnabled()
-  {
+  public boolean isInfoEnabled() {
     return isEnabled(Level.INFO);
   }
 
-  public boolean isInfoEnabled(Marker marker)
-  {
+  public boolean isInfoEnabled(Marker marker) {
     return isEnabled(Level.INFO, marker);
   }
 
-  public void info(String messagePattern, Object... args)
-  {
+  public void info(String messagePattern, Object... args) {
     log(Level.INFO, messagePattern, args);
   }
 
-  public void info(Marker marker, String messagePattern, Object... args)
-  {
+  public void info(Marker marker, String messagePattern, Object... args) {
     log(Level.INFO, marker, messagePattern, args);
   }
 
-  public void info(Message message)
-  {
+  public void info(Message message) {
     log(Level.INFO, message);
   }
 
-  public void info(Message message, Throwable throwable)
-  {
+  public void info(Message message, Throwable throwable) {
     log(Level.INFO, message, throwable);
   }
 
-  public void info(Marker marker, Message message)
-  {
+  public void info(Marker marker, Message message) {
     log(Level.INFO, marker, message);
   }
 
-  public void info(Marker marker, Message message, Throwable throwable)
-  {
+  public void info(Marker marker, Message message, Throwable throwable) {
     log(Level.INFO, marker, message, throwable);
   }
 
   // ##### WARN #####
-  public boolean isWarnEnabled()
-  {
+  public boolean isWarnEnabled() {
     return isEnabled(Level.WARN);
   }
 
-  public boolean isWarnEnabled(Marker marker)
-  {
+  public boolean isWarnEnabled(Marker marker) {
     return isEnabled(Level.WARN, marker);
   }
 
-  public void warn(String messagePattern, Object... args)
-  {
+  public void warn(String messagePattern, Object... args) {
     log(Level.WARN, messagePattern, args);
   }
 
-  public void warn(Marker marker, String messagePattern, Object... args)
-  {
+  public void warn(Marker marker, String messagePattern, Object... args) {
     log(Level.WARN, marker, messagePattern, args);
   }
 
-  public void warn(Message message)
-  {
+  public void warn(Message message) {
     log(Level.WARN, message);
   }
 
-  public void warn(Message message, Throwable throwable)
-  {
+  public void warn(Message message, Throwable throwable) {
     log(Level.WARN, message, throwable);
   }
 
-  public void warn(Marker marker, Message message)
-  {
+  public void warn(Marker marker, Message message) {
     log(Level.WARN, marker, message);
   }
 
-  public void warn(Marker marker, Message message, Throwable throwable)
-  {
+  public void warn(Marker marker, Message message, Throwable throwable) {
     log(Level.WARN, marker, message, throwable);
   }
 
   // ##### ERROR #####
-  public boolean isErrorEnabled()
-  {
+  public boolean isErrorEnabled() {
     return isEnabled(Level.ERROR);
   }
 
-  public boolean isErrorEnabled(Marker marker)
-  {
+  public boolean isErrorEnabled(Marker marker) {
     return isEnabled(Level.ERROR, marker);
   }
 
-  public void error(String messagePattern, Object... args)
-  {
+  public void error(String messagePattern, Object... args) {
     log(Level.ERROR, messagePattern, args);
   }
 
-  public void error(Marker marker, String messagePattern, Object... args)
-  {
+  public void error(Marker marker, String messagePattern, Object... args) {
     log(Level.ERROR, marker, messagePattern, args);
   }
 
-  public void error(Message message)
-  {
+  public void error(Message message) {
     log(Level.ERROR, message);
   }
 
-  public void error(Message message, Throwable throwable)
-  {
+  public void error(Message message, Throwable throwable) {
     log(Level.ERROR, message, throwable);
   }
 
-  public void error(Marker marker, Message message)
-  {
+  public void error(Marker marker, Message message) {
     log(Level.ERROR, marker, message);
   }
 
-  public void error(Marker marker, Message message, Throwable throwable)
-  {
+  public void error(Marker marker, Message message, Throwable throwable) {
     log(Level.ERROR, marker, message, throwable);
   }
 
   private Object readResolve()
-    		throws ObjectStreamException
-  {
+      throws ObjectStreamException {
     return LoggerFactory.getLogger(loggerName);
   }
 
-  public void log(String fqcn, Level level, Marker marker, Message message, Throwable throwable)
-  {
-    if(locationAwareLogger == null)
-    {
-      switch(level)
-      {
+  public void log(String fqcn, Level level, Marker marker, Message message, Throwable throwable) {
+    if (locationAwareLogger == null) {
+      switch (level) {
         case TRACE:
           logger.trace(marker, message.getFormattedMessage(), throwable);
           break;
@@ -505,10 +422,8 @@ public class NewLoggerWrappingOld
           break;
       }
     }
-    else
-    {
-      switch(level)
-      {
+    else {
+      switch (level) {
         case TRACE:
           locationAwareLogger.log(marker, FQCN, org.slf4j.spi.LocationAwareLogger.TRACE_INT, message.getFormattedMessage(), throwable);
           break;
@@ -528,12 +443,9 @@ public class NewLoggerWrappingOld
     }
   }
 
-  public void log(String fqcn, Level level, Marker marker, String message, Throwable throwable)
-  {
-    if(locationAwareLogger == null)
-    {
-      switch(level)
-      {
+  public void log(String fqcn, Level level, Marker marker, String message, Throwable throwable) {
+    if (locationAwareLogger == null) {
+      switch (level) {
         case TRACE:
           logger.trace(marker, message, throwable);
           break;
@@ -551,10 +463,8 @@ public class NewLoggerWrappingOld
           break;
       }
     }
-    else
-    {
-      switch(level)
-      {
+    else {
+      switch (level) {
         case TRACE:
           locationAwareLogger.log(marker, FQCN, org.slf4j.spi.LocationAwareLogger.TRACE_INT, message, throwable);
           break;

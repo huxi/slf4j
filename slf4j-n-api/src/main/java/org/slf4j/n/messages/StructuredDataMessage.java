@@ -2,26 +2,26 @@ package org.slf4j.n.messages;
 
 import org.slf4j.core.Message;
 
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Collections;
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Message to represent Structured Data. While structured data is defined by RFC 5424 for use
  * in Syslogs, it is a generally useful concept that can aid in writing data that can be easily
  * interprested.
- *
+ * <p/>
  * (based on rgoers/slf4j@02c35999dbd787efb8695410bf88a1dcdd743cac)
+ *
  * @author Ralph Goers, J&oml;rn Huxhorn
  */
-public class StructuredDataMessage implements Message, Serializable
-{
+public class StructuredDataMessage implements Message, Serializable {
   private static final long serialVersionUID = 8283569438409820914L;
 
   public static final String FULL = "full";
 
-  private Map<String,String> data = new HashMap<String,String>();
+  private Map<String, String> data = new HashMap<String, String>();
 
   private StructuredDataId id;
 
@@ -97,7 +97,7 @@ public class StructuredDataMessage implements Message, Serializable
    *
    * @return The data item names (32 characters maximum) and their values.
    */
-  public Map<String,String> getData() {
+  public Map<String, String> getData() {
     return Collections.unmodifiableMap(data);
   }
 
@@ -110,7 +110,8 @@ public class StructuredDataMessage implements Message, Serializable
 
   /**
    * Add an item to the data Map.
-   * @param key The name of the item.
+   *
+   * @param key   The name of the item.
    * @param value The value of the item.
    * @return this instance, to enable chaining of put calls
    */
@@ -120,7 +121,7 @@ public class StructuredDataMessage implements Message, Serializable
     }
     if (value.length() > 32) {
       throw new IllegalArgumentException("Structured data values are limited to 32 characters. key: " + key +
-        " value: " + value);
+          " value: " + value);
     }
     data.put(key, value);
     return this;
@@ -128,13 +129,12 @@ public class StructuredDataMessage implements Message, Serializable
 
   /**
    * Add all the items from a Map to the data Map.
+   *
    * @param map The map to copy.
    * @return this instance, to enable chaining of put calls
    */
-  public StructuredDataMessage putAll(Map<String,String> map)
-  {
-    for(Map.Entry<String,String> current:map.entrySet())
-    {
+  public StructuredDataMessage putAll(Map<String, String> map) {
+    for (Map.Entry<String, String> current : map.entrySet()) {
       put(current.getKey(), current.getValue());
     }
     return this;
@@ -142,6 +142,7 @@ public class StructuredDataMessage implements Message, Serializable
 
   /**
    * Get a specific value from the data Map.
+   *
    * @param key The name of the item.
    * @return The value of the item.
    */
@@ -151,6 +152,7 @@ public class StructuredDataMessage implements Message, Serializable
 
   /**
    * Remove an item from the data Map.
+   *
    * @param key The name of the item to remove.
    * @return The value of the item removed.
    */
@@ -181,10 +183,11 @@ public class StructuredDataMessage implements Message, Serializable
 
   /**
    * Format the Structured data as described in RFC 5424.
-   * @param format "full" will include the type and message. null will return only the STRUCTURED-DATA as
-   * described in RFC 5424
+   *
+   * @param format           "full" will include the type and message. null will return only the STRUCTURED-DATA as
+   *                         described in RFC 5424
    * @param structuredDataId The SD-ID as described in RFC 5424. If null the value in the StructuredData
-   * will be used.
+   *                         will be used.
    * @return The formatted String.
    */
   public final String asString(String format, StructuredDataId structuredDataId) {
@@ -200,7 +203,8 @@ public class StructuredDataMessage implements Message, Serializable
     StructuredDataId id = getId();
     if (id != null) {
       id = id.makeId(structuredDataId);
-    } else {
+    }
+    else {
       id = structuredDataId;
     }
     if (id == null || id.getName() == null || getData().size() == 0) {
@@ -219,9 +223,8 @@ public class StructuredDataMessage implements Message, Serializable
     return sb.toString();
   }
 
-  private void appendMap(Map<String,String> map, StringBuilder sb) {
-    for (Map.Entry<String,String> current : map.entrySet())
-    {
+  private void appendMap(Map<String, String> map, StringBuilder sb) {
+    for (Map.Entry<String, String> current : map.entrySet()) {
       sb.append(" ");
       sb.append(current.getKey()).append("=\"").append(current.getValue()).append("\"");
     }
@@ -265,8 +268,7 @@ public class StructuredDataMessage implements Message, Serializable
     return result;
   }
 
-  public String getFormattedMessage()
-  {
+  public String getFormattedMessage() {
     return asString(null);
   }
 }

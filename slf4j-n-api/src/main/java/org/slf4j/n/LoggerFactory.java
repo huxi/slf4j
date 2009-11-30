@@ -1,17 +1,17 @@
 package org.slf4j.n;
 
 import org.slf4j.helpers.Util;
-import org.slf4j.n.helpers.SubstituteLoggerFactory;
 import org.slf4j.n.helpers.FallbackLoggerFactory;
+import org.slf4j.n.helpers.SubstituteLoggerFactory;
 
-import java.util.List;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
-import java.util.ArrayList;
-import java.net.URL;
-import java.io.IOException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Field;
+import java.util.List;
 
 public final class LoggerFactory {
 
@@ -36,8 +36,7 @@ public final class LoggerFactory {
       + UNSUCCESSFUL_INIT_URL;
   private static String loggerFactoryClassName;
 
-  private enum State
-  {
+  private enum State {
     UNINITIALIZED,
     ONGOING_INITIALIZATION,
     FAILED_INITIALIZATION,
@@ -52,13 +51,13 @@ public final class LoggerFactory {
   /**
    * It is LoggerFactory's responsibility to track version changes and manage
    * the compatibility list.
-   *
-   * <p>
+   * <p/>
+   * <p/>
    * It is assumed that qualifiers after the 3rd digit have no impact on
    * compatibility. Thus, 1.5.7-SNAPSHOT, 1.5.7.RC0 are compatible with 1.5.7.
    */
-  static private final String[] API_COMPATIBILITY_LIST = new String[] {
-      "1.5.5", "1.5.6", "1.5.7", "1.5.8", "1.5.9", "1.5.10" };
+  static private final String[] API_COMPATIBILITY_LIST = new String[]{
+      "1.5.5", "1.5.6", "1.5.7", "1.5.8", "1.5.9", "1.5.10"};
   private static String requestedApiVersion;
 
   // private constructor prevents instantiation
@@ -67,13 +66,13 @@ public final class LoggerFactory {
 
   /**
    * Force LoggerFactory to consider itself uninitialized.
-   *
-   * <p>
+   * <p/>
+   * <p/>
    * This method is intended to be called by classes (in the same package) for
    * testing purposes. This method is internal. It can be modified, renamed or
    * removed at any time without notice.
-   *
-   * <p>
+   * <p/>
+   * <p/>
    * You are strongly discouraged from calling this method in production code.
    */
   static void reset() {
@@ -94,7 +93,8 @@ public final class LoggerFactory {
       initLoggerFactory();
       INITIALIZATION_STATE = State.SUCCESSFUL_INITILIZATION;
       emitSubstituteLoggerWarning();
-    } catch (NoClassDefFoundError ncde) {
+    }
+    catch (NoClassDefFoundError ncde) {
       // this shouldn't happen. Fallback is used in that case.
       INITIALIZATION_STATE = State.FAILED_INITIALIZATION;
       String msg = ncde.getMessage();
@@ -106,7 +106,8 @@ public final class LoggerFactory {
 
       }
       throw ncde;
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       INITIALIZATION_STATE = State.FAILED_INITIALIZATION;
       // we should never get here
       Util.reportFailure("Failed to instantiate logger ["
@@ -114,21 +115,18 @@ public final class LoggerFactory {
     }
   }
 
-  private static void initLoggerFactory()
-  {
+  private static void initLoggerFactory() {
     loggerFactory = null;
     loggerFactoryClassName = null;
     requestedApiVersion = null;
-    try
-    {
-      Class clazz=Class.forName("org.slf4j.n.StaticLoggerBinding");
-      Method getSingletonMethod=clazz.getMethod("getSingleton");
+    try {
+      Class clazz = Class.forName("org.slf4j.n.StaticLoggerBinding");
+      Method getSingletonMethod = clazz.getMethod("getSingleton");
       Method getLoggerFactoryMethod = clazz.getMethod("getLoggerFactory");
       Method getLoggerFactoryClassMethod = clazz.getMethod("getLoggerFactoryClassStr");
 
-      Object result=getSingletonMethod.invoke(null);
-      if(result != null)
-      {
+      Object result = getSingletonMethod.invoke(null);
+      if (result != null) {
         loggerFactoryClassName = (String) getLoggerFactoryClassMethod.invoke(result);
         loggerFactory = (ILoggerFactory) getLoggerFactoryMethod.invoke(result);
       }
@@ -136,14 +134,12 @@ public final class LoggerFactory {
       Field field = clazz.getDeclaredField("REQUESTED_API_VERSION");
       requestedApiVersion = (String) field.get(null);
     }
-    catch(Throwable t)
-    {
+    catch (Throwable t) {
       // ignore all exceptions...
       // if anything fails we'll drop back to SLF4J fallback.
       t.printStackTrace(); // for now
     }
-    if(loggerFactory == null)
-    {
+    if (loggerFactory == null) {
       // use fallback that wraps old SLF4J
       loggerFactory = new FallbackLoggerFactory();
       loggerFactoryClassName = loggerFactory.getClass().getName();
@@ -160,22 +156,18 @@ public final class LoggerFactory {
     Util
         .reportFailure("during the default configuration phase of the underlying logging system.");
     Util.reportFailure("See also " + SUBSTITUTE_LOGGER_URL);
-    for (Object aLoggerNameList : loggerNameList)
-    {
+    for (Object aLoggerNameList : loggerNameList) {
       String loggerName = (String) aLoggerNameList;
       Util.reportFailure(loggerName);
     }
   }
 
   private static void versionSanityCheck() {
-    if(requestedApiVersion != null)
-    {
+    if (requestedApiVersion != null) {
       try {
         boolean match = false;
-        for (String current : API_COMPATIBILITY_LIST)
-        {
-          if (requestedApiVersion.startsWith(current))
-          {
+        for (String current : API_COMPATIBILITY_LIST) {
+          if (requestedApiVersion.startsWith(current)) {
             match = true;
           }
         }
@@ -185,12 +177,14 @@ public final class LoggerFactory {
               + Arrays.asList(API_COMPATIBILITY_LIST).toString());
           Util.reportFailure("See " + VERSION_MISMATCH + " for further details.");
         }
-      } catch (java.lang.NoSuchFieldError nsfe) {
+      }
+      catch (java.lang.NoSuchFieldError nsfe) {
         // given our large user base and SLF4J's commitment to backward
         // compatibility, we cannot cry here. Only for implementations
         // which willingly declare a REQUESTED_API_VERSION field do we
         // emit compatibility warnings.
-      } catch (Throwable e) {
+      }
+      catch (Throwable e) {
         // we should never reach here
         Util.reportFailure(
             "Unexpected problem occured during version sanity check", e);
@@ -219,15 +213,15 @@ public final class LoggerFactory {
       }
       if (implementationList.size() > 1) {
         Util.reportFailure("Class path contains multiple SLF4J bindings.");
-        for (URL current : implementationList)
-        {
+        for (URL current : implementationList) {
           Util.reportFailure("Found binding in [" + current
               + "]");
         }
         Util.reportFailure("See " + MULTIPLE_BINDINGS_URL
             + " for an explanation.");
       }
-    } catch (IOException ioe) {
+    }
+    catch (IOException ioe) {
       Util.reportFailure("Error getting resources from path", ioe);
     }
   }
@@ -251,8 +245,7 @@ public final class LoggerFactory {
    * Return a logger named according to the name parameter using the statically
    * bound {@link org.slf4j.ILoggerFactory} instance.
    *
-   * @param name
-   *          The name of the logger.
+   * @param name The name of the logger.
    * @return logger
    */
   public static Logger getLogger(String name) {
@@ -264,8 +257,7 @@ public final class LoggerFactory {
    * Return a logger named corresponding to the class passed as parameter, using
    * the statically bound {@link ILoggerFactory} instance.
    *
-   * @param clazz
-   *          the returned logger will be named after clazz
+   * @param clazz the returned logger will be named after clazz
    * @return logger
    */
   public static Logger getLogger(Class clazz) {
@@ -274,8 +266,8 @@ public final class LoggerFactory {
 
   /**
    * Return the {@link ILoggerFactory} instance in use.
-   *
-   * <p>
+   * <p/>
+   * <p/>
    * ILoggerFactory instance is bound with this class at compile time.
    *
    * @return the ILoggerFactory instance in use
@@ -287,14 +279,14 @@ public final class LoggerFactory {
 
     }
     switch (INITIALIZATION_STATE) {
-    case SUCCESSFUL_INITILIZATION:
-      return loggerFactory;
-    case FAILED_INITIALIZATION:
-      throw new IllegalStateException(UNSUCCESSFUL_INIT_MSG);
-    case ONGOING_INITIALIZATION:
-      // support re-entrant behavior.
-      // See also http://bugzilla.slf4j.org/show_bug.cgi?id=106
-      return TEMP_FACTORY;
+      case SUCCESSFUL_INITILIZATION:
+        return loggerFactory;
+      case FAILED_INITIALIZATION:
+        throw new IllegalStateException(UNSUCCESSFUL_INIT_MSG);
+      case ONGOING_INITIALIZATION:
+        // support re-entrant behavior.
+        // See also http://bugzilla.slf4j.org/show_bug.cgi?id=106
+        return TEMP_FACTORY;
     }
     throw new IllegalStateException("Unreachable code");
   }

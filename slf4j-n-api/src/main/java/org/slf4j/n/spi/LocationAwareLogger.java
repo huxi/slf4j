@@ -1,9 +1,9 @@
 package org.slf4j.n.spi;
 
-import org.slf4j.n.Logger;
-import org.slf4j.n.Level;
-import org.slf4j.core.Message;
 import org.slf4j.Marker;
+import org.slf4j.core.Message;
+import org.slf4j.n.Level;
+import org.slf4j.n.Logger;
 
 /**
  * An <b>optional</b> interface helping integration with logging systems capable of
@@ -11,16 +11,14 @@ import org.slf4j.Marker;
  * such as jcl104-over-slf4j which need to provide hints so that the underlying logging
  * system can extract the correct location information (method name, line number, etc.).
  *
- *
  * @author Ceki Gulcu, J&ouml;rn Huxhorn
  */
-public interface LocationAwareLogger extends Logger
-{
+public interface LocationAwareLogger extends Logger {
   /**
    * Printing method with support for location information.
    *
    * @param marker
-   * @param fqcn The fully qualified class name of the <b>caller</b>
+   * @param fqcn      The fully qualified class name of the <b>caller</b>
    * @param level
    * @param message
    * @param throwable
@@ -31,7 +29,7 @@ public interface LocationAwareLogger extends Logger
    * Printing method with support for location information.
    *
    * @param marker
-   * @param fqcn The fully qualified class name of the <b>caller</b>
+   * @param fqcn      The fully qualified class name of the <b>caller</b>
    * @param level
    * @param message
    * @param throwable

@@ -1,7 +1,6 @@
 package org.slf4j.core;
 
-public interface BasicLogger<T extends Enum>
-{
+public interface BasicLogger<T extends Enum> {
   /**
    * @param level the Level
    * @return true, if logging at the given level is enabled.

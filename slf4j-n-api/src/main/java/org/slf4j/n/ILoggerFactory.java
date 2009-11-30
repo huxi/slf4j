@@ -27,7 +27,7 @@ package org.slf4j.n;
 /**
  * <code>ILoggerFactory</code> instances manufacture {@link Logger}
  * instances by name.
- *
+ * <p/>
  * <p>Most users retrieve {@link Logger} instances through the static
  * {@link LoggerFactory#getLogger(String)} method. An instance of of this
  * interface is bound internally with {@link LoggerFactory} class at
@@ -40,13 +40,13 @@ public interface ILoggerFactory {
   /**
    * Return an appropriate {@link Logger} instance as specified by the
    * <code>name</code> parameter.
-   *
-   * <p>If the name parameter is equal to {@link Logger#ROOT_LOGGER_NAME}, that is 
+   * <p/>
+   * <p>If the name parameter is equal to {@link Logger#ROOT_LOGGER_NAME}, that is
    * the string value "ROOT" (case insensitive), then the root logger of the
    * underlying logging system is returned.
-   *
+   * <p/>
    * <p>Null-valued name arguments are considered invalid.
-   *
+   * <p/>
    * <p>Certain extremely simple logging systems, e.g. NOP, may always
    * return the same logger instance regardless of the requested name.
    *

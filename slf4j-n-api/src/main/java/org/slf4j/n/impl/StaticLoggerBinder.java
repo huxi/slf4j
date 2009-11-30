@@ -5,14 +5,14 @@ import org.slf4j.n.ILoggerFactory;
 /**
  * The binding of {@link org.slf4j.n.LoggerFactory} class with an actual instance of
  * {@link ILoggerFactory} is performed using information returned by this class.
- *
+ * <p/>
  * This class is meant to provide a dummy StaticLoggerBinder to the slf4j-n-api module.
- *
+ * <p/>
  * Since it's not referenced directly anymore it's not really needed to compile the API.
  *
  * @author Ceki G&uuml;lc&uuml;, J&ouml;rn Huxhorn
- */public class StaticLoggerBinder
-{
+ */
+public class StaticLoggerBinder {
   private static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
 
   /**

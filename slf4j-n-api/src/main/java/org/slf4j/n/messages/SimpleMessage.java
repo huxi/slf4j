@@ -10,44 +10,36 @@ import java.io.Serializable;
  * @author J&ouml;rn Huxhorn
  */
 public class SimpleMessage
-  implements Message, Serializable
-{
+    implements Message, Serializable {
   private static final long serialVersionUID = -8398002534962715992L;
 
   private String message;
 
-  public SimpleMessage()
-  {
+  public SimpleMessage() {
     this(null);
   }
 
-  public SimpleMessage(String message)
-  {
+  public SimpleMessage(String message) {
     this.message = message;
   }
 
   /**
-   *
    * @return the same as getFormattedMessage, this method exists to support xml serialization.
    */
-  public String getMessage()
-  {
+  public String getMessage() {
     return message;
   }
 
-  public void setMessage(String message)
-  {
+  public void setMessage(String message) {
     this.message = message;
   }
 
-  public String getFormattedMessage()
-  {
+  public String getFormattedMessage() {
     return message;
   }
 
   @Override
-  public boolean equals(Object o)
-  {
+  public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
 
@@ -57,14 +49,12 @@ public class SimpleMessage
   }
 
   @Override
-  public int hashCode()
-  {
+  public int hashCode() {
     return message != null ? message.hashCode() : 0;
   }
 
   @Override
-  public String toString()
-  {
-    return "SimpleMessage[message="+message+"]";
+  public String toString() {
+    return "SimpleMessage[message=" + message + "]";
   }
 }

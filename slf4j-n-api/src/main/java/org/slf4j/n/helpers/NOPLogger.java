@@ -33,10 +33,10 @@
 
 package org.slf4j.n.helpers;
 
-import org.slf4j.n.Threshold;
-import org.slf4j.n.Level;
 import org.slf4j.Marker;
 import org.slf4j.core.Message;
+import org.slf4j.n.Level;
+import org.slf4j.n.Threshold;
 
 
 /**
@@ -44,8 +44,7 @@ import org.slf4j.core.Message;
  *
  * @author Ceki G&uuml;lc&uuml;, J&ouml;rn Huxhorn
  */
-public class NOPLogger extends AbstractLoggerBase
-{
+public class NOPLogger extends AbstractLoggerBase {
   private static final long serialVersionUID = -5151294355732168818L;
 
   /**
@@ -67,17 +66,15 @@ public class NOPLogger extends AbstractLoggerBase
     return "NOP";
   }
 
-  public Threshold getThreshold()
-  {
+  public Threshold getThreshold() {
     return Threshold.OFF;
   }
 
-  public boolean isEnabled(Level level, Marker marker){
+  public boolean isEnabled(Level level, Marker marker) {
     return false;
   }
 
-  public void log(Level level, Marker marker, Message message, Throwable throwable)
-  {
+  public void log(Level level, Marker marker, Message message, Throwable throwable) {
 
   }
 }

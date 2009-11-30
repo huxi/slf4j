@@ -2,8 +2,8 @@ package org.slf4j.n.messages;
 
 import org.slf4j.core.Message;
 
-import java.util.Locale;
 import java.util.Formatter;
+import java.util.Locale;
 
 /**
  * Message implementation that's using java.util.Formatter to format the message.
@@ -18,34 +18,28 @@ import java.util.Formatter;
  * @author J&ouml;rn Huxhorn
  */
 public class JavaUtilFormatterMessage
-  implements Message
-{
+    implements Message {
   private Locale locale;
   private String format;
   private Object[] args;
 
-  public JavaUtilFormatterMessage(String format, Object... args)
-  {
+  public JavaUtilFormatterMessage(String format, Object... args) {
     this(null, format, args);
   }
 
-  public JavaUtilFormatterMessage(Locale locale, String format, Object... args)
-  {
+  public JavaUtilFormatterMessage(Locale locale, String format, Object... args) {
     this.locale = locale;
     this.format = format;
     this.args = args;
   }
 
-  public String getFormattedMessage()
-  {
-    try
-    {
-      Formatter formatter=new Formatter();
+  public String getFormattedMessage() {
+    try {
+      Formatter formatter = new Formatter();
 
       return formatter.format(locale, format, args).out().toString();
     }
-    catch(Throwable t)
-    {
+    catch (Throwable t) {
       // we must not throw an exception here!
       return t.toString();
     }

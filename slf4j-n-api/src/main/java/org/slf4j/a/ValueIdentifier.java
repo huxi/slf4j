@@ -8,49 +8,41 @@ import java.util.Map;
  * Value identifier as described in http://www.w3.org/TR/WD-logfile.html
  */
 public class ValueIdentifier
-    implements Serializable
-{
+    implements Serializable {
   private static final long serialVersionUID = -2771803418785509977L;
 
   private String identifier;
   private transient Prefix prefix;
   private transient String headerName;
 
-  public ValueIdentifier()
-  {
+  public ValueIdentifier() {
     this(null);
   }
 
-  public ValueIdentifier(String identifier)
-  {
+  public ValueIdentifier(String identifier) {
     setIdentifier(identifier);
   }
 
-  public String getIdentifier()
-  {
+  public String getIdentifier() {
     return identifier;
   }
 
-  public void setIdentifier(String identifier)
-  {
+  public void setIdentifier(String identifier) {
     this.identifier = identifier;
     this.prefix = Prefix.resolve(identifier);
     this.headerName = resolveHeaderName(identifier);
   }
 
-  public Prefix getPrefix()
-  {
+  public Prefix getPrefix() {
     return prefix;
   }
 
-  public String getHeaderName()
-  {
+  public String getHeaderName() {
     return headerName;
   }
 
   @Override
-  public boolean equals(Object o)
-  {
+  public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
 
@@ -61,29 +53,24 @@ public class ValueIdentifier
     return true;
   }
 
-  private static String resolveHeaderName(String identifier)
-  {
-    if(identifier == null)
-    {
+  private static String resolveHeaderName(String identifier) {
+    if (identifier == null) {
       return null;
     }
     int startIdx = identifier.indexOf('(');
     int endIdx = identifier.indexOf(')');
-    if (startIdx < 0 || endIdx < 0 || endIdx < startIdx+1)
-    {
+    if (startIdx < 0 || endIdx < 0 || endIdx < startIdx + 1) {
       return null;
     }
-    return identifier.substring(startIdx+1, endIdx);
+    return identifier.substring(startIdx + 1, endIdx);
   }
 
   @Override
-  public int hashCode()
-  {
+  public int hashCode() {
     return identifier != null ? identifier.hashCode() : 0;
   }
 
-  public enum Prefix
-  {
+  public enum Prefix {
     c("Client"),
     s("Server"),
     r("Remote"),
@@ -95,39 +82,31 @@ public class ValueIdentifier
 
     private String description;
 
-    Prefix(String description)
-    {
+    Prefix(String description) {
       this.description = description;
     }
 
-    public String getDescription()
-    {
+    public String getDescription() {
       return description;
     }
 
     private static final Map<String, Prefix> values;
 
-    static
-    {
+    static {
       values = new HashMap<String, Prefix>();
-      for (Prefix current : Prefix.values())
-      {
+      for (Prefix current : Prefix.values()) {
         values.put(current.name(), current);
       }
     }
 
-    public static Prefix resolve(String identifier)
-    {
-      if (identifier == null)
-      {
+    public static Prefix resolve(String identifier) {
+      if (identifier == null) {
         return null;
       }
       int sepIdx = identifier.indexOf('-');
-      if (sepIdx < 0)
-      {
+      if (sepIdx < 0) {
         sepIdx = identifier.indexOf('(');
-        if (sepIdx < 0)
-        {
+        if (sepIdx < 0) {
           return null;
         }
       }

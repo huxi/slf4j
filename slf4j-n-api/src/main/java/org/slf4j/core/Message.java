@@ -1,6 +1,5 @@
 package org.slf4j.core;
 
-public interface Message
-{
-	String getFormattedMessage();
+public interface Message {
+  String getFormattedMessage();
 }

@@ -34,7 +34,8 @@ public class StructuredDataId implements Serializable {
     if (index > 0) {
       this.name = name.substring(0, index);
       this.enterpriseNumber = Integer.parseInt(name.substring(index + 1));
-    } else {
+    }
+    else {
       this.name = name;
       this.enterpriseNumber = RESERVED;
     }
@@ -85,7 +86,8 @@ public class StructuredDataId implements Serializable {
       id = this.name;
       req = this.required;
       opt = this.optional;
-    } else {
+    }
+    else {
       id = defaultId;
       req = null;
       opt = null;
