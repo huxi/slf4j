@@ -130,13 +130,13 @@ public abstract class AbstractLoggerBase
     return isEnabled(Level.TRACE, marker);
   }
 
-  public void trace(String format, Object[] argArray) {
+  public void trace(String format, Object... argArray) {
     if (!isEnabled(Level.TRACE)) return;
 
     log(Level.TRACE, null, ParameterizedMessage.create(format, argArray));
   }
 
-  public void trace(Marker marker, String format, Object[] argArray) {
+  public void trace(Marker marker, String format, Object... argArray) {
     if (!isEnabled(Level.TRACE, marker)) return;
 
     log(Level.TRACE, marker, ParameterizedMessage.create(format, argArray));
@@ -167,13 +167,13 @@ public abstract class AbstractLoggerBase
     return isEnabled(Level.DEBUG, marker);
   }
 
-  public void debug(String format, Object[] argArray) {
+  public void debug(String format, Object... argArray) {
     if (!isEnabled(Level.DEBUG)) return;
 
     log(Level.DEBUG, null, ParameterizedMessage.create(format, argArray));
   }
 
-  public void debug(Marker marker, String format, Object[] argArray) {
+  public void debug(Marker marker, String format, Object... argArray) {
     if (!isEnabled(Level.DEBUG, marker)) return;
 
     log(Level.DEBUG, marker, ParameterizedMessage.create(format, argArray));
@@ -204,13 +204,13 @@ public abstract class AbstractLoggerBase
     return isEnabled(Level.INFO, marker);
   }
 
-  public void info(String format, Object[] argArray) {
+  public void info(String format, Object... argArray) {
     if (!isEnabled(Level.INFO)) return;
 
     log(Level.INFO, null, ParameterizedMessage.create(format, argArray));
   }
 
-  public void info(Marker marker, String format, Object[] argArray) {
+  public void info(Marker marker, String format, Object... argArray) {
     if (!isEnabled(Level.INFO, marker)) return;
 
     log(Level.INFO, marker, ParameterizedMessage.create(format, argArray));
@@ -241,13 +241,13 @@ public abstract class AbstractLoggerBase
     return isEnabled(Level.WARN, marker);
   }
 
-  public void warn(String format, Object[] argArray) {
+  public void warn(String format, Object... argArray) {
     if (!isEnabled(Level.WARN)) return;
 
     log(Level.WARN, null, ParameterizedMessage.create(format, argArray));
   }
 
-  public void warn(Marker marker, String format, Object[] argArray) {
+  public void warn(Marker marker, String format, Object... argArray) {
     if (!isEnabled(Level.WARN, marker)) return;
 
     log(Level.WARN, marker, ParameterizedMessage.create(format, argArray));
@@ -278,13 +278,13 @@ public abstract class AbstractLoggerBase
     return isEnabled(Level.ERROR, marker);
   }
 
-  public void error(String format, Object[] argArray) {
+  public void error(String format, Object... argArray) {
     if (!isEnabled(Level.ERROR)) return;
 
     log(Level.ERROR, null, ParameterizedMessage.create(format, argArray));
   }
 
-  public void error(Marker marker, String format, Object[] argArray) {
+  public void error(Marker marker, String format, Object... argArray) {
     if (!isEnabled(Level.ERROR, marker)) return;
 
     log(Level.ERROR, marker, ParameterizedMessage.create(format, argArray));
