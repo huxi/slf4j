@@ -146,7 +146,7 @@ public final class LoggerFactory {
     catch (Throwable t) {
       // ignore all exceptions...
       // if anything fails we'll drop back to SLF4J fallback.
-      t.printStackTrace(); // for now
+      // t.printStackTrace(); // for now
     }
     if (loggerFactory == null) {
       // use fallback that wraps old SLF4J
