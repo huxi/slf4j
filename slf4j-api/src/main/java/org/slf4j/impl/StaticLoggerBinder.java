@@ -71,3 +71,4 @@ public class StaticLoggerBinder {
     throw new UnsupportedOperationException("This code should never make it into the jar");
   }
 }
+
