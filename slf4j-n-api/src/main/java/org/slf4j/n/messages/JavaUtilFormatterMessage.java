@@ -18,7 +18,7 @@ import java.util.Locale;
  * @author J&ouml;rn Huxhorn
  */
 public class JavaUtilFormatterMessage
-    implements Message {
+  implements Message {
   private Locale locale;
   private String format;
   private Object[] args;
@@ -43,5 +43,18 @@ public class JavaUtilFormatterMessage
       // we must not throw an exception here!
       return t.toString();
     }
+  }
+
+  public JavaUtilFormatterMessage clone() throws CloneNotSupportedException {
+    JavaUtilFormatterMessage result = (JavaUtilFormatterMessage) super.clone();
+    if (args != null) {
+      result.args = new Object[args.length];
+      System.arraycopy(args, 0, result.args, 0, args.length);
+      // args are not deep-cloned.
+    }
+    if (locale != null) {
+      result.locale = (Locale) locale.clone();
+    }
+    return result;
   }
 }

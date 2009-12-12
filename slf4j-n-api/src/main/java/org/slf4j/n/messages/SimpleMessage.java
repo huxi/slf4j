@@ -10,7 +10,7 @@ import java.io.Serializable;
  * @author J&ouml;rn Huxhorn
  */
 public class SimpleMessage
-    implements Message, Serializable {
+  implements Message, Serializable {
   private static final long serialVersionUID = -8398002534962715992L;
 
   private String message;
@@ -36,6 +36,10 @@ public class SimpleMessage
 
   public String getFormattedMessage() {
     return message;
+  }
+
+  public SimpleMessage clone() throws CloneNotSupportedException {
+    return (SimpleMessage) super.clone();
   }
 
   @Override

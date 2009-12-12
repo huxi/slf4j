@@ -4,10 +4,15 @@ import org.slf4j.core.Message;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class ParameterizedMessage
-    implements Message, Serializable {
+  implements Message, Serializable {
   private static final long serialVersionUID = -665975803997290697L;
 
   private String messagePattern;
@@ -453,4 +458,15 @@ public class ParameterizedMessage
   public String toString() {
     return "ParameterizedMessage[messagePattern=" + messagePattern + ", parameters=" + Arrays.toString(parameters) + ", throwable=" + throwable + "]";
   }
+
+  public ParameterizedMessage clone() throws CloneNotSupportedException {
+    ParameterizedMessage result = (ParameterizedMessage) super.clone();
+    if (parameters != null) {
+      result.parameters = new String[parameters.length];
+      System.arraycopy(parameters, 0, result.parameters, 0, parameters.length);
+    }
+    // Throwable is not cloned.
+    return result;
+  }
+
 }

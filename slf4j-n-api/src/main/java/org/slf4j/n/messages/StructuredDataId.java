@@ -5,22 +5,22 @@ import java.io.Serializable;
 /**
  * The StructuredData identifier
  */
-public class StructuredDataId implements Serializable {
+public class StructuredDataId implements Serializable, Cloneable {
   private static final long serialVersionUID = 9031746276396249990L;
 
   public static StructuredDataId TIME_QUALITY = new StructuredDataId("timeQuality", null,
-      new String[]{"tzKnown", "isSynced", "syncAccuracy"});
+    new String[]{"tzKnown", "isSynced", "syncAccuracy"});
   public static StructuredDataId ORIGIN = new StructuredDataId("origin", null,
-      new String[]{"ip", "enterpriseId", "software", "swVersion"});
+    new String[]{"ip", "enterpriseId", "software", "swVersion"});
   public static StructuredDataId META = new StructuredDataId("meta", null,
-      new String[]{"sequenceId", "sysUpTime", "language"});
+    new String[]{"sequenceId", "sysUpTime", "language"});
 
   public static final int RESERVED = -1;
 
   private final String name;
   private final int enterpriseNumber;
-  private final String[] required;
-  private final String[] optional;
+  private String[] required;
+  private String[] optional;
 
   protected StructuredDataId(String name, String[] required, String[] optional) {
     int index = -1;
@@ -97,11 +97,31 @@ public class StructuredDataId implements Serializable {
   }
 
   public String[] getRequired() {
-    return required;
+    if (required == null) {
+      return null;
+    }
+    if (required.length == 0) {
+      return required;
+    }
+
+    String[] result = new String[required.length];
+    System.arraycopy(required, 0, result, 0, required.length);
+
+    return result;
   }
 
   public String[] getOptional() {
-    return optional;
+    if (optional == null) {
+      return null;
+    }
+    if (optional.length == 0) {
+      return optional;
+    }
+
+    String[] result = new String[optional.length];
+    System.arraycopy(optional, 0, result, 0, optional.length);
+
+    return result;
   }
 
   public String getName() {
@@ -118,5 +138,14 @@ public class StructuredDataId implements Serializable {
 
   public String toString() {
     return isReserved() ? name : name + "@" + enterpriseNumber;
+  }
+
+  public StructuredDataId clone() throws CloneNotSupportedException {
+    StructuredDataId result = (StructuredDataId) super.clone();
+
+    result.required = getRequired();
+    result.optional = getOptional();
+
+    return result;
   }
 }

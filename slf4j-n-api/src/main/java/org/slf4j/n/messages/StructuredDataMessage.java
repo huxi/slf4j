@@ -121,7 +121,7 @@ public class StructuredDataMessage implements Message, Serializable {
     }
     if (value.length() > 32) {
       throw new IllegalArgumentException("Structured data values are limited to 32 characters. key: " + key +
-          " value: " + value);
+        " value: " + value);
     }
     data.put(key, value);
     return this;
@@ -270,5 +270,19 @@ public class StructuredDataMessage implements Message, Serializable {
 
   public String getFormattedMessage() {
     return asString(null);
+  }
+
+  public StructuredDataMessage clone() throws CloneNotSupportedException {
+    StructuredDataMessage result = (StructuredDataMessage) super.clone();
+
+    if (id != null) {
+      result.id = id.clone();
+    }
+
+    if (data != null) {
+      result.data = new HashMap<String, String>(data);
+    }
+
+    return result;
   }
 }
