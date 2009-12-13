@@ -29,7 +29,7 @@ public class SimpleNDCAdapterTest {
 
   @Test
   public void pushMessagePatternUsingIsEmpty() {
-    instance.push("messagePattern", new String[]{"foo", "bar"});
+    instance.push("messagePattern", "foo", "bar");
     Assert.assertFalse(instance.isEmpty());
   }
 
@@ -60,11 +60,11 @@ public class SimpleNDCAdapterTest {
   public void getContextStackUsingPush() {
     ParameterizedMessage[] messages = new ParameterizedMessage[]
       {
-        ParameterizedMessage.create("message1", new String[]{"foo", "bar"}),
-        ParameterizedMessage.create("message2", new String[]{"foo", null}),
+        ParameterizedMessage.create("message1", "foo", "bar"),
+        ParameterizedMessage.create("message2", "foo", null),
         ParameterizedMessage.create("message3"),
         ParameterizedMessage.create(null),
-        ParameterizedMessage.create(null, new String[]{"foo", "bar"}),
+        ParameterizedMessage.create(null, "foo", "bar"),
       };
 
 
@@ -96,11 +96,11 @@ public class SimpleNDCAdapterTest {
 
     Message[] messages = new Message[]
       {
-        ParameterizedMessage.create("message1", new String[]{"foo", "bar"}),
-        ParameterizedMessage.create("message2", new String[]{"foo", null}),
+        ParameterizedMessage.create("message1", "foo", "bar"),
+        ParameterizedMessage.create("message2", "foo", null),
         new SimpleMessage("message3"),
         new SimpleMessage(null),
-        ParameterizedMessage.create(null, new String[]{"foo", "bar"}),
+        ParameterizedMessage.create(null, "foo", "bar"),
       };
 
 
