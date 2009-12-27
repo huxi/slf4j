@@ -234,6 +234,9 @@ public class ParameterizedMessage
     if (arguments == null) {
       return new ParameterizedMessage(messagePattern, null, null);
     }
+    // placeholders are always counted because the amount is needed for both
+    // the handling of Throwable as the last argument (http://bugzilla.slf4j.org/show_bug.cgi?id=70)
+    // and the handling of the special case (http://jira.qos.ch/browse/LBGENERAL-36) below
     int argsCount = countArgumentPlaceholders(messagePattern);
     int resultArgCount = arguments.length;
     Throwable throwable = null;
@@ -247,6 +250,11 @@ public class ParameterizedMessage
     String[] stringArgs;
     if (argsCount == 1 && throwable == null && arguments.length > 1) {
       // special case
+      // The pattern contains exactly one placeholder, there was no Throwable detected and
+      // more than one arguments exists.
+      // This means that the whole array shall be used as the replacement.
+      // http://jira.qos.ch/browse/LBGENERAL-36
+      // ("{}", new String[]{"Foo", "Bar"}) => [Foo, Bar] instead of Foo
       stringArgs = new String[1];
       stringArgs[0] = deepToString(arguments);
     }
