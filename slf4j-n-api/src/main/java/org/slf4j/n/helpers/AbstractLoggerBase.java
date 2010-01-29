@@ -25,7 +25,7 @@ public abstract class AbstractLoggerBase
 
   protected transient org.slf4j.Logger oldLogger;
 
-  // In extending class: private static final String FQCN = ExtendingClass.class.getName();
+  // In extending class, if desired: private static final String FQCN = ExtendingClass.class.getName();
 
   private String loggerName;
 
@@ -67,57 +67,55 @@ public abstract class AbstractLoggerBase
   public void log(Level level, String messagePattern, Object... args) {
     if (!isEnabled(level)) return;
     ParameterizedMessage message = ParameterizedMessage.create(messagePattern, args);
-    log(level, null, message, message.getThrowable());
+    performLogging(level, null, message, message.getThrowable());
   }
 
   public void log(Level level, Marker marker, String messagePattern, Object... args) {
     if (!isEnabled(level, marker)) return;
     ParameterizedMessage message = ParameterizedMessage.create(messagePattern, args);
-    log(level, marker, message, message.getThrowable());
+    performLogging(level, marker, message, message.getThrowable());
   }
 
   public void log(Level level, Message message) {
     if (!isEnabled(level)) return;
     if (message instanceof ParameterizedMessage) {
-      log(level, null, message, ((ParameterizedMessage) message).getThrowable());
+      performLogging(level, null, message, ((ParameterizedMessage) message).getThrowable());
     }
     else {
-      log(level, null, message, null);
+      performLogging(level, null, message, null);
     }
   }
 
   public void log(Level level, Message message, Throwable throwable) {
     if (!isEnabled(level)) return;
-    log(level, null, message, throwable);
+    performLogging(level, null, message, throwable);
   }
 
   public void log(Level level, Marker marker, Message message) {
-    if (!isEnabled(level)) return;
+    if (!isEnabled(level, marker)) return;
     if (message instanceof ParameterizedMessage) {
-      log(level, marker, message, ((ParameterizedMessage) message).getThrowable());
+      performLogging(level, marker, message, ((ParameterizedMessage) message).getThrowable());
     }
     else {
-      log(level, marker, message, null);
+      performLogging(level, marker, message, null);
     }
   }
 
+  public void log(Level level, Marker marker, Message message, Throwable throwable) {
+    if (!isEnabled(level, marker)) return;
+    performLogging(level, marker, message, throwable);
+  }
+
   /**
+   * Perform logging without calling isEnabled(level, marker) first.
+   * This has already been executed and evaluated before this method is called.
+   *
    * @param level     the Level
    * @param marker    the Marker, may be null
    * @param message   the Message
    * @param throwable the Throwable, may be null
    */
-  public abstract void log(Level level, Marker marker, Message message, Throwable throwable);
-  // in extending class:
-  // {
-  //   log(FQCN, level, marker, message, throwable);
-  // }
-
-  //public abstract void log(String fqcn, Level level, Marker marker, Message message, Throwable throwable);
-  // In extending class:
-  // {
-  //   [Actual logging implementation.]
-  // }
+  protected abstract void performLogging(Level level, Marker marker, Message message, Throwable throwable);
 
 
   // ##### TRACE #####

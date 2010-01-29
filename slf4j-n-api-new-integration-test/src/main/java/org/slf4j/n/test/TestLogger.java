@@ -41,7 +41,7 @@ public class TestLogger
     return isEnabled(level);
   }
 
-  public void log(Level level, Marker marker, Message message, Throwable throwable) {
+  protected void performLogging(Level level, Marker marker, Message message, Throwable throwable) {
     events.add(new PrimitiveEvent(level, marker, message, throwable));
   }
 

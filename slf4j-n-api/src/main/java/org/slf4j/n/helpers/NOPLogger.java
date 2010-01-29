@@ -74,7 +74,6 @@ public class NOPLogger extends AbstractLoggerBase {
     return false;
   }
 
-  public void log(Level level, Marker marker, Message message, Throwable throwable) {
-
+  protected void performLogging(Level level, Marker marker, Message message, Throwable throwable) {
   }
 }
