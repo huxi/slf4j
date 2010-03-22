@@ -1,6 +1,6 @@
 package org.slf4j.n.messages;
 
-import org.slf4j.core.Message;
+import org.slf4j.core.AbstractMessage;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -11,13 +11,18 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * This Message implements the default parameterized message format of SLF4J.
+ * 
+ * @see org.slf4j.core.Message
+ * @author Joern Huxhorn
+ */
 public class ParameterizedMessage
-  implements Message, Serializable {
+  extends AbstractMessage implements Serializable {
   private static final long serialVersionUID = -665975803997290697L;
 
   private String messagePattern;
   private String[] parameters;
-  private transient String formattedMessage;
   private transient Throwable throwable;
 
   public ParameterizedMessage() {
@@ -30,11 +35,9 @@ public class ParameterizedMessage
     this.throwable = throwable;
   }
 
-  public String getFormattedMessage() {
-    if (formattedMessage == null) {
-      formatMessage();
-    }
-    return formattedMessage;
+  @Override
+  protected String generateFormattedMessage() {
+    return format(messagePattern, parameters);
   }
 
   public String getMessagePattern() {
@@ -43,7 +46,7 @@ public class ParameterizedMessage
 
   public void setMessagePattern(String messagePattern) {
     this.messagePattern = messagePattern;
-    this.formattedMessage = null;
+    resetFormattedMessage();
   }
 
   public String[] getParameters() {
@@ -52,7 +55,7 @@ public class ParameterizedMessage
 
   public void setParameters(String[] parameters) {
     this.parameters = parameters;
-    this.formattedMessage = null;
+    resetFormattedMessage();
   }
 
   public void setThrowable(Throwable throwable) {
@@ -67,12 +70,6 @@ public class ParameterizedMessage
    */
   public Throwable getThrowable() {
     return throwable;
-  }
-
-  private void formatMessage() {
-    if (formattedMessage == null) {
-      formattedMessage = format(messagePattern, parameters);
-    }
   }
 
   @Override

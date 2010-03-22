@@ -1,6 +1,6 @@
 package org.slf4j.n.messages;
 
-import org.slf4j.core.Message;
+import org.slf4j.core.AbstractMessage;
 
 import java.util.Formatter;
 import java.util.Locale;
@@ -18,7 +18,8 @@ import java.util.Locale;
  * @author J&ouml;rn Huxhorn
  */
 public class JavaUtilFormatterMessage
-  implements Message {
+  extends AbstractMessage
+{
   private Locale locale;
   private String format;
   private Object[] args;
@@ -33,7 +34,7 @@ public class JavaUtilFormatterMessage
     this.args = args;
   }
 
-  public String getFormattedMessage() {
+  protected String generateFormattedMessage() {
     try {
       Formatter formatter = new Formatter();
 
