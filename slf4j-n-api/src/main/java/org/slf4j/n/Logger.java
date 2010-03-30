@@ -63,7 +63,7 @@ public interface Logger
    *
    * @param messagePattern the message pattern
    * @param args           the arguments, if any
-   * @see #log(Level, String, Object[])
+   * @see #log(Level, String, Object...)
    */
   void trace(String messagePattern, Object... args);
 
@@ -73,7 +73,7 @@ public interface Logger
    * @param marker         the marker
    * @param messagePattern the message pattern
    * @param args           the arguments, if any
-   * @see #log(Level, Marker, String, Object[])
+   * @see #log(Level, Marker, String, Object...)
    */
   void trace(Marker marker, String messagePattern, Object... args);
 
@@ -137,7 +137,7 @@ public interface Logger
    *
    * @param messagePattern the message pattern
    * @param args           the arguments, if any
-   * @see #log(Level, String, Object[])
+   * @see #log(Level, String, Object...)
    */
   void debug(String messagePattern, Object... args);
 
@@ -147,7 +147,7 @@ public interface Logger
    * @param marker         the marker
    * @param messagePattern the message pattern
    * @param args           the arguments, if any
-   * @see #log(Level, Marker, String, Object[])
+   * @see #log(Level, Marker, String, Object...)
    */
   void debug(Marker marker, String messagePattern, Object... args);
 
@@ -211,7 +211,7 @@ public interface Logger
    *
    * @param messagePattern the message pattern
    * @param args           the arguments, if any
-   * @see #log(Level, String, Object[])
+   * @see #log(Level, String, Object...)
    */
   void info(String messagePattern, Object... args);
 
@@ -221,7 +221,7 @@ public interface Logger
    * @param marker         the marker
    * @param messagePattern the message pattern
    * @param args           the arguments, if any
-   * @see #log(Level, Marker, String, Object[])
+   * @see #log(Level, Marker, String, Object...)
    */
   void info(Marker marker, String messagePattern, Object... args);
 
@@ -285,7 +285,7 @@ public interface Logger
    *
    * @param messagePattern the message pattern
    * @param args           the arguments, if any
-   * @see #log(Level, String, Object[])
+   * @see #log(Level, String, Object...)
    */
   void warn(String messagePattern, Object... args);
 
@@ -295,7 +295,7 @@ public interface Logger
    * @param marker         the marker
    * @param messagePattern the message pattern
    * @param args           the arguments, if any
-   * @see #log(Level, Marker, String, Object[])
+   * @see #log(Level, Marker, String, Object...)
    */
   void warn(Marker marker, String messagePattern, Object... args);
 
@@ -359,7 +359,7 @@ public interface Logger
    *
    * @param messagePattern the message pattern
    * @param args           the arguments, if any
-   * @see #log(Level, String, Object[])
+   * @see #log(Level, String, Object...)
    */
   void error(String messagePattern, Object... args);
 
@@ -369,7 +369,7 @@ public interface Logger
    * @param marker         the marker
    * @param messagePattern the message pattern
    * @param args           the arguments, if any
-   * @see #log(Level, Marker, String, Object[])
+   * @see #log(Level, Marker, String, Object...)
    */
   void error(Marker marker, String messagePattern, Object... args);
 
