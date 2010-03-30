@@ -30,4 +30,43 @@ public class SimpleLoggingTest {
   {
     error("Test! {}", "foo");
   }
+
+  @Test
+  public void testCallingLogger()
+  {
+    Logger logger = SimpleLogging.getCallingLogger();
+    logger.error("CallingLogger-Test! {}", "foo");
+    Runnable r=new Runnable() {
+      public void run() {
+        Logger logger = SimpleLogging.getCallingLogger();
+        logger.error("CallingLogger-InnerTest! {}", "foo");
+      }
+    };
+    r.run();
+    B b=new B();
+    b.foo();
+
+  }
+
+  public class A
+  {
+    private final Logger logger = SimpleLogging.getCallingLogger();
+
+    public void foo()
+    {
+      logger.warn("A.foo");
+    }
+  }
+
+  public class B
+    extends A
+  {
+    private final Logger logger = SimpleLogging.getCallingLogger();
+
+    public void foo()
+    {
+      super.foo();
+      logger.warn("B.foo");
+    }
+  }
 }

@@ -2,6 +2,7 @@ package org.slf4j.n;
 
 import org.slf4j.Marker;
 import org.slf4j.core.Message;
+import org.slf4j.n.helpers.NOPLogger;
 
 /**
  * This class might be a very bad idea...
@@ -28,6 +29,22 @@ import org.slf4j.core.Message;
 public class SimpleLogging {
 
   private static final int CALLSTACK_OFFSET=3;
+
+  /**
+   * Returns either the correct Logger for the calling class or a NOPLogger if Throwable.getStackTrace()
+   * doesn't return anything.
+   * @return the Logger for the calling class or a NOPLogger if it can't be resolved.
+   * @see Throwable#getStackTrace()
+   */
+  public static Logger getCallingLogger()
+  {
+    Logger result=resolveLogger(CALLSTACK_OFFSET);
+    if(result == null)
+    {
+      result=NOPLogger.NOP_LOGGER;
+    }
+    return result;
+  }
 
   public static boolean isEnabled(Level level, Marker marker)
   {
