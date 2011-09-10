@@ -215,11 +215,11 @@ public class ParameterizedMessageTest {
 
   @Test
   public void evaluateArguments() {
-    validateEvaluateArguments(null, null, new ParameterizedMessage(null,
+    validateEvaluateArguments(null, null, null, new ParameterizedMessage(null,
         null,
         null));
 
-    validateEvaluateArguments("{}{}{}",
+    validateEvaluateArguments(null, "{}{}{}",
         new Object[]{"foo", null, 1L},
         new ParameterizedMessage("{}{}{}",
             new String[]{"foo", null, "1"},
@@ -227,25 +227,25 @@ public class ParameterizedMessageTest {
 
     //noinspection ThrowableInstanceNeverThrown
     FooThrowable t = new FooThrowable("FooException");
-    validateEvaluateArguments("{}{}",
+    validateEvaluateArguments(null, "{}{}",
         new Object[]{"foo", null, t},
         new ParameterizedMessage("{}{}",
             new String[]{"foo", null},
             t));
 
-    validateEvaluateArguments("{}{}{}",
+    validateEvaluateArguments(null, "{}{}{}",
         new Object[]{"foo", null, t},
         new ParameterizedMessage("{}{}{}",
             new String[]{"foo", null, "FooException"},
             null));
 
-    validateEvaluateArguments("{}{}{}",
+    validateEvaluateArguments(null, "{}{}{}",
         new Object[]{"foo", null, t, 17L, 18L},
         new ParameterizedMessage("{}{}{}",
             new String[]{"foo", null, "FooException", "17", "18"},
             null));
 
-    validateEvaluateArguments("{}{}{}",
+    validateEvaluateArguments(null, "{}{}{}",
         new Object[]{"foo", null, 17L, 18L, t},
         new ParameterizedMessage("{}{}{}",
             new String[]{"foo", null, "17", "18"},
@@ -267,7 +267,7 @@ public class ParameterizedMessageTest {
       //noinspection ThrowableResultOfMethodCallIgnored
       expectedResult = new ParameterizedMessage(messagePattern, argStrings, useCase.getThrowable());
 
-      validateEvaluateArguments(useCase.getMessagePattern(), useCase.getArguments(), expectedResult);
+      validateEvaluateArguments(useCase.getSection(), useCase.getMessagePattern(), useCase.getArguments(), expectedResult);
     }
   }
 
@@ -432,9 +432,11 @@ public class ParameterizedMessageTest {
     assertEquals(expected, result);
   }
 
-  private void validateEvaluateArguments(String messagePattern, Object[] arguments, ParameterizedMessage expected) {
+  private void validateEvaluateArguments(String section, String messagePattern, Object[] arguments, ParameterizedMessage expected) {
     ParameterizedMessage result = ParameterizedMessage.create(messagePattern, arguments);
     StringBuilder message = new StringBuilder();
+
+    message.append(section).append("\n");
     message.append("messagePattern=");
     if (messagePattern != null) {
       message.append("'").append(messagePattern).append("'");
