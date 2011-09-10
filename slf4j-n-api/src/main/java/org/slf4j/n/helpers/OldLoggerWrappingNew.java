@@ -679,44 +679,57 @@ public class OldLoggerWrappingNew
     return org.slf4j.LoggerFactory.getLogger(loggerName);
   }
 
-  public void log(Marker marker, String fqcn, int level, String message, Throwable t) {
+  public void log(Marker marker, String fqcn, int level, String message, Object[] argArray, Throwable t) {
+    Object[] actualArguments=argArray;
+    if(t != null) {
+      if(argArray == null || argArray.length == 0) {
+        actualArguments = new Object[]{t};
+      } else {
+        actualArguments = new Object[argArray.length+1];
+        System.arraycopy(argArray, 0, actualArguments, 0, argArray.length);
+        actualArguments[argArray.length]=t;
+      }
+
+
+    }
     if (locationAwareLogger == null) {
       switch (level) {
         case org.slf4j.spi.LocationAwareLogger.TRACE_INT:
-          logger.log(Level.TRACE, marker, message, t);
+          logger.log(Level.TRACE, marker, message, actualArguments);
           break;
         case org.slf4j.spi.LocationAwareLogger.DEBUG_INT:
-          logger.log(Level.DEBUG, marker, message, t);
+          logger.log(Level.DEBUG, marker, message, actualArguments);
           break;
         case org.slf4j.spi.LocationAwareLogger.INFO_INT:
-          logger.log(Level.INFO, marker, message, t);
+          logger.log(Level.INFO, marker, message, actualArguments);
           break;
         case org.slf4j.spi.LocationAwareLogger.WARN_INT:
-          logger.log(Level.WARN, marker, message, t);
+          logger.log(Level.WARN, marker, message, actualArguments);
           break;
         case org.slf4j.spi.LocationAwareLogger.ERROR_INT:
-          logger.log(Level.ERROR, marker, message, t);
+          logger.log(Level.ERROR, marker, message, actualArguments);
           break;
       }
     }
     else {
       switch (level) {
         case org.slf4j.spi.LocationAwareLogger.TRACE_INT:
-          locationAwareLogger.log(FQCN, Level.TRACE, marker, message, t);
+          locationAwareLogger.log(FQCN, Level.TRACE, marker, message, actualArguments);
           break;
         case org.slf4j.spi.LocationAwareLogger.DEBUG_INT:
-          locationAwareLogger.log(FQCN, Level.DEBUG, marker, message, t);
+          locationAwareLogger.log(FQCN, Level.DEBUG, marker, message, actualArguments);
           break;
         case org.slf4j.spi.LocationAwareLogger.INFO_INT:
-          locationAwareLogger.log(FQCN, Level.INFO, marker, message, t);
+          locationAwareLogger.log(FQCN, Level.INFO, marker, message, actualArguments);
           break;
         case org.slf4j.spi.LocationAwareLogger.WARN_INT:
-          locationAwareLogger.log(FQCN, Level.WARN, marker, message, t);
+          locationAwareLogger.log(FQCN, Level.WARN, marker, message, actualArguments);
           break;
         case org.slf4j.spi.LocationAwareLogger.ERROR_INT:
-          locationAwareLogger.log(FQCN, Level.ERROR, marker, message, t);
+          locationAwareLogger.log(FQCN, Level.ERROR, marker, message, actualArguments);
           break;
       }
     }
   }
+
 }

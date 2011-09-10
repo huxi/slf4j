@@ -1,6 +1,7 @@
 package org.slf4j.test;
 
 import org.slf4j.Marker;
+import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.MessageFormatter;
 import org.slf4j.helpers.NamedLoggerBase;
 import org.slf4j.n.Level;
@@ -175,20 +176,20 @@ public class TestLogger
 
   public void trace(String format, Object arg) {
     final Level level = Level.TRACE;
-    String message = MessageFormatter.format(format, arg);
-    log(level, null, message, null);
+    FormattingTuple tuple = MessageFormatter.format(format, arg);
+    log(level, null, tuple.getMessage(), tuple.getThrowable());
   }
 
   public void trace(String format, Object arg1, Object arg2) {
     final Level level = Level.TRACE;
-    String message = MessageFormatter.format(format, arg1, arg2);
-    log(level, null, message, null);
+    FormattingTuple tuple = MessageFormatter.format(format, arg1, arg2);
+    log(level, null, tuple.getMessage(), tuple.getThrowable());
   }
 
   public void trace(String format, Object[] argArray) {
     final Level level = Level.TRACE;
-    String message = MessageFormatter.format(format, argArray);
-    log(level, null, message, null);
+    FormattingTuple tuple = MessageFormatter.format(format, argArray);
+    log(level, null, tuple.getMessage(), tuple.getThrowable());
   }
 
   public void trace(String msg, Throwable t) {
@@ -203,21 +204,21 @@ public class TestLogger
 
   public void trace(Marker marker, String format, Object arg) {
     final Level level = Level.TRACE;
-    String message = MessageFormatter.format(format, arg);
-    log(level, marker, message, null);
+    FormattingTuple tuple = MessageFormatter.format(format, arg);
+    log(level, marker, tuple.getMessage(), tuple.getThrowable());
   }
 
 
   public void trace(Marker marker, String format, Object arg1, Object arg2) {
     final Level level = Level.TRACE;
-    String message = MessageFormatter.format(format, arg1, arg2);
-    log(level, marker, message, null);
+    FormattingTuple tuple = MessageFormatter.format(format, arg1, arg2);
+    log(level, marker, tuple.getMessage(), tuple.getThrowable());
   }
 
   public void trace(Marker marker, String format, Object[] argArray) {
     final Level level = Level.TRACE;
-    String message = MessageFormatter.format(format, argArray);
-    log(level, marker, message, null);
+    FormattingTuple tuple = MessageFormatter.format(format, argArray);
+    log(level, marker, tuple.getMessage(), tuple.getThrowable());
   }
 
 
@@ -235,20 +236,20 @@ public class TestLogger
 
   public void debug(String format, Object arg) {
     final Level level = Level.DEBUG;
-    String message = MessageFormatter.format(format, arg);
-    log(level, null, message, null);
+    FormattingTuple tuple = MessageFormatter.format(format, arg);
+    log(level, null, tuple.getMessage(), tuple.getThrowable());
   }
 
   public void debug(String format, Object arg1, Object arg2) {
     final Level level = Level.DEBUG;
-    String message = MessageFormatter.format(format, arg1, arg2);
-    log(level, null, message, null);
+    FormattingTuple tuple = MessageFormatter.format(format, arg1, arg2);
+    log(level, null, tuple.getMessage(), tuple.getThrowable());
   }
 
   public void debug(String format, Object[] argArray) {
     final Level level = Level.DEBUG;
-    String message = MessageFormatter.format(format, argArray);
-    log(level, null, message, null);
+    FormattingTuple tuple = MessageFormatter.format(format, argArray);
+    log(level, null, tuple.getMessage(), tuple.getThrowable());
   }
 
   public void debug(String msg, Throwable t) {
@@ -263,21 +264,21 @@ public class TestLogger
 
   public void debug(Marker marker, String format, Object arg) {
     final Level level = Level.DEBUG;
-    String message = MessageFormatter.format(format, arg);
-    log(level, marker, message, null);
+    FormattingTuple tuple = MessageFormatter.format(format, arg);
+    log(level, marker, tuple.getMessage(), tuple.getThrowable());
   }
 
 
   public void debug(Marker marker, String format, Object arg1, Object arg2) {
     final Level level = Level.DEBUG;
-    String message = MessageFormatter.format(format, arg1, arg2);
-    log(level, marker, message, null);
+    FormattingTuple tuple = MessageFormatter.format(format, arg1, arg2);
+    log(level, marker, tuple.getMessage(), tuple.getThrowable());
   }
 
   public void debug(Marker marker, String format, Object[] argArray) {
     final Level level = Level.DEBUG;
-    String message = MessageFormatter.format(format, argArray);
-    log(level, marker, message, null);
+    FormattingTuple tuple = MessageFormatter.format(format, argArray);
+    log(level, marker, tuple.getMessage(), tuple.getThrowable());
   }
 
 
@@ -295,20 +296,20 @@ public class TestLogger
 
   public void info(String format, Object arg) {
     final Level level = Level.INFO;
-    String message = MessageFormatter.format(format, arg);
-    log(level, null, message, null);
+    FormattingTuple tuple = MessageFormatter.format(format, arg);
+    log(level, null, tuple.getMessage(), tuple.getThrowable());
   }
 
   public void info(String format, Object arg1, Object arg2) {
     final Level level = Level.INFO;
-    String message = MessageFormatter.format(format, arg1, arg2);
-    log(level, null, message, null);
+    FormattingTuple tuple = MessageFormatter.format(format, arg1, arg2);
+    log(level, null, tuple.getMessage(), tuple.getThrowable());
   }
 
   public void info(String format, Object[] argArray) {
     final Level level = Level.INFO;
-    String message = MessageFormatter.format(format, argArray);
-    log(level, null, message, null);
+    FormattingTuple tuple = MessageFormatter.format(format, argArray);
+    log(level, null, tuple.getMessage(), tuple.getThrowable());
   }
 
   public void info(String msg, Throwable t) {
@@ -323,21 +324,21 @@ public class TestLogger
 
   public void info(Marker marker, String format, Object arg) {
     final Level level = Level.INFO;
-    String message = MessageFormatter.format(format, arg);
-    log(level, marker, message, null);
+    FormattingTuple tuple = MessageFormatter.format(format, arg);
+    log(level, marker, tuple.getMessage(), tuple.getThrowable());
   }
 
 
   public void info(Marker marker, String format, Object arg1, Object arg2) {
     final Level level = Level.INFO;
-    String message = MessageFormatter.format(format, arg1, arg2);
-    log(level, marker, message, null);
+    FormattingTuple tuple = MessageFormatter.format(format, arg1, arg2);
+    log(level, marker, tuple.getMessage(), tuple.getThrowable());
   }
 
   public void info(Marker marker, String format, Object[] argArray) {
     final Level level = Level.INFO;
-    String message = MessageFormatter.format(format, argArray);
-    log(level, marker, message, null);
+    FormattingTuple tuple = MessageFormatter.format(format, argArray);
+    log(level, marker, tuple.getMessage(), tuple.getThrowable());
   }
 
 
@@ -355,20 +356,20 @@ public class TestLogger
 
   public void warn(String format, Object arg) {
     final Level level = Level.WARN;
-    String message = MessageFormatter.format(format, arg);
-    log(level, null, message, null);
+    FormattingTuple tuple = MessageFormatter.format(format, arg);
+    log(level, null, tuple.getMessage(), tuple.getThrowable());
   }
 
   public void warn(String format, Object arg1, Object arg2) {
     final Level level = Level.WARN;
-    String message = MessageFormatter.format(format, arg1, arg2);
-    log(level, null, message, null);
+    FormattingTuple tuple = MessageFormatter.format(format, arg1, arg2);
+    log(level, null, tuple.getMessage(), tuple.getThrowable());
   }
 
   public void warn(String format, Object[] argArray) {
     final Level level = Level.WARN;
-    String message = MessageFormatter.format(format, argArray);
-    log(level, null, message, null);
+    FormattingTuple tuple = MessageFormatter.format(format, argArray);
+    log(level, null, tuple.getMessage(), tuple.getThrowable());
   }
 
   public void warn(String msg, Throwable t) {
@@ -383,21 +384,21 @@ public class TestLogger
 
   public void warn(Marker marker, String format, Object arg) {
     final Level level = Level.WARN;
-    String message = MessageFormatter.format(format, arg);
-    log(level, marker, message, null);
+    FormattingTuple tuple = MessageFormatter.format(format, arg);
+    log(level, marker, tuple.getMessage(), tuple.getThrowable());
   }
 
 
   public void warn(Marker marker, String format, Object arg1, Object arg2) {
     final Level level = Level.WARN;
-    String message = MessageFormatter.format(format, arg1, arg2);
-    log(level, marker, message, null);
+    FormattingTuple tuple = MessageFormatter.format(format, arg1, arg2);
+    log(level, marker, tuple.getMessage(), tuple.getThrowable());
   }
 
   public void warn(Marker marker, String format, Object[] argArray) {
     final Level level = Level.WARN;
-    String message = MessageFormatter.format(format, argArray);
-    log(level, marker, message, null);
+    FormattingTuple tuple = MessageFormatter.format(format, argArray);
+    log(level, marker, tuple.getMessage(), tuple.getThrowable());
   }
 
 
@@ -415,20 +416,20 @@ public class TestLogger
 
   public void error(String format, Object arg) {
     final Level level = Level.ERROR;
-    String message = MessageFormatter.format(format, arg);
-    log(level, null, message, null);
+    FormattingTuple tuple = MessageFormatter.format(format, arg);
+    log(level, null, tuple.getMessage(), tuple.getThrowable());
   }
 
   public void error(String format, Object arg1, Object arg2) {
     final Level level = Level.ERROR;
-    String message = MessageFormatter.format(format, arg1, arg2);
-    log(level, null, message, null);
+    FormattingTuple tuple = MessageFormatter.format(format, arg1, arg2);
+    log(level, null, tuple.getMessage(), tuple.getThrowable());
   }
 
   public void error(String format, Object[] argArray) {
     final Level level = Level.ERROR;
-    String message = MessageFormatter.format(format, argArray);
-    log(level, null, message, null);
+    FormattingTuple tuple = MessageFormatter.format(format, argArray);
+    log(level, null, tuple.getMessage(), tuple.getThrowable());
   }
 
   public void error(String msg, Throwable t) {
@@ -443,21 +444,21 @@ public class TestLogger
 
   public void error(Marker marker, String format, Object arg) {
     final Level level = Level.ERROR;
-    String message = MessageFormatter.format(format, arg);
-    log(level, marker, message, null);
+    FormattingTuple tuple = MessageFormatter.format(format, arg);
+    log(level, marker, tuple.getMessage(), tuple.getThrowable());
   }
 
 
   public void error(Marker marker, String format, Object arg1, Object arg2) {
     final Level level = Level.ERROR;
-    String message = MessageFormatter.format(format, arg1, arg2);
-    log(level, marker, message, null);
+    FormattingTuple tuple = MessageFormatter.format(format, arg1, arg2);
+    log(level, marker, tuple.getMessage(), tuple.getThrowable());
   }
 
   public void error(Marker marker, String format, Object[] argArray) {
     final Level level = Level.ERROR;
-    String message = MessageFormatter.format(format, argArray);
-    log(level, marker, message, null);
+    FormattingTuple tuple = MessageFormatter.format(format, argArray);
+    log(level, marker, tuple.getMessage(), tuple.getThrowable());
   }
 
 

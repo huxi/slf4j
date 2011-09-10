@@ -7,10 +7,11 @@ import org.slf4j.n.helpers.SubstituteLoggerFactory;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 public final class LoggerFactory {
 
@@ -60,13 +61,11 @@ public final class LoggerFactory {
   /**
    * It is LoggerFactory's responsibility to track version changes and manage
    * the compatibility list.
-   * <p/>
-   * <p/>
-   * It is assumed that qualifiers after the 3rd digit have no impact on
-   * compatibility. Thus, 1.5.7-SNAPSHOT, 1.5.7.RC0 are compatible with 1.5.7.
-   */
-  private static final String[] API_COMPATIBILITY_LIST = new String[]{
-      "1.5.5", "1.5.6", "1.5.7", "1.5.8", "1.5.9", "1.5.10"};
+   *
+   * <p>
+   * It is assumed that all versions in the 1.6 are mutually compatible.
+   * */
+  private static final String[] API_COMPATIBILITY_LIST = new String[] { "1.6" };
   private static String requestedApiVersion;
 
   // private constructor prevents instantiation
@@ -107,10 +106,10 @@ public final class LoggerFactory {
       // this shouldn't happen. Fallback is used in that case.
       INITIALIZATION_STATE = State.FAILED_INITIALIZATION;
       String msg = ncde.getMessage();
-      if (msg != null && msg.indexOf(STATIC_LOGGER_BINDER_BASE) != -1) {
+      if (msg != null && msg.contains(STATIC_LOGGER_BINDER_BASE)) {
         Util
-            .reportFailure("Failed to load class \"" + STATIC_LOGGER_BINDER_CLASS_NAME + "\".");
-        Util.reportFailure("See " + NO_STATICLOGGERBINDER_URL
+            .report("Failed to load class \"" + STATIC_LOGGER_BINDER_CLASS_NAME + "\".");
+        Util.report("See " + NO_STATICLOGGERBINDER_URL
             + " for further details.");
 
       }
@@ -119,7 +118,7 @@ public final class LoggerFactory {
     catch (Exception e) {
       INITIALIZATION_STATE = State.FAILED_INITIALIZATION;
       // we should never get here
-      Util.reportFailure("Failed to instantiate logger ["
+      Util.report("Failed to instantiate logger ["
           + loggerFactoryClassName + "]", e);
     }
   }
@@ -161,13 +160,13 @@ public final class LoggerFactory {
       return;
     }
     Util
-        .reportFailure("The following loggers will not work becasue they were created");
+        .report("The following loggers will not work because they were created");
     Util
-        .reportFailure("during the default configuration phase of the underlying logging system.");
-    Util.reportFailure("See also " + SUBSTITUTE_LOGGER_URL);
+        .report("during the default configuration phase of the underlying logging system.");
+    Util.report("See also " + SUBSTITUTE_LOGGER_URL);
     for (Object aLoggerNameList : loggerNameList) {
       String loggerName = (String) aLoggerNameList;
-      Util.reportFailure(loggerName);
+      Util.report(loggerName);
     }
   }
 
@@ -181,10 +180,10 @@ public final class LoggerFactory {
           }
         }
         if (!match) {
-          Util.reportFailure("The requested version " + requestedApiVersion
+          Util.report("The requested version " + requestedApiVersion
               + " by your slf4j binding is not compatible with "
               + Arrays.asList(API_COMPATIBILITY_LIST).toString());
-          Util.reportFailure("See " + VERSION_MISMATCH + " for further details.");
+          Util.report("See " + VERSION_MISMATCH + " for further details.");
         }
       }
       catch (java.lang.NoSuchFieldError nsfe) {
@@ -195,8 +194,8 @@ public final class LoggerFactory {
       }
       catch (Throwable e) {
         // we should never reach here
-        Util.reportFailure(
-            "Unexpected problem occured during version sanity check", e);
+        Util.report(
+            "Unexpected problem occurred during version sanity check", e);
       }
     }
   }
@@ -212,23 +211,25 @@ public final class LoggerFactory {
       }
       Enumeration paths = loggerFactoryClassLoader
           .getResources(STATIC_LOGGER_BINDER_CLASS_FILE);
-      List<URL> implementationList = new ArrayList<URL>();
+      // use Set instead of list in order to deal with  bug #138
+      // LinkedHashSet appropriate here because it preserves insertion order during iteration
+      Set<URL> implementationSet = new LinkedHashSet<URL>();
       while (paths.hasMoreElements()) {
         URL path = (URL) paths.nextElement();
-        implementationList.add(path);
+        implementationSet.add(path);
       }
-      if (implementationList.size() > 1) {
-        Util.reportFailure("Class path contains multiple SLF4J bindings.");
-        for (URL current : implementationList) {
-          Util.reportFailure("Found binding in [" + current
+      if (implementationSet.size() > 1) {
+        Util.report("Class path contains multiple SLF4J bindings.");
+        for (URL current : implementationSet) {
+          Util.report("Found binding in [" + current
               + "]");
         }
-        Util.reportFailure("See " + MULTIPLE_BINDINGS_URL
+        Util.report("See " + MULTIPLE_BINDINGS_URL
             + " for an explanation.");
       }
     }
     catch (IOException ioe) {
-      Util.reportFailure("Error getting resources from path", ioe);
+      Util.report("Error getting resources from path", ioe);
     }
   }
 

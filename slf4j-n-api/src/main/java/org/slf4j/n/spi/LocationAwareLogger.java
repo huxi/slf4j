@@ -32,7 +32,7 @@ public interface LocationAwareLogger extends Logger {
    * @param fqcn      The fully qualified class name of the <b>caller</b>
    * @param level
    * @param message
-   * @param throwable
+   * @param args
    */
-  void log(String fqcn, Level level, Marker marker, String message, Throwable throwable);
+  void log(String fqcn, Level level, Marker marker, String message, Object... args);
 }
