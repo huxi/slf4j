@@ -103,7 +103,7 @@ public final class LoggerFactory {
     TEMP_FACTORY = new SubstituteLoggerFactory();
   }
 
-  private final static void performInitialization() {
+  private static void performInitialization() {
     singleImplementationSanityCheck();
     bind();
     if (INITIALIZATION_STATE == SUCCESSFUL_INITILIZATION) {
@@ -122,7 +122,7 @@ public final class LoggerFactory {
     return false;
   }
 
-  private final static void bind() {
+  private static void bind() {
     try {
       // the next line does the binding
       StaticLoggerBinder.getSingleton();
@@ -161,7 +161,7 @@ public final class LoggerFactory {
     Util.report("Failed to instantiate SLF4J LoggerFactory", t);
   }
 
-  private final static void emitSubstituteLoggerWarning() {
+  private static void emitSubstituteLoggerWarning() {
     List loggerNameList = TEMP_FACTORY.getLoggerNameList();
     if (loggerNameList.size() == 0) {
       return;
@@ -177,7 +177,7 @@ public final class LoggerFactory {
     }
   }
 
-  private final static void versionSanityCheck() {
+  private static void versionSanityCheck() {
     try {
       String requested = StaticLoggerBinder.REQUESTED_API_VERSION;
 
