@@ -5,7 +5,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.core.Message;
 import org.slf4j.n.messages.ParameterizedMessage;
-import org.slf4j.n.messages.SimpleMessage;
+
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 public class SimpleNDCAdapterTest {
   private SimpleNDCAdapter instance;
@@ -58,22 +60,29 @@ public class SimpleNDCAdapterTest {
 
   @Test
   public void getContextStackUsingPush() {
-    ParameterizedMessage[] messages = new ParameterizedMessage[]
-      {
+    ParameterizedMessage[] messages = new ParameterizedMessage[] {
         ParameterizedMessage.create("message1", "foo", "bar"),
         ParameterizedMessage.create("message2", "foo", null),
         ParameterizedMessage.create("message3"),
-        ParameterizedMessage.create(null),
+        ParameterizedMessage.create(null, null, null),
         ParameterizedMessage.create(null, "foo", "bar"),
       };
+    messages[2].setParameters(null);
+    messages[3].setParameters(null);
 
 
     for (ParameterizedMessage current : messages) {
-      instance.push(current);
+      String pattern = current.getMessagePattern();
+      String[] params = current.getParameters();
+      if(params == null) {
+        instance.push(pattern);
+      } else {
+        instance.push(pattern, params);
+      }
     }
 
     Message[] stack = instance.getContextStack();
-    Assert.assertArrayEquals(messages, stack);
+    assertArrayEquals(messages, stack);
   }
 
   @Test
@@ -94,15 +103,15 @@ public class SimpleNDCAdapterTest {
       new String[]{"foo", "bar"},
     };
 
-    Message[] messages = new Message[]
-      {
+    ParameterizedMessage[] messages = new ParameterizedMessage[] {
         ParameterizedMessage.create("message1", "foo", "bar"),
         ParameterizedMessage.create("message2", "foo", null),
-        new SimpleMessage("message3"),
-        new SimpleMessage(null),
+        ParameterizedMessage.create("message3"),
+        ParameterizedMessage.create(null),
         ParameterizedMessage.create(null, "foo", "bar"),
       };
-
+    messages[2].setParameters(null);
+    messages[3].setParameters(null);
 
     for (int i = 0; i < patterns.length; i++) {
       instance.push(patterns[i], args[i]);
@@ -113,25 +122,17 @@ public class SimpleNDCAdapterTest {
   }
 
   @Test
-  public void inheritance()
-    throws InterruptedException {
-    Thread parent = new Thread(new Level1Runnable());
-    parent.start();
-    parent.join();
-  }
-
-  @Test
   public void depth() {
-    Assert.assertEquals(0, instance.getDepth());
+    assertEquals(0, instance.getDepth());
     instance.push("Foo");
     instance.push("Bar");
-    Assert.assertEquals(2, instance.getDepth());
+    assertEquals(2, instance.getDepth());
     instance.pop();
-    Assert.assertEquals(1, instance.getDepth());
+    assertEquals(1, instance.getDepth());
     instance.pop();
-    Assert.assertEquals(0, instance.getDepth());
+    assertEquals(0, instance.getDepth());
     instance.pop();
-    Assert.assertEquals(0, instance.getDepth());
+    assertEquals(0, instance.getDepth());
   }
 
   @Test
@@ -139,9 +140,9 @@ public class SimpleNDCAdapterTest {
     instance.push("Foo");
     instance.push("Bar");
     instance.setMaximumDepth(1);
-    Assert.assertEquals(1, instance.getDepth());
+    assertEquals(1, instance.getDepth());
     instance.pop();
-    Assert.assertEquals(0, instance.getDepth());
+    assertEquals(0, instance.getDepth());
   }
 
   @Test
@@ -149,38 +150,6 @@ public class SimpleNDCAdapterTest {
     instance.push("Foo");
     instance.push("Bar");
     instance.setMaximumDepth(3);
-    Assert.assertEquals(2, instance.getDepth());
-  }
-
-  public class Level1Runnable
-    implements Runnable {
-
-    public void run() {
-      instance.push("Foo");
-      Assert.assertFalse(instance.isEmpty());
-      Thread child = new Thread(new Level2Runnable());
-      child.start();
-      try {
-        child.join();
-      }
-      catch (InterruptedException e) {
-        // ignore
-      }
-      Assert.assertFalse(instance.isEmpty());
-      instance.pop();
-      Assert.assertTrue(instance.isEmpty());
-    }
-  }
-
-  public class Level2Runnable
-    implements Runnable {
-
-    public void run() {
-      instance.push("Bar");
-      Message[] contextStack = instance.getContextStack();
-      Assert.assertEquals(2, contextStack.length);
-      instance.pop();
-      instance.pop();
-    }
+    assertEquals(2, instance.getDepth());
   }
 }

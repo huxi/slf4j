@@ -3,7 +3,6 @@ package org.slf4j.n.helpers;
 import org.slf4j.core.Message;
 
 public interface NDCAdapter {
-  void push(Message message);
 
   void push(String messagePattern, Object... arguments);
 

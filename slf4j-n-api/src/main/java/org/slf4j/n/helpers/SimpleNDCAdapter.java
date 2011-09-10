@@ -1,157 +1,100 @@
 package org.slf4j.n.helpers;
 
 import org.slf4j.core.Message;
-import org.slf4j.n.helpers.NDCAdapter;
 import org.slf4j.n.messages.ParameterizedMessage;
-import org.slf4j.n.messages.SimpleMessage;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class SimpleNDCAdapter
   implements NDCAdapter {
-  private CloningNdcStackThreadLocal ndcStackThreadLocal = new CloningNdcStackThreadLocal();
-
-  public void push(Message message) {
-    getNdcStack().push(message);
-  }
+  private final ThreadLocal<List<String>> threadLocalMessagePatterns = new ThreadLocal<List<String>>();
+  private final ThreadLocal<List<String[]>> threadLocalMessageArguments = new ThreadLocal<List<String[]>>();
 
   public void push(String messagePattern, Object... arguments) {
-    getNdcStack().push(messagePattern, arguments);
+    String[] processedArgs = null;
+
+    if (arguments != null && arguments.length > 0) {
+      ParameterizedMessage message = ParameterizedMessage.create(messagePattern, arguments);
+      processedArgs = message.getParameters();
+      if(processedArgs != null && processedArgs.length == 0) {
+        processedArgs = null;
+      }
+    }
+
+    List<String> messages = threadLocalMessagePatterns.get();
+    List<String[]> args = threadLocalMessageArguments.get();
+    if (messages == null) {
+      messages = new LinkedList<String>();
+      args = new LinkedList<String[]>();
+      threadLocalMessagePatterns.set(messages);
+      threadLocalMessageArguments.set(args);
+    }
+    messages.add(messagePattern);
+    args.add(processedArgs);
   }
 
   public void pop() {
-    getNdcStack().pop();
+    List<String> messages = threadLocalMessagePatterns.get();
+    if (messages == null) {
+      return;
+    }
+    int count = messages.size();
+    if (count == 0 || count == 1) {
+      clear();
+      return;
+    }
+    List<String[]> args = threadLocalMessageArguments.get();
+    messages.remove(count - 1);
+    args.remove(count - 1);
   }
 
   public int getDepth() {
-    return getNdcStack().getDepth();
+    List<String> messages = threadLocalMessagePatterns.get();
+    if (messages == null) {
+      return 0;
+    }
+    int count = messages.size();
+    if (count == 0) {
+      // should never happen
+      clear();
+    }
+    return count;
   }
 
   public void setMaximumDepth(int maximumDepth) {
-    getNdcStack().setMaximumDepth(maximumDepth);
+    int overflow = getDepth() - maximumDepth;
+    for (int i = 0; i < overflow; i++) {
+      pop();
+    }
   }
 
   public boolean isEmpty() {
-    return getNdcStack().isEmpty();
+    return getDepth() == 0;
   }
 
   public void clear() {
-    getNdcStack().clear();
+    threadLocalMessagePatterns.remove();
+    threadLocalMessageArguments.remove();
   }
 
   public Message[] getContextStack() {
-    return getNdcStack().getContextStack();
-  }
+    List<String> messages = threadLocalMessagePatterns.get();
+    if (messages == null) {
+      return NO_MESSAGES;
+    }
+    int count = messages.size();
+    if (count == 0) {
+      // should never happen
+      clear();
+      return NO_MESSAGES;
+    }
+    List<String[]> args = threadLocalMessageArguments.get();
 
-  private NdcStack getNdcStack() {
-    NdcStack result = ndcStackThreadLocal.get();
-    if (result == null) {
-      result = new NdcStack();
-      ndcStackThreadLocal.set(result);
+    Message[] result = new Message[count];
+    for (int i = 0; i < count; i++) {
+      result[i] = new ParameterizedMessage(messages.get(i), args.get(i), null);
     }
     return result;
-  }
-
-  private static class CloningNdcStackThreadLocal
-    extends InheritableThreadLocal<NdcStack> {
-    @Override
-    protected NdcStack childValue(NdcStack parentValue) {
-      NdcStack result = null;
-      if (parentValue != null) {
-        // this method seems to get called only if parent
-        // is not null but this isn't documented so I'll make sure...
-        try {
-          result = parentValue.clone();
-        }
-        catch (CloneNotSupportedException e) {
-          // can't happen, see above...
-        }
-      }
-      return result;
-    }
-  }
-
-  private static class NdcStack
-    implements Cloneable {
-    private List<Message> stackList;
-
-    private NdcStack() {
-      stackList = new ArrayList<Message>();
-    }
-
-    public int getDepth() {
-      return stackList.size();
-    }
-
-    public void setMaximumDepth(int maximumDepth) {
-      int overflow = stackList.size() - maximumDepth;
-      for (int i = 0; i < overflow; i++) {
-        pop();
-      }
-    }
-
-    public void push(Message message) {
-      stackList.add(message);
-    }
-
-    public void push(String messagePattern, Object... arguments) {
-      if (arguments == null || arguments.length == 0) {
-        push(new SimpleMessage(messagePattern));
-        return;
-      }
-      stackList.add(ParameterizedMessage.create(messagePattern, arguments));
-    }
-
-    public void pop() {
-      int size = stackList.size();
-      if (size > 0) {
-        stackList.remove(size - 1);
-      }
-    }
-
-    public boolean isEmpty() {
-      return stackList.isEmpty();
-    }
-
-    public void clear() {
-      stackList.clear();
-    }
-
-    public Message[] getContextStack() {
-      if (stackList.isEmpty()) {
-        return NO_MESSAGES;
-      }
-
-      Message[] result = new Message[stackList.size()];
-      for (int i = 0; i < stackList.size(); i++) {
-        try {
-          result[i] = stackList.get(i).clone();
-        }
-        catch (CloneNotSupportedException e) {
-          // can't happen... yeah, I know... it *will* happen one day :p
-        }
-      }
-      return result;
-    }
-
-    public NdcStack clone()
-      throws CloneNotSupportedException {
-      NdcStack result = (NdcStack) super.clone();
-
-      ArrayList<Message> clonedStackList = new ArrayList<Message>(stackList.size());
-      for (Message current : stackList) {
-        try {
-          clonedStackList.add(current.clone());
-        }
-        catch (CloneNotSupportedException e) {
-          // can't happen... yeah, I know... it *will* happen one day :p
-          clonedStackList.add(null);
-        }
-      }
-      result.stackList = clonedStackList;
-
-      return result;
-    }
   }
 }
