@@ -4,10 +4,13 @@ target
 .project
 *~
 *.tmproj
-*.iml
 .idea
 .scala_dependencies
 integration/bundle/
 integration/felix-cache/
 runner
+.DS_Store
+*.iml
+*.ipr
+*.iws
 
